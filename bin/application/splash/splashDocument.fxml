@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="224.0" prefWidth="580.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.splash.SplashDocumentController">
+   <children>
+      <ImageView fitHeight="225.0" fitWidth="580.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="/images/splash.jpg" />
+         </image>
+      </ImageView>
+      <Label fx:id="splashStatus" layoutX="290.0" layoutY="161.0" opacity="0.52" prefHeight="17.0" prefWidth="274.0" style="-fx-background-color: black;" text="Label" textFill="WHITE">
+         <font>
+            <Font size="18.0" />
+         </font>
+         <padding>
+            <Insets left="10.0" />
+         </padding>
+      </Label>
+      <ProgressBar fx:id="splashProgressBar" layoutX="11.0" layoutY="202.0" prefHeight="18.0" prefWidth="555.0" progress="0.0" />
+   </children>
+</AnchorPane>

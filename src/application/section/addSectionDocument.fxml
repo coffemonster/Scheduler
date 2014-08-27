@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="206.0" prefWidth="600.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Label layoutX="255.0" layoutY="54.0" text="Section">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label layoutX="234.0" layoutY="88.0" text="Year Level">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <ChoiceBox layoutX="333.0" layoutY="89.0" prefHeight="25.0" prefWidth="39.0" />
+      <Button layoutX="317.0" layoutY="123.0" mnemonicParsing="false" style="-fx-base: #222222;" text="Finish">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Button>
+      <Label layoutX="333.0" layoutY="54.0" text="A" textFill="GREEN">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>
