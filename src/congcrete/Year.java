@@ -3,6 +3,10 @@ package congcrete;
 public class Year {
 	private int year ;
 	private Course course ;
+	public static final String YEAR = "year" ;
+	public static final String COURSE_ID = "course_id" ;
+	
+	
 	public int getYear() {
 		return year;
 	}

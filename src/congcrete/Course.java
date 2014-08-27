@@ -1,5 +1,11 @@
 package congcrete;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+
+import database.Connect;
+
 public class Course {
 	private int course_id ;
 	private Department d ;
@@ -55,6 +61,25 @@ public class Course {
 		this.course_code = course_code;
 	}
 	
-	
+	public static ArrayList<Course> getList(){
+		ResultSet result = Connect.QUERY("SELECT * FROM `courses`") ;
+		ArrayList<Course> index = new ArrayList<Course>() ;
+		try {
+			while(result.next()){
+				Course course = new Course() ;
+				course.setCourse_id(result.getInt(Course.COURSE_ID));
+				course.setCourse_name(result.getString(Course.COURSE_NAME));
+				course.setCourse_code(result.getString(Course.COURSE_CODE));
+				Department d = Department.getDepartment(result.getInt(Course.DEPT_ID)) ;
+				course.setD(d);
+				index.add(course) ;
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return index ;
+		
+	}
 	
 }

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.image.*?>
 <?import javafx.scene.text.*?>
 <?import javafx.scene.control.*?>
 <?import java.lang.*?>
@@ -7,26 +8,27 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="202.0" prefWidth="600.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Label layoutX="205.0" layoutY="50.0" text="Year Level">
+      <Label layoutX="153.0" layoutY="50.0" text="Year Level">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <ChoiceBox layoutX="300.0" layoutY="88.0" prefWidth="150.0" />
-      <Label layoutX="229.0" layoutY="87.0" text="Course">
+      <ChoiceBox fx:id="course" layoutX="248.0" layoutY="88.0" prefHeight="25.0" prefWidth="200.0" />
+      <Label layoutX="177.0" layoutY="87.0" text="Course">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <Label layoutX="300.0" layoutY="50.0" text="1" textFill="GREEN">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </Label>
-      <Button layoutX="394.0" layoutY="123.0" mnemonicParsing="false" style="-fx-base: #222222;" text="Finish">
+      <Button layoutX="392.0" layoutY="122.0" mnemonicParsing="false" onAction="#handleAddYear" style="-fx-base: #222222;" text="Finish">
          <font>
             <Font size="14.0" />
          </font>
       </Button>
+      <TextField fx:id="yearLevel" disable="true" editable="false" layoutX="248.0" layoutY="51.0" prefHeight="25.0" prefWidth="200.0" />
+      <ImageView fitHeight="25.0" fitWidth="27.0" layoutX="565.0" layoutY="14.0" onMouseClicked="#removeYear" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="/images/close11.png" />
+         </image>
+      </ImageView>
    </children>
 </AnchorPane>
