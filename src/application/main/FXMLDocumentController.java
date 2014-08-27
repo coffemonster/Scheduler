@@ -243,7 +243,7 @@ public class FXMLDocumentController implements Initializable{
 						data.setFirst_name(result.getString(Teacher.FIRST_NAME));
 						data.setLast_name(result.getString(Teacher.LAST_NAME));
 						data.setMiddle_initial(result.getString(Teacher.MIDDLE_INITIAL));
-						data.setPicture_path(result.getString(Teacher.PICTURE_PATH));
+						data.setPicture_path(result.getBinaryStream(Teacher.PICTURE_PATH));
 						
 						//Creating an Image
 						Node teacherImg = new ImageView(new ImageGetter("teacher4.png").getImage()) ;

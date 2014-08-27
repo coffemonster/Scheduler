@@ -1,12 +1,14 @@
 package congcrete;
 
+import java.io.InputStream;
+
 public class Teacher {
 	private int teacher_id ;
 	private Department d ;
 	private String first_name ;
 	private String last_name ;
 	private String middle_initial ;
-	private String picture_path ;
+	private InputStream picture_path ;
 	public static final String TEACHER_ID = "teacher_id" ; 
 	public static final String DEPT_ID = "dept_id" ; 
 	public static final String FIRST_NAME = "first_name" ; 
@@ -15,7 +17,7 @@ public class Teacher {
 	public static final String PICTURE_PATH = "picture_path" ;
 	
 	public Teacher(int teacher_id, Department d, String first_name,
-			String last_name, String middle_initial, String picture_path) {
+			String last_name, String middle_initial, InputStream picture_path) {
 		super();
 		this.teacher_id = teacher_id;
 		this.d = d;
@@ -69,11 +71,11 @@ public class Teacher {
 		this.middle_initial = middle_initial;
 	}
 
-	public String getPicture_path() {
+	public InputStream getPicture_path() {
 		return picture_path;
 	}
 
-	public void setPicture_path(String picture_path) {
+	public void setPicture_path(InputStream picture_path) {
 		this.picture_path = picture_path;
 	}
 	
