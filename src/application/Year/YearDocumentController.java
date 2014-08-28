@@ -26,7 +26,7 @@ public class YearDocumentController implements Initializable{
 	
 	@FXML public void handleAddYear(ActionEvent e){
 		int course_id = index.get(course.getSelectionModel().getSelectedIndex()).getCourse_id() ;
-		Connect.emptyQUERY("INSERT INTO `years` VALUES(" + yearLevel.getText() + "," + course_id + ",)");
+		Connect.emptyQUERY("INSERT INTO `years` VALUES(" + yearLevel.getText() + "," + course_id + ")");
 		
 		FXMLDocumentController.updateTree();
 	}

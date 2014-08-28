@@ -33,6 +33,7 @@ import congcrete.Course;
 import congcrete.Department;
 import congcrete.Room;
 import congcrete.Teacher;
+import congcrete.Year;
 import database.Connect;
 import adder.node.Adder;
 import application.properties.TeacherChangeListener;
@@ -79,7 +80,7 @@ public class FXMLDocumentController implements Initializable{
 		}else if(ev.getId().equals("courseImageView")){
 			resourceURL = "/application/course/addCourseDocument.fxml" ;
 		}else if(ev.getId().equals("yearImageView")){
-			resourceURL = "/application/year/addYearDocument.fxml" ;
+			resourceURL = "/application/Year/addYearDocument.fxml" ;
 		}else if(ev.getId().equals("sectionImageView")){
 			resourceURL = "/application/year/addSectionDocument.fxml" ;
 		}else if(ev.getId().equals("subjectImageView")){
@@ -166,12 +167,15 @@ public class FXMLDocumentController implements Initializable{
 		//set the school expanded
 		staticTreeView.getRoot().setExpanded(true);
 		//TODO setting the right accrodion
-		staticTreeView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener(){
+		
+		staticTreeView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<TreeItem>(){
 			@Override
-			public void changed(ObservableValue arg0, Object arg1, Object arg2) {
-				detailsPane.getChildren().clear();
-				TreeItem item = (TreeItem)arg2 ;
-				
+			public void changed(ObservableValue<? extends TreeItem> arg0,
+					TreeItem arg1, TreeItem item) {
+				//to prevent exception null
+				if(item.getParent() == null){
+					return ;
+				}
 				if(item.getParent().getValue() == "Teacher"){
 					try {
 						System.out.print("aw");
@@ -184,8 +188,10 @@ public class FXMLDocumentController implements Initializable{
 						e.printStackTrace();
 					}
 				}
+				
 			}
 		});
+		
 	}
 	//update the tree
 	public static void updateTree(){
@@ -325,6 +331,44 @@ public class FXMLDocumentController implements Initializable{
 							Department dept = (Department) treeItem.getData() ;
 							if(dept.getDept_id() == course.getD().getDept_id()){
 								root.getChildren().get(x).getChildren().get(course_node).getChildren().add(courseItem);
+							}
+						}
+					}
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+				//update Year
+				result = Connect.QUERY("SELECT * FROM years") ;
+				try {
+					while(result.next()){
+						//Setting the data to Room OBJ
+						Year year = new Year() ;
+						year.setYear(result.getInt(Year.YEAR));
+						Course course = new Course() ;
+						course = Course.getCourse(result.getInt(Year.COURSE_ID)) ;
+						year.setCourse(course) ;
+						
+						//Creating an Image
+						Node yearImg = new ImageView(new ImageGetter("persons8.png").getImage()) ;
+						
+						//Adding data to TreeItemData
+						TreeItemData yearItem = new TreeItemData(Year.getYearText(year.getYear()) , yearImg , year) ;
+						
+						TreeItem<String> root = staticTreeView.getRoot() ;
+												
+						for(int x = 0 ; x < root.getChildren().size() ; x++){
+							TreeItemData treeItem = (TreeItemData) root.getChildren().get(x) ;
+							Department dept = (Department) treeItem.getData() ;
+							if(dept.getDept_id() == year.getCourse().getD().getDept_id()){
+								for(int y = 0 ; y < root.getChildren().get(x).getChildren().get(course_node).getChildren().size() ; y++){
+									TreeItemData item = (TreeItemData) root.getChildren().get(x).getChildren().get(course_node).getChildren().get(y) ;
+									Course c = (Course)item.getData() ;
+									if(c.getCourse_id() == year.getCourse().getCourse_id()){
+										root.getChildren().get(x).getChildren().get(course_node).getChildren().get(y).getChildren().add(yearItem) ;
+									}
+								}
 							}
 						}
 					}

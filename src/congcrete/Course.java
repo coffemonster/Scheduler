@@ -82,4 +82,22 @@ public class Course {
 		
 	}
 	
+	public static Course getCourse(int course_id){
+		ResultSet result = Connect.QUERY("SELECT * FROM courses WHERE course_id = " + course_id);
+		Course course = new Course() ;
+		try {
+			result.next() ;
+			course.setCourse_id(result.getInt(Course.COURSE_ID)) ;
+			Department d = Department.getDepartment(result.getInt(Course.DEPT_ID)) ;
+			course.setD(d) ;
+			course.setCourse_code(result.getString(Course.COURSE_CODE)) ;
+			course.setCourse_name(result.getString(Course.COURSE_NAME)) ;
+			return course ;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null ;
+	}
+	
 }
