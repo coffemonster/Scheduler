@@ -1,6 +1,7 @@
 package application.main;
 
 import javafx.application.Platform;
+import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.Event;
@@ -8,6 +9,7 @@ import javafx.fxml.* ;
 import javafx.scene.Node;
 import javafx.scene.control.Accordion;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.SplitPane;
 import javafx.scene.control.TitledPane;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
@@ -68,6 +70,9 @@ public class FXMLDocumentController implements Initializable{
 	 */
 	//Show Add in center pane
 	@FXML public void handleAddToCenter(MouseEvent e) throws Exception{
+		
+		SplitPane p = new SplitPane();
+		
 		String resourceURL = null ;
 		ImageView ev = (ImageView)e.getSource() ;
 		
@@ -181,7 +186,7 @@ public class FXMLDocumentController implements Initializable{
 						System.out.print("aw");
 						
 						Node m = FXMLLoader.load(getClass().getResource("/application/properties/teacherProperties.fxml")) ;
-						detailsPane.getChildren().add(m) ;
+						
 					
 					} catch (IOException e) {
 						// TODO Auto-generated catch block
@@ -191,7 +196,18 @@ public class FXMLDocumentController implements Initializable{
 				
 			}
 		});
-		
+		/*
+		rightAccordion.widthProperty().addListener(new ChangeListener(){
+
+			@Override
+			public void changed(ObservableValue observable, Object oldValue,
+					Object newValue) {
+				detailsPane.setPrefWidth(rightAccordion.getWidth());
+				
+			}
+			
+		});
+		*/
 	}
 	//update the tree
 	public static void updateTree(){
@@ -345,6 +361,7 @@ public class FXMLDocumentController implements Initializable{
 					while(result.next()){
 						//Setting the data to Room OBJ
 						Year year = new Year() ;
+						year.setYear_id(result.getInt(Year.YEAR_ID));
 						year.setYear(result.getInt(Year.YEAR));
 						Course course = new Course() ;
 						course = Course.getCourse(result.getInt(Year.COURSE_ID)) ;

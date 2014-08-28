@@ -1,8 +1,10 @@
 package congcrete;
 
 public class Year {
+	private int year_id ;
 	private int year ;
 	private Course course ;
+	public static final String YEAR_ID = "year_id" ;
 	public static final String YEAR = "year" ;
 	public static final String COURSE_ID = "course_id" ;
 	
@@ -13,14 +15,25 @@ public class Year {
 	
 	
 	
-	public Year(int year, Course course) {
-		super();
+	public Year(int year_id , int year, Course course) {
 		this.year = year;
 		this.course = course;
 	}
 
 	public Year() {
 		// TODO Auto-generated constructor stub
+	}
+
+	
+
+	public int getYear_id() {
+		return year_id;
+	}
+
+
+
+	public void setYear_id(int year_id) {
+		this.year_id = year_id;
 	}
 
 

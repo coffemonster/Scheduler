@@ -176,9 +176,9 @@
                </center>
             </BorderPane>
             <BorderPane fx:id="workplacePane" prefHeight="200.0" prefWidth="400.0" />
-            <BorderPane maxWidth="-Infinity" prefHeight="200.0" prefWidth="250.0">
+            <BorderPane prefHeight="200.0" prefWidth="250.0">
                <center>
-                  <Accordion fx:id="rightAccordion" maxWidth="-Infinity" prefWidth="250.0" BorderPane.alignment="CENTER">
+                  <Accordion fx:id="rightAccordion" prefWidth="250.0" BorderPane.alignment="CENTER">
                     <panes>
                       <TitledPane fx:id="detailsTitledPane" alignment="CENTER_RIGHT" text="Details">
                            <content>
