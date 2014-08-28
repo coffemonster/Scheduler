@@ -1,5 +1,11 @@
 package congcrete;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+
+import database.Connect;
+
 public class Year {
 	private int year_id ;
 	private int year ;
@@ -67,6 +73,25 @@ public class Year {
 			return "Eight Year" ;
 		}
 		return "Max" ;
+	}
+	
+	public static ArrayList<Year> getList(int course_id){
+		ResultSet result = Connect.QUERY("SELECT * FROM `years` WHERE course_id = " + course_id) ;
+		ArrayList<Year> list = new ArrayList<Year>() ;
+		
+		try {
+			while(result.next()){
+				Year year = new Year() ;
+				year.setYear_id(result.getInt(Year.YEAR_ID));
+				year.setYear(result.getInt(Year.YEAR));
+				Course course = Course.getCourse(result.getInt(Year.COURSE_ID)) ;
+				year.setCourse(course);
+				list.add(year) ;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return list ;
 	}
 	
 }

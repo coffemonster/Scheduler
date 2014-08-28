@@ -1,32 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.image.*?>
 <?import javafx.scene.text.*?>
 <?import javafx.scene.control.*?>
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="206.0" prefWidth="600.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="243.0" prefWidth="600.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller = "application.section.SectionDocumentController">
    <children>
-      <Label layoutX="255.0" layoutY="54.0" text="Section">
+      <ChoiceBox fx:id="course" layoutX="247.0" layoutY="56.0" prefHeight="25.0" prefWidth="200.0" />
+      <Label layoutX="176.0" layoutY="55.0" text="Course">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <Label layoutX="234.0" layoutY="88.0" text="Year Level">
+      <ChoiceBox fx:id="year" layoutX="415.0" layoutY="90.0" prefHeight="25.0" prefWidth="28.0" />
+      <Label layoutX="154.0" layoutY="89.0" text="Year Level">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <ChoiceBox layoutX="333.0" layoutY="89.0" prefHeight="25.0" prefWidth="39.0" />
-      <Button layoutX="317.0" layoutY="123.0" mnemonicParsing="false" style="-fx-base: #222222;" text="Finish">
+      <Label layoutX="175.0" layoutY="131.0" text="Section">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <TextField fx:id="section" layoutX="247.0" layoutY="132.0" prefHeight="25.0" prefWidth="200.0" />
+      <Button layoutX="391.0" layoutY="166.0" mnemonicParsing="false" onAction="#handleAddSection" style="-fx-base: #222222;" text="Finish">
          <font>
             <Font size="14.0" />
          </font>
       </Button>
-      <Label layoutX="333.0" layoutY="54.0" text="A" textFill="GREEN">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </Label>
+      <ImageView fitHeight="25.0" fitWidth="27.0" layoutX="565.0" layoutY="14.0" onMouseClicked="#removeSection" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="/images/close11.png" />
+         </image>
+      </ImageView>
    </children>
 </AnchorPane>

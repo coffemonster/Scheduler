@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import congcrete.Course;
+import congcrete.Department;
 import congcrete.Year;
 import database.Connect;
 import application.main.FXMLDocumentController;
@@ -23,16 +24,21 @@ public class YearDocumentController implements Initializable{
 	
 	@FXML private TextField yearLevel ;
 	@FXML private ChoiceBox course  ;
-	private ArrayList<Course> index ;
+	@FXML private ChoiceBox department ;
+	private ArrayList<Department> indexDepartment ;
+	private ArrayList<Course> indexCourse ;
+	private int year ;
 	
 	@FXML public void removeYear(MouseEvent e){
 		FXMLDocumentController.getWorkplacePane().setCenter(null);
 	}
 	
 	@FXML public void handleAddYear(ActionEvent e){
-		int course_id = index.get(course.getSelectionModel().getSelectedIndex()).getCourse_id() ;
+		int course_id = indexCourse.get(course.getSelectionModel().getSelectedIndex()).getCourse_id() ;
 		int primary = Connect.getNextIntegerPrimary("years", "year_id") ;
-		Connect.emptyQUERY("INSERT INTO `years` VALUES(" + primary + "," + yearLevel.getText() + "," + course_id + ")");
+		Connect.emptyQUERY("INSERT INTO `years` VALUES(" + primary + "," + year + "," + course_id + ")");
+		
+		refreshYear(); 
 		
 		FXMLDocumentController.updateTree();
 	}
@@ -40,31 +46,54 @@ public class YearDocumentController implements Initializable{
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		// TODO Auto-generated method stub
-		index = Course.getList() ;
-		for(int x = 0 ; x < index.size() ; x++){
-			course.getItems().add(index.get(x).getCourse_name()) ;
+		indexDepartment = Department.getDepartmentList() ;
+		for(int x = 0 ; x < indexDepartment.size() ; x++){
+			department.getItems().add(indexDepartment.get(x).getDept_name()) ;
 		}
 		
+		//list all the course available
+		department.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Object>(){
+
+			@Override
+			public void changed(ObservableValue<? extends Object> arg0,
+					Object arg1, Object arg2) {
+				//get the list of course associated in the dept_id
+				indexCourse = Course.getList(indexDepartment.get(department.getSelectionModel().getSelectedIndex()).getDept_id()) ;
+				for(int x = 0 ; x < indexCourse.size() ; x++){
+					course.getItems().add(indexCourse.get(x).getCourse_name()) ;
+				}
+			}
+			
+		});
+		
+		//Set the appropriate Year
 		course.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Object>(){
 
 			@Override
 			public void changed(ObservableValue<? extends Object> observable,
 					Object oldValue, Object newValue) {
-					ResultSet result = Connect.QUERY("SELECT * FROM `years` WHERE `course_id` = " + index.get(course.getSelectionModel().getSelectedIndex()).getCourse_id());
-					//if the result has no column it will set to 1
-					try {
-						if(result.next()){
-							yearLevel.setText(Year.getYearText((result.getInt(Year.YEAR) + 1)));
-						}else{
-							yearLevel.setText(Year.getYearText(1));
-						}
-					} catch (SQLException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
+					refreshYear() ;
 			}
 			
 		}) ;
+	}
+	
+	private void refreshYear(){
+		ResultSet result = Connect.QUERY("SELECT MAX(year) FROM `years` WHERE `course_id` = " + indexCourse.get(course.getSelectionModel().getSelectedIndex()).getCourse_id());
+		//if the result has no column it will set to 1
+		try {
+			if(result.next()){
+				//get the max year
+				yearLevel.setText(Year.getYearText((result.getInt(1) + 1)));
+				year = result.getInt(1) + 1 ;
+			}else{
+				yearLevel.setText(Year.getYearText(1));
+				year = 1 ;
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 }

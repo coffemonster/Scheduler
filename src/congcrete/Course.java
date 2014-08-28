@@ -61,8 +61,8 @@ public class Course {
 		this.course_code = course_code;
 	}
 	
-	public static ArrayList<Course> getList(){
-		ResultSet result = Connect.QUERY("SELECT * FROM `courses`") ;
+	public static ArrayList<Course> getList(int dept_id){
+		ResultSet result = Connect.QUERY("SELECT * FROM `courses` WHERE `dept_id` = " + dept_id) ;
 		ArrayList<Course> index = new ArrayList<Course>() ;
 		try {
 			while(result.next()){

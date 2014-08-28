@@ -180,10 +180,10 @@ public class FXMLDocumentController implements Initializable{
 			public void changed(ObservableValue<? extends TreeItem> arg0,
 					TreeItem arg1, TreeItem item) {
 				//to prevent exception null
-				if(item.getParent() == null){
+				if(item == null){
 					return ;
 				}
-				if(item.getParent().getValue() == "Teacher"){
+				if(item.getParent().getValue() == "Teachers"){
 					try {
 						//Load the AnchorPane Details
 						AnchorPane m = FXMLLoader.load(getClass().getResource("/application/properties/teacherProperties.fxml")) ;
@@ -246,11 +246,14 @@ public class FXMLDocumentController implements Initializable{
 				//Adding the teacher , room , course to Department
 				for(int x = 0 ; x < staticTreeView.getRoot().getChildren().size() ; x++){
 					Node teacherImg = new ImageView(new ImageGetter("instructor1.png").getImage()) ;
-					TreeItem<String> teacher = new TreeItem<String>("Teacher" , teacherImg) ;
+					TreeItem<String> teacher = new TreeItem<String>("Teachers" , teacherImg) ;
 					Node roomImg = new ImageView(new ImageGetter("house112.png").getImage()) ;
-					TreeItem<String> room = new TreeItem<String>("Room" , roomImg) ;
+					TreeItem<String> room = new TreeItem<String>("Rooms" , roomImg) ;
 					Node courseImg = new ImageView(new ImageGetter("diploma.png").getImage()) ;
-					TreeItem<String> course = new TreeItem<String>("Course" , courseImg) ;
+					TreeItem<String> course = new TreeItem<String>("Courses" , courseImg) ;
+					teacher.setValue("Teachers");
+					room.setValue("Rooms");
+					course.setValue("Courses");
 					staticTreeView.getRoot().getChildren().get(x).getChildren().add(teacher) ;
 					staticTreeView.getRoot().getChildren().get(x).getChildren().add(room) ;
 					staticTreeView.getRoot().getChildren().get(x).getChildren().add(course) ;
