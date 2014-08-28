@@ -51,12 +51,13 @@ public class FXMLDocumentController implements Initializable{
 	@FXML private ImageView sectionImageView ;
 	@FXML private BorderPane workplacePane ;
 	@FXML private TreeView<String> treeView ;
-	@FXML private AnchorPane detailsPane ;
+	//@FXML private AnchorPane detailsPane ;
 	@FXML private BorderPane treeBorderPane ;
 	@FXML private Accordion rightAccordion ;
 	@FXML private TitledPane detailsTitledPane ;
+	@FXML private ScrollPane detailsScrollPane ;
 	private static Accordion staticRightAccordion ;
-	private static AnchorPane staticDetailsPane ;
+	//private static AnchorPane staticDetailsPane ;
 	private static TreeView<String> staticTreeView ;
 	private ScaleAnimationProperty scaleProperty ;
 	private NodeAnimation animation ;
@@ -159,7 +160,7 @@ public class FXMLDocumentController implements Initializable{
 	@Override public void initialize(URL url , ResourceBundle rs){
 		//for getters getWorkplacePane
 		staticWorkplacePane = workplacePane ;
-		staticDetailsPane = detailsPane ;
+		//staticDetailsPane = detailsPane ;
 		staticRightAccordion = rightAccordion ;
 		staticDetailsTitledPane = detailsTitledPane ;
 		//set Property for adding at worplacePane
@@ -173,6 +174,7 @@ public class FXMLDocumentController implements Initializable{
 		staticTreeView.getRoot().setExpanded(true);
 		//TODO setting the right accrodion
 		
+		//set the details if any Teacher are selected
 		staticTreeView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<TreeItem>(){
 			@Override
 			public void changed(ObservableValue<? extends TreeItem> arg0,
@@ -183,11 +185,11 @@ public class FXMLDocumentController implements Initializable{
 				}
 				if(item.getParent().getValue() == "Teacher"){
 					try {
-						System.out.print("aw");
-						
-						Node m = FXMLLoader.load(getClass().getResource("/application/properties/teacherProperties.fxml")) ;
-						
-					
+						//Load the AnchorPane Details
+						AnchorPane m = FXMLLoader.load(getClass().getResource("/application/properties/teacherProperties.fxml")) ;
+						m.setPrefWidth(detailsScrollPane.getWidth() - 5);
+						detailsScrollPane.setContent(m);
+
 					} catch (IOException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -196,18 +198,20 @@ public class FXMLDocumentController implements Initializable{
 				
 			}
 		});
-		/*
+		
 		rightAccordion.widthProperty().addListener(new ChangeListener(){
 
 			@Override
 			public void changed(ObservableValue observable, Object oldValue,
 					Object newValue) {
-				detailsPane.setPrefWidth(rightAccordion.getWidth());
-				
+					if( detailsScrollPane.getContent() != null){
+						AnchorPane pane = (AnchorPane) detailsScrollPane.getContent();
+						pane.setPrefWidth(detailsScrollPane.getWidth() - 5);
+					}
 			}
 			
 		});
-		*/
+		
 	}
 	//update the tree
 	public static void updateTree(){
@@ -403,9 +407,11 @@ public class FXMLDocumentController implements Initializable{
 		return staticWorkplacePane ;
 	}
 	
+	/*
 	public static AnchorPane getDetailsPane(){
 		return staticDetailsPane ;
 	}
+	*/
 	
 	public static TreeView getTree(){
 		return staticTreeView ;

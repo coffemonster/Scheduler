@@ -182,11 +182,7 @@
                     <panes>
                       <TitledPane fx:id="detailsTitledPane" alignment="CENTER_RIGHT" text="Details">
                            <content>
-                              <ScrollPane prefHeight="200.0" prefWidth="225.0">
-                                 <content>
-                                    <AnchorPane fx:id="detailsPane" prefHeight="200.0" prefWidth="200.0" />
-                                 </content>
-                              </ScrollPane>
+                              <ScrollPane fx:id="detailsScrollPane" prefHeight="200.0" prefWidth="225.0" />
                            </content>
                       </TitledPane>
                       <TitledPane alignment="CENTER_RIGHT" text="Properties">
