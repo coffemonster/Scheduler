@@ -100,7 +100,7 @@ public class FXMLDocumentController implements Initializable{
 		animation = new ScaleAnimation(scaleProperty);
 		animation.animate(child);
 	}
-	
+
 	/*
 	 *MENU CUSTOMIZE
 	 */	

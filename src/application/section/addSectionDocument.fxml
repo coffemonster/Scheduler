@@ -6,27 +6,27 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="243.0" prefWidth="600.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller = "application.section.SectionDocumentController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="280.0" prefWidth="600.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.section.SectionDocumentController">
    <children>
-      <ChoiceBox fx:id="course" layoutX="247.0" layoutY="56.0" prefHeight="25.0" prefWidth="200.0" />
-      <Label layoutX="176.0" layoutY="55.0" text="Course">
+      <ChoiceBox fx:id="course" layoutX="247.0" layoutY="95.0" prefHeight="25.0" prefWidth="200.0" />
+      <Label layoutX="176.0" layoutY="94.0" text="Course">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <ChoiceBox fx:id="year" layoutX="415.0" layoutY="90.0" prefHeight="25.0" prefWidth="28.0" />
-      <Label layoutX="154.0" layoutY="89.0" text="Year Level">
+      <ChoiceBox fx:id="year" layoutX="415.0" layoutY="129.0" prefHeight="25.0" prefWidth="28.0" />
+      <Label layoutX="154.0" layoutY="128.0" text="Year Level">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <Label layoutX="175.0" layoutY="131.0" text="Section">
+      <Label layoutX="175.0" layoutY="170.0" text="Section">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <TextField fx:id="section" layoutX="247.0" layoutY="132.0" prefHeight="25.0" prefWidth="200.0" />
-      <Button layoutX="391.0" layoutY="166.0" mnemonicParsing="false" onAction="#handleAddSection" style="-fx-base: #222222;" text="Finish">
+      <TextField fx:id="section" layoutX="247.0" layoutY="171.0" prefHeight="25.0" prefWidth="200.0" />
+      <Button layoutX="391.0" layoutY="205.0" mnemonicParsing="false" onAction="#handleAddSection" style="-fx-base: #222222;" text="Finish">
          <font>
             <Font size="14.0" />
          </font>
@@ -36,5 +36,11 @@
             <Image url="/images/close11.png" />
          </image>
       </ImageView>
+      <Label layoutX="138.0" layoutY="55.0" text="Department">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <ChoiceBox fx:id="department" layoutX="247.0" layoutY="56.0" prefHeight="25.0" prefWidth="200.0" />
    </children>
 </AnchorPane>
