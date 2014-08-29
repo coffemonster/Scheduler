@@ -51,13 +51,11 @@ public class FXMLDocumentController implements Initializable{
 	@FXML private ImageView sectionImageView ;
 	@FXML private BorderPane workplacePane ;
 	@FXML private TreeView<String> treeView ;
-	//@FXML private AnchorPane detailsPane ;
 	@FXML private BorderPane treeBorderPane ;
 	@FXML private Accordion rightAccordion ;
 	@FXML private TitledPane detailsTitledPane ;
 	@FXML private ScrollPane detailsScrollPane ;
 	private static Accordion staticRightAccordion ;
-	//private static AnchorPane staticDetailsPane ;
 	private static TreeView<String> staticTreeView ;
 	private ScaleAnimationProperty scaleProperty ;
 	private NodeAnimation animation ;
@@ -409,12 +407,6 @@ public class FXMLDocumentController implements Initializable{
 	public static BorderPane getWorkplacePane(){
 		return staticWorkplacePane ;
 	}
-	
-	/*
-	public static AnchorPane getDetailsPane(){
-		return staticDetailsPane ;
-	}
-	*/
 	
 	public static TreeView getTree(){
 		return staticTreeView ;
