@@ -58,10 +58,13 @@ public class YearDocumentController implements Initializable{
 			public void changed(ObservableValue<? extends Object> arg0,
 					Object arg1, Object arg2) {
 				//get the list of course associated in the dept_id
+				yearLevel.setText("");
 				indexCourse = Course.getList(indexDepartment.get(department.getSelectionModel().getSelectedIndex()).getDept_id()) ;
+				course.getItems().clear();
 				for(int x = 0 ; x < indexCourse.size() ; x++){
 					course.getItems().add(indexCourse.get(x).getCourse_name()) ;
 				}
+				course.getSelectionModel().clearSelection();
 			}
 			
 		});
@@ -72,7 +75,9 @@ public class YearDocumentController implements Initializable{
 			@Override
 			public void changed(ObservableValue<? extends Object> observable,
 					Object oldValue, Object newValue) {
-					refreshYear() ;
+					if(!(course.getSelectionModel().getSelectedItem() == null)){
+						refreshYear() ;
+					}
 			}
 			
 		}) ;

@@ -94,4 +94,23 @@ public class Year {
 		return list ;
 	}
 	
+	public static Year getYear(int year_id){
+		ResultSet result = Connect.QUERY("SELECT * FROM years WHERE year_id = " + year_id) ;
+		try {
+			while(result.next()){
+				Year year = new Year() ;
+				year.setYear_id(result.getInt(Year.YEAR_ID));
+				year.setYear(result.getInt(Year.YEAR));
+				Course course = new Course() ;
+				course = Course.getCourse(result.getInt(Year.COURSE_ID)) ;
+				year.setCourse(course);
+				return year ;
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null ;
+	}
+	
 }

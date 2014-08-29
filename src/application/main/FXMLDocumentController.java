@@ -34,6 +34,7 @@ import java.util.ResourceBundle ;
 import congcrete.Course;
 import congcrete.Department;
 import congcrete.Room;
+import congcrete.Section;
 import congcrete.Teacher;
 import congcrete.Year;
 import database.Connect;
@@ -86,7 +87,7 @@ public class FXMLDocumentController implements Initializable{
 		}else if(ev.getId().equals("yearImageView")){
 			resourceURL = "/application/Year/addYearDocument.fxml" ;
 		}else if(ev.getId().equals("sectionImageView")){
-			resourceURL = "/application/year/addSectionDocument.fxml" ;
+			resourceURL = "/application/section/addSectionDocument.fxml" ;
 		}else if(ev.getId().equals("subjectImageView")){
 			resourceURL = "/application/subject/addSubjectDocument.fxml" ;
 		}
@@ -389,6 +390,52 @@ public class FXMLDocumentController implements Initializable{
 									Course c = (Course)item.getData() ;
 									if(c.getCourse_id() == year.getCourse().getCourse_id()){
 										root.getChildren().get(x).getChildren().get(course_node).getChildren().get(y).getChildren().add(yearItem) ;
+									}
+								}
+							}
+						}
+					}
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+				//update Sections
+				result = Connect.QUERY("SELECT * FROM sections");
+				try {
+					while(result.next()){
+						Section section = new Section() ;
+						section.setSection_id(result.getInt(Section.SECTION_ID));
+						section.setSection(result.getString(Section.SECTION));
+						Year year = Year.getYear(result.getInt(Section.YEAR_ID)) ;
+						section.setYear(year);
+						
+						//Creating an Image
+						Node sectionImg = new ImageView(new ImageGetter("teamwork.png").getImage()) ;
+						
+						TreeItemData sectionItem = new TreeItemData(section.getSection() , sectionImg , section) ;
+						
+						TreeItem<String> root = staticTreeView.getRoot() ;
+						
+						for(int x = 0 ; x < root.getChildren().size() ; x++){
+							TreeItemData treeItem = (TreeItemData) root.getChildren().get(x) ;
+							Department dept = (Department) treeItem.getData() ;
+							//find the department
+							if(dept.getDept_id() == section.getYear().getCourse().getD().getDept_id()){
+								TreeItem<String> courseNode = root.getChildren().get(x).getChildren().get(course_node) ;
+								//find the course
+								for(int y = 0 ; y < courseNode.getChildren().size() ; y++){
+									TreeItemData item = (TreeItemData) courseNode.getChildren().get(y) ;
+									Course course = (Course) item.getData() ;
+									if(course.getCourse_id() == year.getCourse().getCourse_id()){
+										TreeItem<String> current = courseNode.getChildren().get(y) ;
+										for(int z = 0 ; z < current.getChildren().size() ; z++){
+											TreeItemData yearItem = (TreeItemData) current.getChildren().get(z) ;
+											Year yearData = (Year) yearItem.getData() ;
+											if(yearData.getYear_id() == year.getYear_id()){
+												current.getChildren().get(z).getChildren().add(sectionItem) ;
+											}
+										}
 									}
 								}
 							}

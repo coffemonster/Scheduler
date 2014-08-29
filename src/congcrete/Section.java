@@ -16,6 +16,10 @@ public class Section {
 		this.year = year;
 	}
 
+	public Section() {
+		// TODO Auto-generated constructor stub
+	}
+
 	public int getSection_id() {
 		return section_id;
 	}
