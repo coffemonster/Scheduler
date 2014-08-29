@@ -1,46 +1,70 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.image.*?>
 <?import javafx.scene.text.*?>
 <?import javafx.scene.control.*?>
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="291.0" prefWidth="600.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="416.0" prefWidth="600.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Label layoutX="224.0" layoutY="44.0" text="Subject">
+      <Label layoutX="186.0" layoutY="45.0" text="Subject">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <TextField layoutX="300.0" layoutY="45.0" />
-      <Label layoutX="177.0" layoutY="78.0" text="Subject Code">
+      <TextField fx:id="subject" layoutX="262.0" layoutY="46.0" prefHeight="25.0" prefWidth="200.0" />
+      <Label layoutX="139.0" layoutY="79.0" text="Subject Code">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <TextField layoutX="300.0" layoutY="79.0" />
-      <Label layoutX="242.0" layoutY="114.0" text="Units">
+      <TextField fx:id="subjectCode" layoutX="262.0" layoutY="80.0" prefHeight="25.0" prefWidth="200.0" />
+      <Label layoutX="204.0" layoutY="115.0" text="Units">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <ChoiceBox layoutX="300.0" layoutY="115.0" prefWidth="150.0" />
-      <Label layoutX="222.0" layoutY="147.0" text="Teacher">
+      <Label layoutX="210.0" layoutY="232.0" text="Year">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <ChoiceBox layoutX="300.0" layoutY="148.0" prefWidth="150.0" />
-      <Label layoutX="243.0" layoutY="180.0" text="Class">
+      <ChoiceBox fx:id="year" layoutX="264.0" layoutY="233.0" prefHeight="25.0" prefWidth="200.0" />
+      <Label layoutX="186.0" layoutY="273.0" text="Section">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <ChoiceBox layoutX="300.0" layoutY="181.0" prefWidth="150.0" />
-      <Button layoutX="394.0" layoutY="215.0" mnemonicParsing="false" style="-fx-base: #222222;" text="Finish">
+      <ChoiceBox fx:id="section" layoutX="264.0" layoutY="274.0" prefHeight="25.0" prefWidth="200.0" />
+      <Button layoutX="406.0" layoutY="345.0" mnemonicParsing="false" onMouseClicked="#handleAddSubject" style="-fx-base: #222222;" text="Finish">
          <font>
             <Font size="14.0" />
          </font>
       </Button>
+      <Label layoutX="151.0" layoutY="156.0" text="Department">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <ChoiceBox fx:id="department" layoutX="264.0" layoutY="157.0" prefHeight="25.0" prefWidth="200.0" />
+      <Label layoutX="188.0" layoutY="191.0" text="Course">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <ChoiceBox fx:id="course" layoutX="264.0" layoutY="192.0" prefHeight="25.0" prefWidth="200.0" />
+      <TextField fx:id="units" layoutX="262.0" layoutY="116.0" prefHeight="25.0" prefWidth="200.0" />
+      <Label layoutX="184.0" layoutY="309.0" text="Teacher">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <ChoiceBox fx:id="teacher" layoutX="264.0" layoutY="310.0" prefHeight="25.0" prefWidth="200.0" />
+      <ImageView fitHeight="25.0" fitWidth="27.0" layoutX="565.0" layoutY="14.0" onMouseClicked="#removeSubject" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="/images/close11.png" />
+         </image>
+      </ImageView>
    </children>
 </AnchorPane>
