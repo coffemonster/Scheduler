@@ -1,6 +1,11 @@
 package congcrete;
 
 import java.io.InputStream;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+
+import database.Connect;
 
 public class Teacher {
 	private int teacher_id ;
@@ -8,7 +13,7 @@ public class Teacher {
 	private String first_name ;
 	private String last_name ;
 	private String middle_initial ;
-	private InputStream picture_path ;
+	private byte[] picture_path ;
 	public static final String TEACHER_ID = "teacher_id" ; 
 	public static final String DEPT_ID = "dept_id" ; 
 	public static final String FIRST_NAME = "first_name" ; 
@@ -17,7 +22,7 @@ public class Teacher {
 	public static final String PICTURE_PATH = "picture_path" ;
 	
 	public Teacher(int teacher_id, Department d, String first_name,
-			String last_name, String middle_initial, InputStream picture_path) {
+			String last_name, String middle_initial, byte[] picture_path) {
 		super();
 		this.teacher_id = teacher_id;
 		this.d = d;
@@ -71,14 +76,35 @@ public class Teacher {
 		this.middle_initial = middle_initial;
 	}
 
-	public InputStream getPicture_path() {
+	public byte[] getPicture_path() {
 		return picture_path;
 	}
 
-	public void setPicture_path(InputStream picture_path) {
+	public void setPicture_path(byte[] picture_path) {
 		this.picture_path = picture_path;
 	}
 	
-	
+	public static ArrayList<Teacher> getTeacher(int dept_id){
+		ResultSet result = Connect.QUERY("SELECT * FROM teachers WHERE dept_id = " + dept_id) ;
+		ArrayList<Teacher> list = new ArrayList<Teacher>() ;
+		try {
+			while(result.next()){
+				Teacher teacher = new Teacher() ;
+				teacher.setTeacher_id(result.getInt(Teacher.TEACHER_ID));
+				Department d = Department.getDepartment(result.getInt(Teacher.DEPT_ID)) ;
+				teacher.setD(d);
+				teacher.setFirst_name(result.getString(Teacher.FIRST_NAME));
+				teacher.setLast_name(result.getString(Teacher.LAST_NAME));
+				teacher.setMiddle_initial(result.getString(Teacher.MIDDLE_INITIAL));
+				teacher.setPicture_path(result.getBytes(Teacher.PICTURE_PATH));
+				
+				list.add(teacher) ;
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return list ;
+	}
 	
 }

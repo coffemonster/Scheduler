@@ -1,5 +1,11 @@
 package congcrete;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+
+import database.Connect;
+
 public class Section {
 	
 	private int section_id ;
@@ -44,6 +50,25 @@ public class Section {
 		this.year = year;
 	}
 	
-	
+	public static ArrayList<Section> getList(int year_id){
+		ResultSet result = Connect.QUERY("SELECT * FROM sections WHERE year_id = " + year_id) ;
+		ArrayList<Section> list = new ArrayList<Section>() ;
+		try {
+			while(result.next()){
+				Section section = new Section() ;
+				section.setSection_id(result.getInt(Section.SECTION_ID));
+				Year year = Year.getYear(result.getInt(Section.YEAR_ID)) ;
+				section.setYear(year);
+				section.setSection(result.getString(Section.SECTION));
+				list.add(section);
+			}
+			return list ;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null ;
+		
+	}
 	
 }
