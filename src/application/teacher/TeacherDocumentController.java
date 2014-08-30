@@ -11,6 +11,7 @@ import java.net.URL;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import javax.imageio.ImageIO;
@@ -34,6 +35,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
+import javafx.stage.FileChooser.ExtensionFilter;
 
 public class TeacherDocumentController implements Initializable{
 	
@@ -52,7 +54,20 @@ public class TeacherDocumentController implements Initializable{
 	//open a filechooser when click browse
 	@FXML public void browsePicture(ActionEvent e){
 		FileChooser fc = new FileChooser();
+		//adding the extension
+		FileChooser.ExtensionFilter jpgExtension = new FileChooser.ExtensionFilter("JPEG", "*.jpg") ;
+		FileChooser.ExtensionFilter pngExtension = new FileChooser.ExtensionFilter("PNG", "*.png") ;
+		
+		fc.getExtensionFilters().add(jpgExtension) ;
+		fc.getExtensionFilters().add(pngExtension) ;
+ 		
 		f = fc.showOpenDialog(Main.getMainStage()) ;
+		
+		if(f == null){
+			System.out.print("Empty Picture");
+			return ;
+		}
+		
 		try {
 			fileStream = new FileInputStream(f) ;
 			is = fileStream ;

@@ -71,4 +71,22 @@ public class Section {
 		
 	}
 	
+	public static Section getSection(int section_id){
+		ResultSet result = Connect.QUERY("SELECT * FROM sections WHERE section_id = " + section_id);
+		try {
+			while(result.next()){
+				Section section = new Section() ;
+				section.setSection_id(result.getInt(Section.SECTION_ID));
+				section.setSection(result.getString(Section.SECTION));
+				Year year = Year.getYear(result.getInt(Section.YEAR_ID)) ;
+				section.setYear(year);
+				return section ;
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null ;
+	}
+	
 }

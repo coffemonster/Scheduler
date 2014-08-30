@@ -84,7 +84,7 @@ public class Teacher {
 		this.picture_path = picture_path;
 	}
 	
-	public static ArrayList<Teacher> getTeacher(int dept_id){
+	public static ArrayList<Teacher> getTeacherList(int dept_id){
 		ResultSet result = Connect.QUERY("SELECT * FROM teachers WHERE dept_id = " + dept_id) ;
 		ArrayList<Teacher> list = new ArrayList<Teacher>() ;
 		try {
@@ -105,6 +105,29 @@ public class Teacher {
 			e.printStackTrace();
 		}
 		return list ;
+	}
+	
+	public static Teacher getTeacher(int teacher_id){
+		ResultSet result = Connect.QUERY("SELECT * FROM teachers WHERE teacher_id = " + teacher_id) ;
+		try {
+			while(result.next()){
+				Teacher teacher = new Teacher() ;
+				teacher.setTeacher_id(result.getInt(Teacher.TEACHER_ID));
+				Department d = Department.getDepartment(result.getInt(Teacher.DEPT_ID)) ;
+				teacher.setD(d);
+				teacher.setFirst_name(result.getString(Teacher.FIRST_NAME));
+				teacher.setLast_name(result.getString(Teacher.LAST_NAME));
+				teacher.setMiddle_initial(result.getString(Teacher.MIDDLE_INITIAL));
+				teacher.setPicture_path(result.getBytes(Teacher.PICTURE_PATH));
+				return teacher ;
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return null ;
+		
 	}
 	
 }

@@ -42,7 +42,7 @@ public class SplashDocumentController implements Initializable{
 					
 				}
 			}
-		}, 4000 , 20);
+		}, 2000 , 20);
 		
 	}
 

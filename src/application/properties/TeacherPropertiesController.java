@@ -45,16 +45,7 @@ public class TeacherPropertiesController implements Initializable{
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		TreeItemData data = (TreeItemData)FXMLDocumentController.getTree().getSelectionModel().getSelectedItem() ;
 		Teacher teacher = (Teacher)data.getData() ;
-		//setting the picture
-		System.out.print(teacher.getFirst_name());
-		try {
-			System.out.print(teacher.getPicture_path().available());
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			
-			e.printStackTrace();
-		}
-		
+		//setting the picture		
 		ResultSet result = Connect.QUERY("SELECT `picture_path` FROM `teachers` WHERE `teacher_id` = " + teacher.getTeacher_id()) ;
 		
 		try {
