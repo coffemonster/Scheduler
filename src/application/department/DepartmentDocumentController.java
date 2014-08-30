@@ -53,5 +53,6 @@ public class DepartmentDocumentController implements Initializable{
 	}
 	
 	public void initialize(URL url , ResourceBundle res){
+		System.out.print(FXMLDocumentController.getTree().get);
 	}
 }
