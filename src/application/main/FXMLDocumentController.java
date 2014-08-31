@@ -100,9 +100,11 @@ public class FXMLDocumentController implements Initializable{
 		Pane child = FXMLLoader.load(getClass().getResource(resourceURL)) ;
 		
 		Adder.addToCenter(workplacePane , child);
-		
+		BounceInTransition bounce = new BounceInTransition(child) ;
+		/*
 		animation = new ScaleAnimation(scaleProperty);
 		animation.animate(child);
+		*/
 	}
 
 	/*
@@ -162,6 +164,7 @@ public class FXMLDocumentController implements Initializable{
 	}
 
 	@Override public void initialize(URL url , ResourceBundle rs){
+		
 		//Assigning Statics
 		staticWorkplacePane = workplacePane ;
 		staticRightAccordion = rightAccordion ;
@@ -220,6 +223,7 @@ public class FXMLDocumentController implements Initializable{
 			
 		});
 		
+
 	}
 	//update the tree
 	public static void updateTree(){
