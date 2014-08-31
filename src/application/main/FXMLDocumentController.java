@@ -68,8 +68,6 @@ public class FXMLDocumentController implements Initializable{
 	private static Accordion staticLeftAccordion ;
 	private static TitledPane staticHierarchyPane ;
 	
-	
-	
 	/*
 	 * MENU CONTROLS HANDLER
 	 */
