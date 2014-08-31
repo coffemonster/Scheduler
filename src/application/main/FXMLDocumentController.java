@@ -57,12 +57,16 @@ public class FXMLDocumentController implements Initializable{
 	@FXML private Accordion rightAccordion ;
 	@FXML private TitledPane detailsTitledPane ;
 	@FXML private ScrollPane detailsScrollPane ;
+	@FXML private Accordion leftAccordion ;
+	@FXML private TitledPane hierarchyPane ;
 	private static Accordion staticRightAccordion ;
 	private static TreeView<String> staticTreeView ;
 	private ScaleAnimationProperty scaleProperty ;
 	private NodeAnimation animation ;
 	private static BorderPane staticWorkplacePane ;
 	private static TitledPane staticDetailsTitledPane ;
+	private static Accordion staticLeftAccordion ;
+	private static TitledPane staticHierarchyPane ;
 	
 	
 	
@@ -158,11 +162,12 @@ public class FXMLDocumentController implements Initializable{
 	}
 
 	@Override public void initialize(URL url , ResourceBundle rs){
-		//for getters getWorkplacePane
+		//Assigning Statics
 		staticWorkplacePane = workplacePane ;
-		//staticDetailsPane = detailsPane ;
 		staticRightAccordion = rightAccordion ;
 		staticDetailsTitledPane = detailsTitledPane ;
+		staticLeftAccordion = leftAccordion ;
+		staticHierarchyPane = hierarchyPane ;
 		//set Property for adding at worplacePane
 		scaleProperty = new ScaleAnimationProperty(.1 , 1 , .1 , 1 , Duration.millis(200) , 1) ;
 		//Setting School as TreeView root
@@ -519,5 +524,11 @@ public class FXMLDocumentController implements Initializable{
 	}
 	public static TitledPane getDetailsTitledPane(){
 		return staticDetailsTitledPane ;
+	}
+	public static Accordion getLeftAccordion(){
+		return staticLeftAccordion ;
+	}
+	public static TitledPane getHierarchyPane(){
+		return staticHierarchyPane ;
 	}
 }

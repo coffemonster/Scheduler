@@ -1,5 +1,8 @@
 package congcrete;
 
+import javafx.scene.control.TreeItem;
+import tree.TreeItemData;
+
 public class Room {
 	private int room_id ;
 	private Department d ;
@@ -54,5 +57,17 @@ public class Room {
 		this.room_code = room_code;
 	}
 	
+	public static TreeItem<String> getItem(int dept_id , int room_id){
+		//1 for const room
+		TreeItem<String> dept = Department.getItem(dept_id) ;
+		for(int x = 0 ; x < dept.getChildren().get(1).getChildren().size() ; x++){
+			TreeItem<String> item = dept.getChildren().get(1).getChildren().get(x) ;
+			Room data = TreeItemData.getItemData(item) ;
+			if(data.getRoom_id() == room_id){
+				return item ;
+			}
+		}
+		return null ;
+	}
 	
 }

@@ -4,7 +4,10 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
+import tree.TreeItemData;
+import tree.UpdateTree;
 import congcrete.Department;
+import congcrete.Room;
 import database.Connect;
 import application.main.FXMLDocumentController;
 import javafx.event.ActionEvent;
@@ -12,6 +15,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TreeItem;
 import javafx.scene.input.MouseEvent;
 
 public class RoomDocumentController implements Initializable{
@@ -30,6 +34,10 @@ public class RoomDocumentController implements Initializable{
 							roomCode.getText() + "')");
 		
 		FXMLDocumentController.updateTree();
+		
+		UpdateTree.expandTree(); 
+		
+		UpdateTree.selectItem((Room.getItem(dept, nextPrimary))) ;
 	}
 	
 	@FXML public void removeRoom(MouseEvent e){

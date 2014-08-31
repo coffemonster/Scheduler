@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
+import tree.UpdateTree;
 import congcrete.Course;
 import congcrete.Department;
 import congcrete.Year;
@@ -41,6 +42,11 @@ public class YearDocumentController implements Initializable{
 		refreshYear(); 
 		
 		FXMLDocumentController.updateTree();
+		
+		UpdateTree.expandTree();
+		
+		UpdateTree.selectItem(Year.getItem(primary));
+		
 	}
 	
 	@Override

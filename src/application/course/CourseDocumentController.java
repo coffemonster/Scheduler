@@ -4,7 +4,10 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
+import tree.TreeItemData;
+import tree.UpdateTree;
 import application.main.FXMLDocumentController;
+import congcrete.Course;
 import congcrete.Department;
 import database.Connect;
 import javafx.event.ActionEvent;
@@ -12,6 +15,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TreeItem;
 import javafx.scene.input.MouseEvent;
 
 public class CourseDocumentController implements Initializable{
@@ -30,6 +34,10 @@ public class CourseDocumentController implements Initializable{
 									courseCode.getText() + "')") ;
 				
 				FXMLDocumentController.updateTree();
+				
+				UpdateTree.expandTree();
+				
+				UpdateTree.selectItem(Course.getItem(dept, nextPrimary));
 	}
 	
 	@FXML public void removeCourse(MouseEvent e){

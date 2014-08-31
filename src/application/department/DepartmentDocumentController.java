@@ -31,22 +31,18 @@ public class DepartmentDocumentController implements Initializable{
 	
 	//Handle , Adding in the DB
 	@FXML public void handleAddDepartment(ActionEvent e) throws SQLException{
-		Connect.emptyQUERY("INSERT INTO `departments` VALUES(" + Connect.getNextIntegerPrimary("departments", "dept_id") + 
+		int nextPrimary = Connect.getNextIntegerPrimary("departments", "dept_id") ;
+		Connect.emptyQUERY("INSERT INTO `departments` VALUES(" + nextPrimary + 
 						   ",'" + inputDeptName.getText() + "' , '" + inputDeptCode.getText() + "')");
 		inputDeptName.setText("");
 		inputDeptCode.setText("");
 		
 		FXMLDocumentController.updateTree();
 		
+		UpdateTree.expandTree();
+		
 		//Select the added
-		TreeItem<String> root = FXMLDocumentController.getTree().getRoot() ;
-		for(int x = 0 ; x < root.getChildren().size() ; x++){
-			//TreeItemData departmentItem = (TreeItemData) root.getChildren().get(x) ;
-			//Department departmentData = (Department) departmentItem.getData() ;
-			TreeItemData.getItemData<int>(root.getChildren().get(x)){
-				
-			}
-		}
+		UpdateTree.selectItem(Department.getItem(nextPrimary));
 		
 	}
 	

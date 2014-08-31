@@ -4,6 +4,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import tree.TreeItemData;
+import tree.UpdateTree;
+import javafx.scene.control.TreeItem;
 import database.Connect;
 
 public class Year {
@@ -113,4 +116,17 @@ public class Year {
 		return null ;
 	}
 	
+	
+	public static TreeItem<String> getItem(int year_id){
+		Year year = Year.getYear(year_id) ;
+		TreeItem<String> course = Course.getItem(year.getCourse().getD().getDept_id(), year.getCourse().getCourse_id()) ;
+		for(int x = 0 ; x < course.getChildren().size() ; x++){
+			TreeItem<String> yearItem = course.getChildren().get(x) ;
+			Year yearData = TreeItemData.getItemData(yearItem) ;
+			if(yearData.getYear_id() == year_id){
+				return yearItem ;
+			}
+		}
+		return null ;
+	}
 }

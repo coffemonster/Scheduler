@@ -1,5 +1,7 @@
 package tree;
 
+import congcrete.Department;
+import congcrete.Teacher;
 import javafx.scene.Node;
 import javafx.scene.control.TreeItem;
 
@@ -16,7 +18,7 @@ public class TreeItemData extends TreeItem<String>{
 		return data ;
 	}
 	
-	public static <T> Object getItemData(TreeItem<String> item){
+	public static <T> T getItemData(TreeItem<String> item){
 		TreeItemData dept = (TreeItemData)item ;
 		@SuppressWarnings("unchecked")
 		T data = (T)dept.getData() ;

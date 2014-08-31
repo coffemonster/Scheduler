@@ -5,6 +5,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import javafx.scene.control.TreeItem;
+import tree.TreeItemData;
+import tree.UpdateTree;
 import database.Connect;
 
 public class Teacher {
@@ -130,4 +133,16 @@ public class Teacher {
 		
 	}
 	
+	public static TreeItem<String> getItem(int dept_id , int teacher_id){
+		//1 for const room
+		TreeItem<String> dept = Department.getItem(dept_id) ;
+		for(int x = 0 ; x < dept.getChildren().get(0).getChildren().size() ; x++){
+			TreeItem<String> item = dept.getChildren().get(0).getChildren().get(x) ;
+			Teacher data = TreeItemData.getItemData(item) ;
+			if(data.getTeacher_id() == teacher_id){
+				return item ;
+			}
+		}
+		return null ;
+	}
 }

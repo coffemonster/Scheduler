@@ -4,6 +4,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import javafx.scene.control.TreeItem;
+import tree.TreeItemData;
 import database.Connect;
 
 public class Course {
@@ -96,6 +98,19 @@ public class Course {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}
+		return null ;
+	}
+	
+	public static TreeItem<String> getItem(int dept_id , int course_id){
+		//2 for const course
+		TreeItem<String> dept = Department.getItem(dept_id) ;
+		for(int x = 0 ; x < dept.getChildren().get(2).getChildren().size() ; x++){
+			TreeItem<String> item = dept.getChildren().get(2).getChildren().get(x) ;
+			Course data = TreeItemData.getItemData(item) ;
+			if(data.course_id == course_id){
+				return item ;
+			}
 		}
 		return null ;
 	}

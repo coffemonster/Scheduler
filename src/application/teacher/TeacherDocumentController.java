@@ -17,6 +17,7 @@ import java.util.ResourceBundle;
 import javax.imageio.ImageIO;
 
 import tree.TreeItemData;
+import tree.UpdateTree;
 import congcrete.Department;
 import congcrete.Teacher;
 import NodeUtils.ImageGetter;
@@ -31,6 +32,7 @@ import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TreeItem;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -115,19 +117,27 @@ public class TeacherDocumentController implements Initializable{
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		
-		//Connect.emptyQUERY("INSERT INTO `teachers` VALUES(" + nextPrimary + "," + dept_id + ",'" + firstName.getText() + "','" +
-		//												lastName.getText() + "','" + middleInitial.getText() + "','" + fileStream + "')");
-		//set the path to null 
-		path = null ;
-		
+
 		FXMLDocumentController.updateTree();
+		
+		UpdateTree.expandTree();
+		//0 = const node teacher
+		UpdateTree.selectItem(Teacher.getItem(dept_id,nextPrimary));
+		
 		/*
-		Teacher t = new Teacher() ;
-	
-		Node teacherImg = new ImageView(new ImageGetter("teacher4.png").getImage()) ;
-		TreeItemData data = new TreeItemData(firstName.getText() + "','" + lastName.getText() + "','" + middleInitial.getText() , teacherImg , t);
-		FXMLDocumentController.getTree().getRoot().get
+		TreeItem<String> root = FXMLDocumentController.getTree().getRoot() ;
+		
+		for(int x = 0 ; x < root.getChildren().size() ; x++){
+			//0 for teacher node constant
+			TreeItem<String> teacherConst = root.getChildren().get(x).getChildren().get(0) ;
+			for(int y = 0 ; y < teacherConst.getChildren().size() ; y++){
+				TreeItemData teacher = (TreeItemData) teacherConst.getChildren().get(y) ;
+				Teacher teacherData = TreeItemData.getItemData(teacher) ;
+				if(teacherData.getTeacher_id() == nextPrimary){
+					UpdateTree.selectItem(teacher);
+				}
+			}
+		}
 		*/
 	}
 	

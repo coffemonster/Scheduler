@@ -9,12 +9,11 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="445.0" prefWidth="225.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller = "application.properties.TeacherPropertiesController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="445.0" prefWidth="225.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.properties.TeacherPropertiesController">
    <children>
       <Label alignment="CENTER_RIGHT" contentDisplay="TOP" layoutY="18.0" prefHeight="27.0" prefWidth="225.0" style="-fx-background-color: #dee7ee;" text="Personal Details " textAlignment="JUSTIFY" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
          <padding>
-            <Insets bottom="5.0" right="5.0" top="5.0" />
+            <Insets bottom="5.0" right="15.0" top="5.0" />
          </padding>
       </Label>
       <TextField fx:id="firstName" editable="false" layoutX="95.0" layoutY="200.0" minHeight="-Infinity" prefHeight="20.0" prefWidth="118.0" AnchorPane.leftAnchor="95.0" AnchorPane.rightAnchor="12.0" />
@@ -33,7 +32,7 @@
       <TextField fx:id="deptCode" editable="false" layoutX="95.0" layoutY="380.0" minHeight="-Infinity" prefHeight="20.0" prefWidth="118.0" AnchorPane.leftAnchor="95.0" AnchorPane.rightAnchor="12.0" />
       <Label alignment="CENTER_RIGHT" contentDisplay="TOP" layoutY="293.0" prefHeight="27.0" prefWidth="225.0" style="-fx-background-color: #dee7ee;" text="Department" textAlignment="JUSTIFY" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
          <padding>
-            <Insets bottom="5.0" right="5.0" top="5.0" />
+            <Insets bottom="5.0" right="15.0" top="5.0" />
          </padding>
       </Label>
    </children>

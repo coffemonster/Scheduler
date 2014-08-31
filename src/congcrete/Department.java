@@ -4,6 +4,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import tree.TreeItemData;
+import javafx.scene.control.TreeItem;
+import application.main.FXMLDocumentController;
 import database.Connect;
 
 public class Department {
@@ -74,5 +77,17 @@ public class Department {
 			e.printStackTrace();
 		}
 		return deptList ;
+	}
+	
+	public static TreeItem<String> getItem(int dept_id){
+		TreeItem<String> root = FXMLDocumentController.getTree().getRoot() ;
+		for(int x = 0 ; x < root.getChildren().size() ; x++ ){
+			TreeItem<String> deptItem = root.getChildren().get(x) ;
+			Department dept = TreeItemData.getItemData(root.getChildren().get(x)) ;
+			if(dept.getDept_id() == dept_id){
+				return deptItem ;
+			}
+		}
+		return null ;
 	}
 }

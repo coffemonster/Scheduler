@@ -4,6 +4,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import tree.TreeItemData;
+import javafx.scene.control.TreeItem;
 import database.Connect;
 
 public class Section {
@@ -85,6 +87,19 @@ public class Section {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}
+		return null ;
+	}
+	
+	public static TreeItem<String> getItem(int section_id){
+		Section section = Section.getSection(section_id) ;
+		TreeItem<String> year = Year.getItem(section.getYear().getYear_id()) ;
+		for(int x = 0 ; x < year.getChildren().size() ; x++){
+			TreeItem<String> sectionItem = year.getChildren().get(x) ;
+			Section sectionData = TreeItemData.getItemData(sectionItem) ;
+			if(sectionData.getSection_id() == section_id){
+				return sectionItem ;
+			}
 		}
 		return null ;
 	}

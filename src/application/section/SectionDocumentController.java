@@ -6,8 +6,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
+import tree.UpdateTree;
 import congcrete.Course;
 import congcrete.Department;
+import congcrete.Section;
 import congcrete.Year;
 import database.Connect;
 import application.main.FXMLDocumentController;
@@ -41,6 +43,10 @@ public class SectionDocumentController implements Initializable{
 		
 		refreshSection() ;
 		FXMLDocumentController.updateTree();
+		
+		UpdateTree.expandTree();
+		
+		UpdateTree.selectItem(Section.getItem(nextPrimary));
 	}
 	
 	@Override
@@ -50,7 +56,7 @@ public class SectionDocumentController implements Initializable{
 			department.getItems().add(departmentIndex.get(x).getDept_name()) ;
 		}
 		
-		department.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Object>(){
+		department.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Object>(){
 
 			@Override
 			public void changed(ObservableValue<? extends Object> arg0,
