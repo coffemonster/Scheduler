@@ -5,9 +5,11 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
+import tree.UpdateTree;
 import congcrete.Course;
 import congcrete.Department;
 import congcrete.Section;
+import congcrete.Subject;
 import congcrete.Teacher;
 import congcrete.Year;
 import database.Connect;
@@ -45,7 +47,7 @@ public class SubjectDocumentController implements Initializable{
 							+section_id+",'"+subject.getText()+"','"+subjectCode.getText()+"',"+
 							units.getText() +")");
 		
-		
+		FXMLDocumentController.updateTree();		
 	}
 	
 	@FXML public void removeSubject(MouseEvent e){

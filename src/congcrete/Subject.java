@@ -1,5 +1,12 @@
 package congcrete;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+import tree.TreeItemData;
+import javafx.scene.control.TreeItem;
+import database.Connect;
+
 public class Subject {
 	private int subject_id ;
 	private Teacher teacher ;
@@ -87,8 +94,41 @@ public class Subject {
 		this.subject_unit = subject_unit;
 	}
 	
+	public static Subject getSubject(int subject_id){
+		ResultSet result = Connect.QUERY("SELECT * FROM subjects WHERE subject_id = " + subject_id) ;
+		Subject subject = new Subject() ;
+		try {
+			while(result.next()){
+				subject.setSubject_id(result.getInt(Subject.SUBJECT_ID));
+				subject.setSubject_code(result.getString(Subject.SUBJECT_CODE));
+				subject.setSubject_name(result.getString(Subject.SUBJECT_NAME));
+				subject.setSubject_unit(result.getInt(Subject.SUBJECT_UNIT));
+				Section section = Section.getSection(result.getInt(Subject.SECTION_ID)) ;
+				subject.setSection(section);
+				subject.setYear(section.getYear());
+				Teacher teacher = Teacher.getTeacher(result.getInt(Subject.TEACHER_ID)) ;
+				subject.setTeacher(teacher);
+		
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return subject ;
+	}
 	
+	public static TreeItem<String> getItem(int subject_id){
+		Subject subject = Subject.getSubject(subject_id) ;
+		
+		TreeItem<String> section = Section.getItem(subject.getSection().getSection_id());
+		for(int x = 0 ; x < section.getChildren().size() ; x++){
+			TreeItem<String> sectionItem = section.getChildren().get(x) ;
+			Subject subjectData = TreeItemData.getItemData(sectionItem) ;
+			if(subjectData.getSubject_id() == subject_id){
+				return sectionItem ;
+			}
+		}
+		return null ;
+	}
 	
-	
-
 }

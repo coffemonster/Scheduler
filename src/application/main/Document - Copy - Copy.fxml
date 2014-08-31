@@ -151,7 +151,7 @@
                               <TreeView fx:id="treeView" prefHeight="200.0" prefWidth="200.0" />
                            </content>
                         </TitledPane>
-                        <TitledPane alignment="CENTER_RIGHT" text="Departments">
+                        <TitledPane alignment="CENTER_RIGHT" text="Subjects">
                            <content>
                               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
                            </content>

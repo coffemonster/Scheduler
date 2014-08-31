@@ -47,6 +47,8 @@ public class SectionDocumentController implements Initializable{
 		UpdateTree.expandTree();
 		
 		UpdateTree.selectItem(Section.getItem(nextPrimary));
+		
+		
 	}
 	
 	@Override

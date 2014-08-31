@@ -456,6 +456,7 @@ public class FXMLDocumentController implements Initializable{
 					e.printStackTrace();
 				}
 				
+				/*
 				//update subjects
 				result = Connect.QUERY("SELECT * FROM subjects") ;
 				try {
@@ -505,6 +506,8 @@ public class FXMLDocumentController implements Initializable{
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
+				
+				*/
 		}
 			
 	}
