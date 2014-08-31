@@ -15,4 +15,11 @@ public class TreeItemData extends TreeItem<String>{
 	public Object getData(){
 		return data ;
 	}
+	
+	public static <T> Object getItemData(TreeItem<String> item){
+		TreeItemData dept = (TreeItemData)item ;
+		@SuppressWarnings("unchecked")
+		T data = (T)dept.getData() ;
+		return data ;
+	}
 }

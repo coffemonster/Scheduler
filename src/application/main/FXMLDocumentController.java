@@ -173,6 +173,7 @@ public class FXMLDocumentController implements Initializable{
 		//set the school expanded
 		staticTreeView.getRoot().setExpanded(true);
 		//TODO setting the right accrodion
+	
 		
 		//set the details if any Teacher are selected
 		staticTreeView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<TreeItem>(){

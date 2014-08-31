@@ -4,9 +4,11 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
+import congcrete.Department;
 import NodeUtils.NodeAnimation;
 import NodeUtils.ScaleAnimation;
 import application.main.FXMLDocumentController;
+import tree.TreeItemData;
 import tree.UpdateTree;
 import database.Connect;
 import javafx.application.Platform;
@@ -15,6 +17,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TreeItem;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.util.Duration;
@@ -36,7 +39,14 @@ public class DepartmentDocumentController implements Initializable{
 		FXMLDocumentController.updateTree();
 		
 		//Select the added
-		
+		TreeItem<String> root = FXMLDocumentController.getTree().getRoot() ;
+		for(int x = 0 ; x < root.getChildren().size() ; x++){
+			//TreeItemData departmentItem = (TreeItemData) root.getChildren().get(x) ;
+			//Department departmentData = (Department) departmentItem.getData() ;
+			TreeItemData.getItemData<int>(root.getChildren().get(x)){
+				
+			}
+		}
 		
 	}
 	
@@ -53,6 +63,6 @@ public class DepartmentDocumentController implements Initializable{
 	}
 	
 	public void initialize(URL url , ResourceBundle res){
-		System.out.print(FXMLDocumentController.getTree().get);
+		
 	}
 }
