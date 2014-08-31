@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 31, 2014 at 03:52 AM
+-- Generation Time: Aug 31, 2014 at 05:40 PM
 -- Server version: 5.5.27
 -- PHP Version: 5.4.7
 
@@ -23,6 +23,23 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `classes`
+--
+
+CREATE TABLE IF NOT EXISTS `classes` (
+  `class_id` int(11) NOT NULL,
+  `subject_id` int(11) NOT NULL,
+  `section_id` int(11) NOT NULL,
+  `teacher_id` int(11) NOT NULL,
+  PRIMARY KEY (`class_id`),
+  KEY `subject_id` (`subject_id`),
+  KEY `section_id` (`section_id`),
+  KEY `teacher_id` (`teacher_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `courses`
 --
 
@@ -33,11 +50,7 @@ CREATE TABLE IF NOT EXISTS `courses` (
   `course_code` varchar(20) NOT NULL,
   PRIMARY KEY (`course_id`),
   KEY `dept_id` (`dept_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
-
---
--- Dumping data for table `courses`
---
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
 
 -- --------------------------------------------------------
 
@@ -52,11 +65,6 @@ CREATE TABLE IF NOT EXISTS `departments` (
   PRIMARY KEY (`dept_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `departments`
---
-
-
 -- --------------------------------------------------------
 
 --
@@ -70,7 +78,7 @@ CREATE TABLE IF NOT EXISTS `rooms` (
   `room_code` varchar(45) NOT NULL,
   PRIMARY KEY (`room_id`),
   KEY `dept_id` (`dept_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
 
 -- --------------------------------------------------------
 
@@ -80,18 +88,14 @@ CREATE TABLE IF NOT EXISTS `rooms` (
 
 CREATE TABLE IF NOT EXISTS `schedules` (
   `schedule_id` int(11) NOT NULL AUTO_INCREMENT,
+  `class_id` int(11) NOT NULL,
   `room_id` int(11) NOT NULL,
-  `teacher_id` int(11) NOT NULL,
-  `subject_id` int(11) NOT NULL,
-  `section_id` int(11) NOT NULL,
   `start_time` time NOT NULL,
   `end_time` time NOT NULL,
   `day` varchar(10) NOT NULL,
   PRIMARY KEY (`schedule_id`),
   KEY `room_id` (`room_id`),
-  KEY `teacher_id` (`teacher_id`),
-  KEY `subject_id` (`subject_id`),
-  KEY `section` (`section_id`)
+  KEY `class_id` (`class_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
@@ -108,11 +112,6 @@ CREATE TABLE IF NOT EXISTS `sections` (
   KEY `year` (`year_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `sections`
---
-
-
 -- --------------------------------------------------------
 
 --
@@ -121,21 +120,13 @@ CREATE TABLE IF NOT EXISTS `sections` (
 
 CREATE TABLE IF NOT EXISTS `subjects` (
   `subject_id` int(11) NOT NULL AUTO_INCREMENT,
-  `teacher_id` int(11) NOT NULL,
-  `section_id` int(11) NOT NULL,
+  `year_id` int(11) NOT NULL,
   `subject_name` varchar(45) NOT NULL,
   `subject_code` varchar(45) NOT NULL,
   `subject_unit` int(11) NOT NULL,
   PRIMARY KEY (`subject_id`),
-  KEY `teacher_id` (`teacher_id`,`section_id`),
-  KEY `section` (`section_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
-
---
--- Dumping data for table `subjects`
---
-
-
+  KEY `year_id` (`year_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
 
 -- --------------------------------------------------------
 
@@ -152,13 +143,9 @@ CREATE TABLE IF NOT EXISTS `teachers` (
   `picture_path` blob NOT NULL,
   PRIMARY KEY (`teacher_id`),
   KEY `school_id` (`dept_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=11 ;
 
---
--- Dumping data for table `teachers`
---
-
-- --------------------------------------------------------
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `years`
@@ -173,13 +160,16 @@ CREATE TABLE IF NOT EXISTS `years` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `years`
---
-
-
---
 -- Constraints for dumped tables
 --
+
+--
+-- Constraints for table `classes`
+--
+ALTER TABLE `classes`
+  ADD CONSTRAINT `classes_ibfk_3` FOREIGN KEY (`teacher_id`) REFERENCES `teachers` (`teacher_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `classes_ibfk_1` FOREIGN KEY (`subject_id`) REFERENCES `subjects` (`subject_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `classes_ibfk_2` FOREIGN KEY (`section_id`) REFERENCES `sections` (`section_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `courses`
@@ -197,10 +187,8 @@ ALTER TABLE `rooms`
 -- Constraints for table `schedules`
 --
 ALTER TABLE `schedules`
-  ADD CONSTRAINT `schedules_ibfk_1` FOREIGN KEY (`room_id`) REFERENCES `rooms` (`room_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `schedules_ibfk_2` FOREIGN KEY (`teacher_id`) REFERENCES `teachers` (`teacher_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `schedules_ibfk_3` FOREIGN KEY (`subject_id`) REFERENCES `subjects` (`subject_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `schedules_ibfk_4` FOREIGN KEY (`section_id`) REFERENCES `sections` (`section_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `schedules_ibfk_2` FOREIGN KEY (`class_id`) REFERENCES `classes` (`class_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `schedules_ibfk_1` FOREIGN KEY (`room_id`) REFERENCES `rooms` (`room_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `sections`
@@ -212,8 +200,7 @@ ALTER TABLE `sections`
 -- Constraints for table `subjects`
 --
 ALTER TABLE `subjects`
-  ADD CONSTRAINT `subjects_ibfk_1` FOREIGN KEY (`teacher_id`) REFERENCES `teachers` (`teacher_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `subjects_ibfk_4` FOREIGN KEY (`section_id`) REFERENCES `sections` (`section_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `subjects_ibfk_1` FOREIGN KEY (`year_id`) REFERENCES `years` (`year_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `teachers`

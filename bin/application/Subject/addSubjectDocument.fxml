@@ -6,7 +6,7 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="416.0" prefWidth="600.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller = "application.Subject.SubjectDocumentController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="352.0" prefWidth="600.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.Subject.SubjectDocumentController">
    <children>
       <Label layoutX="186.0" layoutY="45.0" text="Subject">
          <font>
@@ -31,13 +31,7 @@
          </font>
       </Label>
       <ChoiceBox fx:id="year" layoutX="264.0" layoutY="233.0" prefHeight="25.0" prefWidth="200.0" />
-      <Label layoutX="186.0" layoutY="273.0" text="Section">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </Label>
-      <ChoiceBox fx:id="section" layoutX="264.0" layoutY="274.0" prefHeight="25.0" prefWidth="200.0" />
-      <Button layoutX="406.0" layoutY="345.0" mnemonicParsing="false" onMouseClicked="#handleAddSubject" style="-fx-base: #222222;" text="Finish">
+      <Button layoutX="406.0" layoutY="273.0" mnemonicParsing="false" onMouseClicked="#handleAddSubject" style="-fx-base: #222222;" text="Finish">
          <font>
             <Font size="14.0" />
          </font>
@@ -55,12 +49,6 @@
       </Label>
       <ChoiceBox fx:id="course" layoutX="264.0" layoutY="192.0" prefHeight="25.0" prefWidth="200.0" />
       <TextField fx:id="units" layoutX="262.0" layoutY="116.0" prefHeight="25.0" prefWidth="200.0" />
-      <Label layoutX="184.0" layoutY="309.0" text="Teacher">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </Label>
-      <ChoiceBox fx:id="teacher" layoutX="264.0" layoutY="310.0" prefHeight="25.0" prefWidth="200.0" />
       <ImageView fitHeight="25.0" fitWidth="27.0" layoutX="565.0" layoutY="14.0" onMouseClicked="#removeSubject" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="/images/close11.png" />
