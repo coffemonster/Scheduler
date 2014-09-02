@@ -36,15 +36,11 @@ public class SubjectDocumentController implements Initializable{
 	private ArrayList<Department> departmentIndex ;
 	private ArrayList<Course> courseIndex ;
 	private ArrayList<Year> yearIndex ;
-	private ArrayList<Section> sectionIndex ;
-	private ArrayList<Teacher> teacherIndex ;
 	
 	@FXML public void handleAddSubject(MouseEvent e){
 		int nextPrimary = Connect.getNextIntegerPrimary("subjects", "subject_id") ;
-		int teacher_id = teacherIndex.get(teacher.getSelectionModel().getSelectedIndex()).getTeacher_id();
-		int section_id = sectionIndex.get(section.getSelectionModel().getSelectedIndex()).getSection_id() ;
-		Connect.emptyQUERY("INSERT INTO subjects VALUES("+ nextPrimary +","+ teacher_id +","
-							+section_id+",'"+subject.getText()+"','"+subjectCode.getText()+"',"+
+		int year_id = yearIndex.get(year.getSelectionModel().getSelectedIndex()).getYear_id() ;
+		Connect.emptyQUERY("INSERT INTO subjects VALUES("+ nextPrimary +","+ year_id +",'"+subject.getText()+"','"+subjectCode.getText()+"',"+
 							units.getText() +")");
 		
 		FXMLDocumentController.updateTree();		
@@ -79,12 +75,6 @@ public class SubjectDocumentController implements Initializable{
 				for(int x = 0 ; x < courseIndex.size() ; x++){
 					course.getItems().add(courseIndex.get(x).getCourse_name()) ;
  				}
-				
-				teacherIndex = Teacher.getTeacherList(departmentIndex.get(department.getSelectionModel().getSelectedIndex()).getDept_id()) ;
-				teacher.getItems().clear();
-				for(int x = 0 ; x < teacherIndex.size() ; x++){
-					teacher.getItems().add(teacherIndex.get(x).getLast_name() + ", " + teacherIndex.get(x).getLast_name() + " " + teacherIndex.get(x).getMiddle_initial() + ".") ;
-				}
 			}
 			
 		});
@@ -107,25 +97,6 @@ public class SubjectDocumentController implements Initializable{
 					section.getSelectionModel().clearSelection();
 					
 					section.getItems().clear();
-				}
-			}
-			
-		});
-		
-		year.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Object>(){
-
-			@Override
-			public void changed(ObservableValue<? extends Object> arg0,
-					Object arg1, Object arg2) {
-				
-				if(!(year.getSelectionModel().getSelectedIndex() == -1)){
-					sectionIndex = Section.getList(yearIndex.get(year.getSelectionModel().getSelectedIndex()).getYear_id()) ;
-					section.getItems().clear();
-					for(int x = 0 ; x < sectionIndex.size() ; x++){
-						section.getItems().add(sectionIndex.get(x).getSection()) ;
-					}
-					
-					section.getSelectionModel().clearSelection();
 				}
 			}
 			

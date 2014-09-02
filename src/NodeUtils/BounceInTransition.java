@@ -13,12 +13,14 @@ public class BounceInTransition {
                 new KeyFrame(Duration.millis(0),
                         new KeyValue(node.opacityProperty(), 0, Interpolator.EASE_OUT),
                         new KeyValue(node.scaleXProperty(), 0.3, Interpolator.EASE_OUT),
-                        new KeyValue(node.scaleYProperty(), 0.3, Interpolator.EASE_OUT)
+                        new KeyValue(node.scaleYProperty(), 0.3, Interpolator.EASE_OUT),
+                        new KeyValue(node.rotateProperty() , 180 , Interpolator.EASE_OUT)
                 ),
                 new KeyFrame(Duration.millis(400),
                         new KeyValue(node.opacityProperty(), 1, Interpolator.EASE_OUT),
                         new KeyValue(node.scaleXProperty(), 1.05, Interpolator.EASE_OUT),
-                        new KeyValue(node.scaleYProperty(), 1.05, Interpolator.EASE_OUT)
+                        new KeyValue(node.scaleYProperty(), 1.05, Interpolator.EASE_OUT),
+                        new KeyValue(node.rotateProperty() , 360 , Interpolator.EASE_OUT)
                 ),
                 new KeyFrame(Duration.millis(600),
                         new KeyValue(node.scaleXProperty(), .9, Interpolator.EASE_OUT),

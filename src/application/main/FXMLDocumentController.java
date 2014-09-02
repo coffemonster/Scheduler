@@ -220,8 +220,7 @@ public class FXMLDocumentController implements Initializable{
 			}
 			
 		});
-		
-
+	
 	}
 	//update the tree
 	public static void updateTree(){

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="298.0" prefWidth="225.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Label alignment="CENTER_RIGHT" contentDisplay="TOP" layoutY="20.0" prefHeight="27.0" prefWidth="225.0" style="-fx-background-color: #dee7ee;" text="Course Details" textAlignment="JUSTIFY">
+         <padding>
+            <Insets bottom="5.0" right="15.0" top="5.0" />
+         </padding>
+      </Label>
+      <Label layoutX="14.0" layoutY="62.0" text="Course" />
+      <TextField fx:id="firstName" editable="false" layoutX="119.0" layoutY="61.0" minHeight="-Infinity" prefHeight="20.0" prefWidth="92.0" />
+      <Label layoutX="14.0" layoutY="90.0" text="Course Code" />
+      <TextField fx:id="firstName1" editable="false" layoutX="119.0" layoutY="88.0" minHeight="-Infinity" prefHeight="20.0" prefWidth="92.0" />
+      <Label alignment="CENTER_RIGHT" contentDisplay="TOP" layoutY="122.0" prefHeight="27.0" prefWidth="225.0" style="-fx-background-color: #dee7ee;" text="Department" textAlignment="JUSTIFY">
+         <padding>
+            <Insets bottom="5.0" right="15.0" top="5.0" />
+         </padding>
+      </Label>
+      <TextField fx:id="firstName11" editable="false" layoutX="120.0" layoutY="189.0" minHeight="-Infinity" prefHeight="20.0" prefWidth="92.0" />
+      <Label layoutX="14.0" layoutY="190.0" text="Department Code" />
+      <TextField fx:id="firstName2" editable="false" layoutX="120.0" layoutY="163.0" minHeight="-Infinity" prefHeight="20.0" prefWidth="92.0" />
+      <Label layoutX="14.0" layoutY="164.0" text="Department Name" />
+      <Label alignment="CENTER_RIGHT" contentDisplay="TOP" layoutY="221.0" prefHeight="27.0" prefWidth="225.0" style="-fx-background-color: #dee7ee;" text="Year" textAlignment="JUSTIFY">
+         <padding>
+            <Insets bottom="5.0" right="15.0" top="5.0" />
+         </padding>
+      </Label>
+      <Label layoutX="14.0" layoutY="255.0" text="ma" />
+   </children>
+</AnchorPane>
