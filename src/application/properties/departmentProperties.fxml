@@ -5,8 +5,7 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="439.0" prefWidth="225.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="439.0" prefWidth="225.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller = "application.properties.DepartmentPropertiesController">
    <children>
       <Label alignment="CENTER_RIGHT" contentDisplay="TOP" layoutY="20.0" prefHeight="27.0" prefWidth="225.0" style="-fx-background-color: #dee7ee;" text="Department Details" textAlignment="JUSTIFY" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
          <padding>
@@ -14,30 +13,30 @@
          </padding>
       </Label>
       <Label layoutX="14.0" layoutY="79.0" text="Department Name" />
-      <TextField fx:id="firstName" editable="false" layoutX="120.0" layoutY="78.0" minHeight="-Infinity" prefHeight="20.0" prefWidth="92.0" AnchorPane.leftAnchor="120.0" AnchorPane.rightAnchor="13.0" />
+      <TextField fx:id="deptName" editable="false" layoutX="120.0" layoutY="78.0" minHeight="-Infinity" prefHeight="20.0" prefWidth="92.0" AnchorPane.leftAnchor="120.0" AnchorPane.rightAnchor="13.0" />
       <Label layoutX="14.0" layoutY="105.0" text="Department Code" />
-      <TextField fx:id="firstName1" editable="false" layoutX="120.0" layoutY="104.0" minHeight="-Infinity" prefHeight="20.0" prefWidth="92.0" />
-      <Label alignment="CENTER_RIGHT" contentDisplay="TOP" layoutY="151.0" prefHeight="27.0" prefWidth="225.0" style="-fx-background-color: #dee7ee;" text="Teachers" textAlignment="JUSTIFY">
+      <TextField fx:id="deptCode" editable="false" layoutX="120.0" layoutY="104.0" minHeight="-Infinity" prefHeight="20.0" prefWidth="92.0" AnchorPane.leftAnchor="120.0" AnchorPane.rightAnchor="13.0" />
+      <Label alignment="CENTER_RIGHT" contentDisplay="TOP" layoutY="151.0" prefHeight="27.0" prefWidth="225.0" style="-fx-background-color: #dee7ee;" text="Teachers" textAlignment="JUSTIFY" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
          <padding>
             <Insets bottom="5.0" right="15.0" top="5.0" />
          </padding>
       </Label>
       <Label layoutX="14.0" layoutY="200.0" text="Number of Teachers" />
-      <TextField fx:id="firstName2" editable="false" layoutX="177.0" layoutY="199.0" minHeight="-Infinity" prefHeight="20.0" prefWidth="35.0" />
-      <Label alignment="CENTER_RIGHT" contentDisplay="TOP" layoutY="244.0" prefHeight="27.0" prefWidth="225.0" style="-fx-background-color: #dee7ee;" text="Courses" textAlignment="JUSTIFY">
+      <TextField fx:id="numTeachers" editable="false" layoutX="177.0" layoutY="199.0" minHeight="-Infinity" prefHeight="20.0" prefWidth="35.0" AnchorPane.leftAnchor="177.0" AnchorPane.rightAnchor="13.0" />
+      <Label alignment="CENTER_RIGHT" contentDisplay="TOP" layoutY="244.0" prefHeight="27.0" prefWidth="225.0" style="-fx-background-color: #dee7ee;" text="Courses" textAlignment="JUSTIFY" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
          <padding>
             <Insets bottom="5.0" right="15.0" top="5.0" />
          </padding>
       </Label>
       <Label layoutX="14.0" layoutY="288.0" text="Number of Courses" />
-      <TextField fx:id="firstName21" editable="false" layoutX="177.0" layoutY="287.0" minHeight="-Infinity" prefHeight="20.0" prefWidth="35.0" />
+      <TextField fx:id="numCourses" editable="false" layoutX="177.0" layoutY="287.0" minHeight="-Infinity" prefHeight="20.0" prefWidth="35.0" AnchorPane.leftAnchor="177.0" AnchorPane.rightAnchor="13.0" />
       <Label layoutX="14.0" layoutY="307.0" text="offered" />
-      <Label alignment="CENTER_RIGHT" contentDisplay="TOP" layoutY="341.0" prefHeight="27.0" prefWidth="225.0" style="-fx-background-color: #dee7ee;" text="Rooms" textAlignment="JUSTIFY">
+      <Label alignment="CENTER_RIGHT" contentDisplay="TOP" layoutY="341.0" prefHeight="27.0" prefWidth="225.0" style="-fx-background-color: #dee7ee;" text="Rooms" textAlignment="JUSTIFY" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
          <padding>
             <Insets bottom="5.0" right="15.0" top="5.0" />
          </padding>
       </Label>
       <Label layoutX="14.0" layoutY="383.0" text="Number of Rooms" />
-      <TextField fx:id="firstName211" editable="false" layoutX="177.0" layoutY="382.0" minHeight="-Infinity" prefHeight="20.0" prefWidth="35.0" />
+      <TextField fx:id="numRooms" editable="false" layoutX="177.0" layoutY="382.0" minHeight="-Infinity" prefHeight="20.0" prefWidth="35.0" AnchorPane.leftAnchor="177.0" AnchorPane.rightAnchor="13.0" />
    </children>
 </AnchorPane>

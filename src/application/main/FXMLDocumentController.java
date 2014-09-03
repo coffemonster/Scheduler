@@ -40,7 +40,6 @@ import congcrete.Teacher;
 import congcrete.Year;
 import database.Connect;
 import adder.node.Adder;
-import application.properties.TeacherChangeListener;
 public class FXMLDocumentController implements Initializable{
 	
 	@FXML private BorderPane root;
@@ -165,6 +164,7 @@ public class FXMLDocumentController implements Initializable{
 	@Override public void initialize(URL url , ResourceBundle rs){
 		
 		//LOGIN WINDOW
+		/*
 		root.getTop().setVisible(false);
 		root.getBottom().setVisible(false);
 		root.setCenter(null);
@@ -177,6 +177,7 @@ public class FXMLDocumentController implements Initializable{
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
+		*/
 		
 		
 		//Assigning Statics
@@ -215,6 +216,15 @@ public class FXMLDocumentController implements Initializable{
 						m.setPrefWidth(detailsScrollPane.getWidth() - 5);
 						detailsScrollPane.setContent(m);
 
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}else if(item.getParent().getValue() == "School"){
+					try {
+						AnchorPane pane = FXMLLoader.load(getClass().getResource("/application/properties/departmentProperties.fxml")) ;
+						pane.setPrefWidth(detailsScrollPane.getWidth() - 5) ;
+						detailsScrollPane.setContent(pane);
 					} catch (IOException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();

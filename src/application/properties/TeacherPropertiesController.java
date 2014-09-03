@@ -70,7 +70,9 @@ public class TeacherPropertiesController implements Initializable{
 		deptName.setText(teacher.getD().getDept_name());
 		deptCode.setText(teacher.getD().getDept_code());
 		
-		FXMLDocumentController.getRightAccordion().setExpandedPane(FXMLDocumentController.getDetailsTitledPane());
+		if(FXMLDocumentController.getRightAccordion().getExpandedPane() == null){
+			FXMLDocumentController.getRightAccordion().setExpandedPane(FXMLDocumentController.getDetailsTitledPane());
+		}
 	}
 	
 }
