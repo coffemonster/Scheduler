@@ -140,7 +140,7 @@
          </children></FlowPane>
    </bottom>
    <center>
-      <SplitPane fx:id = "splitPane" dividerPositions="0.5, 0.5" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+      <SplitPane dividerPositions="0.5, 0.5" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <items>
             <BorderPane fx:id="treeBorderPane" prefHeight="200.0" prefWidth="300.0">
                <center>

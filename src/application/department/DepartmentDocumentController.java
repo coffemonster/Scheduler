@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 import congcrete.Department;
+import NodeUtils.BounceInTransition;
 import NodeUtils.NodeAnimation;
 import NodeUtils.ScaleAnimation;
 import application.main.FXMLDocumentController;
@@ -60,6 +61,6 @@ public class DepartmentDocumentController implements Initializable{
 	}
 	
 	public void initialize(URL url , ResourceBundle res){
-
+		
 	}
 }

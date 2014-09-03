@@ -59,6 +59,7 @@ public class FXMLDocumentController implements Initializable{
 	@FXML private ScrollPane detailsScrollPane ;
 	@FXML private Accordion leftAccordion ;
 	@FXML private TitledPane hierarchyPane ;
+	@FXML private SplitPane splitPane ;
 	private static Accordion staticRightAccordion ;
 	private static TreeView<String> staticTreeView ;
 	private ScaleAnimationProperty scaleProperty ;
@@ -162,6 +163,21 @@ public class FXMLDocumentController implements Initializable{
 	}
 
 	@Override public void initialize(URL url , ResourceBundle rs){
+		
+		//LOGIN WINDOW
+		root.getTop().setVisible(false);
+		root.getBottom().setVisible(false);
+		root.setCenter(null);
+		//LOAD the login
+		try {
+			AnchorPane loginPane = FXMLLoader.load(getClass().getResource("/application/login/loginDocument.fxml")) ;
+			//set the center to the loginPane
+			root.setCenter(loginPane);
+			new BounceInTransition(root.getCenter()) ;
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+		
 		
 		//Assigning Statics
 		staticWorkplacePane = workplacePane ;

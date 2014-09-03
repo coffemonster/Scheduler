@@ -14,7 +14,7 @@ public class BounceInTransition {
                         new KeyValue(node.opacityProperty(), 0, Interpolator.EASE_OUT),
                         new KeyValue(node.scaleXProperty(), 0.3, Interpolator.EASE_OUT),
                         new KeyValue(node.scaleYProperty(), 0.3, Interpolator.EASE_OUT),
-                        new KeyValue(node.rotateProperty() , 180 , Interpolator.EASE_OUT)
+                        new KeyValue(node.rotateProperty() , 300 , Interpolator.EASE_OUT)
                 ),
                 new KeyFrame(Duration.millis(400),
                         new KeyValue(node.opacityProperty(), 1, Interpolator.EASE_OUT),
