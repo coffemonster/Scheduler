@@ -229,6 +229,16 @@ public class FXMLDocumentController implements Initializable{
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
+				}else if(item.getParent().getValue() == "Courses"){
+					try {
+						AnchorPane pane = FXMLLoader.load(getClass().getResource("/application/properties/courseProperties.fxml")) ;
+						pane.setPrefWidth(detailsScrollPane.getWidth() - 5);
+						detailsScrollPane.setContent(pane);
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					
 				}
 				
 			}
