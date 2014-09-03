@@ -239,6 +239,14 @@ public class FXMLDocumentController implements Initializable{
 						e.printStackTrace();
 					}
 					
+				}else if(item.getParent().getValue() == "Rooms"){
+					try{
+						AnchorPane pane = FXMLLoader.load(getClass().getResource("application/properties/roomProperties.fxml")) ;
+						pane.setPrefWidth(detailsScrollPane.getWidth() - 5);
+						detailsScrollPane.setContent(pane);
+					}catch(IOException e){
+						e.printStackTrace();
+					}
 				}
 				
 			}
