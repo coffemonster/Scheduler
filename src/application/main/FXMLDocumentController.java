@@ -8,6 +8,7 @@ import javafx.event.Event;
 import javafx.fxml.* ;
 import javafx.scene.Node;
 import javafx.scene.control.Accordion;
+import javafx.scene.control.ListView;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.SplitPane;
 import javafx.scene.control.TitledPane;
@@ -59,6 +60,8 @@ public class FXMLDocumentController implements Initializable{
 	@FXML private Accordion leftAccordion ;
 	@FXML private TitledPane hierarchyPane ;
 	@FXML private SplitPane splitPane ;
+	@FXML private ListView departmentList ;
+	private static ListView staticDepartmentList ;
 	private static Accordion staticRightAccordion ;
 	private static TreeView<String> staticTreeView ;
 	private ScaleAnimationProperty scaleProperty ;
@@ -186,6 +189,7 @@ public class FXMLDocumentController implements Initializable{
 		staticDetailsTitledPane = detailsTitledPane ;
 		staticLeftAccordion = leftAccordion ;
 		staticHierarchyPane = hierarchyPane ;
+		staticDepartmentList = departmentList ;
 		//set Property for adding at worplacePane
 		scaleProperty = new ScaleAnimationProperty(.1 , 1 , .1 , 1 , Duration.millis(200) , 1) ;
 		//Setting School as TreeView root
@@ -209,6 +213,7 @@ public class FXMLDocumentController implements Initializable{
 				}else if(item.getParent() == null){
 					return ;
 				}
+				//Details For teachers
 				if(item.getParent().getValue() == "Teachers"){
 					try {
 						//Load the AnchorPane Details
@@ -220,7 +225,9 @@ public class FXMLDocumentController implements Initializable{
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-				}else if(item.getParent().getValue() == "School"){
+				}
+				//Details for Department
+				else if(item.getParent().getValue() == "School"){
 					try {
 						AnchorPane pane = FXMLLoader.load(getClass().getResource("/application/properties/departmentProperties.fxml")) ;
 						pane.setPrefWidth(detailsScrollPane.getWidth() - 5) ;
@@ -229,7 +236,9 @@ public class FXMLDocumentController implements Initializable{
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-				}else if(item.getParent().getValue() == "Courses"){
+				}
+				//Details for Courses
+				else if(item.getParent().getValue() == "Courses"){
 					try {
 						AnchorPane pane = FXMLLoader.load(getClass().getResource("/application/properties/courseProperties.fxml")) ;
 						pane.setPrefWidth(detailsScrollPane.getWidth() - 5);
@@ -239,12 +248,36 @@ public class FXMLDocumentController implements Initializable{
 						e.printStackTrace();
 					}
 					
-				}else if(item.getParent().getValue() == "Rooms"){
+				}
+				//Details for Rooms
+				else if(item.getParent().getValue() == "Rooms"){
 					try{
 						AnchorPane pane = FXMLLoader.load(getClass().getResource("/application/properties/roomProperties.fxml")) ;
 						pane.setPrefWidth(detailsScrollPane.getWidth() - 5);
 						detailsScrollPane.setContent(pane);
 					}catch(IOException e){
+						e.printStackTrace();
+					}
+				}
+				//Details for Year
+				else if(item.getParent().getParent().getValue() == "Courses"){
+					try {
+						AnchorPane pane = FXMLLoader.load(getClass().getResource("/application/properties/yearProperties.fxml")) ;
+						pane.setPrefWidth(detailsScrollPane.getWidth() - 5);
+						detailsScrollPane.setContent(pane);
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+				//Details for Section
+				else if(item.getParent().getParent().getParent().getValue() == "Courses"){
+					try {
+						AnchorPane pane = FXMLLoader.load(getClass().getResource("/application/properties/sectionProperties.fxml")) ;
+						pane.setPrefWidth(detailsScrollPane.getWidth() - 5);
+						detailsScrollPane.setContent(pane);
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				}
@@ -578,5 +611,8 @@ public class FXMLDocumentController implements Initializable{
 	}
 	public static TitledPane getHierarchyPane(){
 		return staticHierarchyPane ;
+	}
+	public static ListView getDepartmentList(){
+		return staticDepartmentList; 
 	}
 }

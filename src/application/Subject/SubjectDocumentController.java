@@ -31,8 +31,7 @@ public class SubjectDocumentController implements Initializable{
 	@FXML private ChoiceBox<String> department ;
 	@FXML private ChoiceBox<String>  course ;
 	@FXML private ChoiceBox<String>  year ;
-	@FXML private ChoiceBox<String>  section ;
-	@FXML private ChoiceBox<String>  teacher ;
+
 	private ArrayList<Department> departmentIndex ;
 	private ArrayList<Course> courseIndex ;
 	private ArrayList<Year> yearIndex ;
@@ -69,8 +68,6 @@ public class SubjectDocumentController implements Initializable{
 				//deselect all
 				course.getSelectionModel().clearSelection();
 				year.getSelectionModel().clearSelection();
-				section.getSelectionModel().clearSelection();
-				teacher.getSelectionModel().clearSelection();
 				
 				for(int x = 0 ; x < courseIndex.size() ; x++){
 					course.getItems().add(courseIndex.get(x).getCourse_name()) ;
@@ -94,9 +91,7 @@ public class SubjectDocumentController implements Initializable{
 					}
 					
 					year.getSelectionModel().clearSelection();
-					section.getSelectionModel().clearSelection();
-					
-					section.getItems().clear();
+
 				}
 			}
 			

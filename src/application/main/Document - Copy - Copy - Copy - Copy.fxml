@@ -144,16 +144,16 @@
          <items>
             <BorderPane fx:id="treeBorderPane" prefHeight="200.0" prefWidth="300.0">
                <center>
-                  <Accordion fx:id = "leftAccordion" focusTraversable="false" maxHeight="1.7976931348623157E308" BorderPane.alignment="CENTER">
+                  <Accordion fx:id="leftAccordion" focusTraversable="false" maxHeight="1.7976931348623157E308" BorderPane.alignment="CENTER">
                      <panes>
-                        <TitledPane fx:id = "hierarchyPane" alignment="CENTER_RIGHT" text="Hierarchy">
+                        <TitledPane fx:id="hierarchyPane" alignment="CENTER_RIGHT" text="Hierarchy">
                            <content>
                               <TreeView fx:id="treeView" prefHeight="200.0" prefWidth="200.0" />
                            </content>
                         </TitledPane>
-                        <TitledPane alignment="CENTER_RIGHT" text="Subjects">
+                        <TitledPane alignment="CENTER_RIGHT" text="Departments">
                            <content>
-                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                              <ListView fx:id="departmentList" prefHeight="200.0" prefWidth="200.0" />
                            </content>
                         </TitledPane>
                         <TitledPane alignment="CENTER_RIGHT" text="Teachers">
