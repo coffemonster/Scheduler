@@ -38,7 +38,7 @@ public class Main extends Application {
 			stage.show();
 						
 			//Load Primary
-			Parent root = FXMLLoader.load(getClass().getResource("/application/main/Document - Copy - Copy - Copy.fxml"));
+			Parent root = FXMLLoader.load(getClass().getResource("/application/main/Document - Copy - Copy - Copy - Copy.fxml"));
 			Scene scene = new Scene(root,screenDimension.getWidth(),screenDimension.getHeight() - 100);
 			scene.getStylesheets().add(getClass().getResource("/application/application.css").toExternalForm());
 			primaryStage.setScene(scene);

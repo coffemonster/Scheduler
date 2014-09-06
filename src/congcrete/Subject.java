@@ -34,6 +34,11 @@ public class Subject {
 		this.subject_unit = subject_unit;
 	}
 
+	@Override
+	public String toString(){
+		return subject_name + "";
+	}
+	
 	public Subject() {
 		// TODO Auto-generated constructor stub
 	}

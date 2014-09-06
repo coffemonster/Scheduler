@@ -185,10 +185,14 @@
                               <ScrollPane fx:id="detailsScrollPane" prefHeight="200.0" prefWidth="225.0" />
                            </content>
                       </TitledPane>
-                      <TitledPane alignment="CENTER_RIGHT" text="Properties">
-                        <content>
-                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-                        </content>
+                      <TitledPane alignment="CENTER_RIGHT" text="Subjects">
+                           <content>
+                              <ScrollPane prefHeight="200.0" prefWidth="200.0">
+                                 <content>
+                                    <VBox fx:id="subjectBox" prefHeight="335.0" prefWidth="388.0" />
+                                 </content>
+                              </ScrollPane>
+                           </content>
                       </TitledPane>
                       <TitledPane alignment="CENTER_RIGHT" text="Priority">
                         <content>

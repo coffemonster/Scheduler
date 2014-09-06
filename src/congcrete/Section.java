@@ -24,6 +24,11 @@ public class Section {
 		this.year = year;
 	}
 
+	@Override
+	public String toString(){
+		return section_id + "" ;
+	}
+	
 	public Section() {
 		// TODO Auto-generated constructor stub
 	}

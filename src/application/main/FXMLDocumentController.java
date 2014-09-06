@@ -20,6 +20,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 import NodeUtils.* ;
 import tree.TreeItemData;
@@ -41,6 +42,7 @@ import congcrete.Teacher;
 import congcrete.Year;
 import database.Connect;
 import adder.node.Adder;
+import application.list.SubjectList;
 public class FXMLDocumentController implements Initializable{
 	
 	@FXML private BorderPane root;
@@ -60,8 +62,8 @@ public class FXMLDocumentController implements Initializable{
 	@FXML private Accordion leftAccordion ;
 	@FXML private TitledPane hierarchyPane ;
 	@FXML private SplitPane splitPane ;
-	@FXML private ListView departmentList ;
-	private static ListView staticDepartmentList ;
+	@FXML private VBox	subjectBox ;
+	private static VBox staticSubjectBox ;
 	private static Accordion staticRightAccordion ;
 	private static TreeView<String> staticTreeView ;
 	private ScaleAnimationProperty scaleProperty ;
@@ -165,7 +167,7 @@ public class FXMLDocumentController implements Initializable{
 	}
 
 	@Override public void initialize(URL url , ResourceBundle rs){
-		
+			
 		//LOGIN WINDOW
 		/*
 		root.getTop().setVisible(false);
@@ -182,14 +184,13 @@ public class FXMLDocumentController implements Initializable{
 		}
 		*/
 		
-		
 		//Assigning Statics
 		staticWorkplacePane = workplacePane ;
 		staticRightAccordion = rightAccordion ;
 		staticDetailsTitledPane = detailsTitledPane ;
 		staticLeftAccordion = leftAccordion ;
 		staticHierarchyPane = hierarchyPane ;
-		staticDepartmentList = departmentList ;
+		staticSubjectBox = subjectBox ;
 		//set Property for adding at worplacePane
 		scaleProperty = new ScaleAnimationProperty(.1 , 1 , .1 , 1 , Duration.millis(200) , 1) ;
 		//Setting School as TreeView root
@@ -202,7 +203,7 @@ public class FXMLDocumentController implements Initializable{
 		//TODO setting the right accrodion
 	
 		
-		//set the details if any Teacher are selected
+		//set the details if any Node are selected
 		staticTreeView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<TreeItem>(){
 			@Override
 			public void changed(ObservableValue<? extends TreeItem> arg0,
@@ -212,9 +213,14 @@ public class FXMLDocumentController implements Initializable{
 					return ;
 				}else if(item.getParent() == null){
 					return ;
+				}else if(!(item instanceof TreeItemData)){
+					return ;
 				}
-				//Details For teachers
-				if(item.getParent().getValue() == "Teachers"){
+				
+				//Details
+				Object itemObject = TreeItemData.getItemData(item) ;
+				
+				if(itemObject instanceof Teacher){
 					try {
 						//Load the AnchorPane Details
 						AnchorPane m = FXMLLoader.load(getClass().getResource("/application/properties/teacherProperties.fxml")) ;
@@ -225,9 +231,7 @@ public class FXMLDocumentController implements Initializable{
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-				}
-				//Details for Department
-				else if(item.getParent().getValue() == "School"){
+				}else if(itemObject instanceof Department){
 					try {
 						AnchorPane pane = FXMLLoader.load(getClass().getResource("/application/properties/departmentProperties.fxml")) ;
 						pane.setPrefWidth(detailsScrollPane.getWidth() - 5) ;
@@ -236,9 +240,7 @@ public class FXMLDocumentController implements Initializable{
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-				}
-				//Details for Courses
-				else if(item.getParent().getValue() == "Courses"){
+				}else if(itemObject instanceof Course){
 					try {
 						AnchorPane pane = FXMLLoader.load(getClass().getResource("/application/properties/courseProperties.fxml")) ;
 						pane.setPrefWidth(detailsScrollPane.getWidth() - 5);
@@ -247,10 +249,7 @@ public class FXMLDocumentController implements Initializable{
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-					
-				}
-				//Details for Rooms
-				else if(item.getParent().getValue() == "Rooms"){
+				}else if(itemObject instanceof Room){
 					try{
 						AnchorPane pane = FXMLLoader.load(getClass().getResource("/application/properties/roomProperties.fxml")) ;
 						pane.setPrefWidth(detailsScrollPane.getWidth() - 5);
@@ -258,9 +257,7 @@ public class FXMLDocumentController implements Initializable{
 					}catch(IOException e){
 						e.printStackTrace();
 					}
-				}
-				//Details for Year
-				else if(item.getParent().getParent().getValue() == "Courses"){
+				}else if(itemObject instanceof Year){
 					try {
 						AnchorPane pane = FXMLLoader.load(getClass().getResource("/application/properties/yearProperties.fxml")) ;
 						pane.setPrefWidth(detailsScrollPane.getWidth() - 5);
@@ -269,19 +266,22 @@ public class FXMLDocumentController implements Initializable{
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-				}
-				//Details for Section
-				else if(item.getParent().getParent().getParent().getValue() == "Courses"){
+				}else if(itemObject instanceof Section){
 					try {
 						AnchorPane pane = FXMLLoader.load(getClass().getResource("/application/properties/sectionProperties.fxml")) ;
 						pane.setPrefWidth(detailsScrollPane.getWidth() - 5);
 						detailsScrollPane.setContent(pane);
+						
+						Section sect = TreeItemData.getItemData(item) ;
+						SubjectList sub = new SubjectList(sect) ;
+						sub.setList(subjectBox);
+								
 					} catch (IOException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				}
-				
+					
 			}
 		});
 		
@@ -612,7 +612,7 @@ public class FXMLDocumentController implements Initializable{
 	public static TitledPane getHierarchyPane(){
 		return staticHierarchyPane ;
 	}
-	public static ListView getDepartmentList(){
-		return staticDepartmentList; 
+	public static VBox getSubjectBox(){
+		return staticSubjectBox ;
 	}
 }
