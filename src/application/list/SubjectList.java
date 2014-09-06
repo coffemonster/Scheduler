@@ -37,10 +37,12 @@ public class SubjectList {
 				subject.setYear(section.getYear());
 								
 				FlowPane pane = new FlowPane() ;
-				ImageView image = new ImageView(new ImageGetter("add70.png").getImage()) ;
+				ImageView image = new ImageView(new ImageGetter("text87.png").getImage()) ;
 				pane.getChildren().add(image) ;
 				Label label = new Label(subject.getSubject_name()) ;
 				pane.getChildren().add(label) ;
+				
+				pane.setStyle("-fx-background-color : red");
 				
 				FXMLDocumentController.getSubjectBox().getChildren().add(pane) ;
 				

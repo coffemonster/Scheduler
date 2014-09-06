@@ -271,11 +271,15 @@ public class FXMLDocumentController implements Initializable{
 						AnchorPane pane = FXMLLoader.load(getClass().getResource("/application/properties/sectionProperties.fxml")) ;
 						pane.setPrefWidth(detailsScrollPane.getWidth() - 5);
 						detailsScrollPane.setContent(pane);
-						
-						Section sect = TreeItemData.getItemData(item) ;
-						SubjectList sub = new SubjectList(sect) ;
-						sub.setList(subjectBox);
-								
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}else if(itemObject instanceof Subject){
+					try {
+						AnchorPane pane = FXMLLoader.load(getClass().getResource("/application/properties/subjectProperties.fxml")) ;
+						pane.setPrefWidth(detailsScrollPane.getWidth() - 5);
+						detailsScrollPane.setContent(pane);
 					} catch (IOException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -534,58 +538,35 @@ public class FXMLDocumentController implements Initializable{
 					e.printStackTrace();
 				}
 				
-				/*
-				//update subjects
+
 				result = Connect.QUERY("SELECT * FROM subjects") ;
 				try {
 					while(result.next()){
 						Subject subject = new Subject() ;
-						subject.setSubject_id(result.getInt(Subject.SECTION_ID));
-						Teacher teacher = Teacher.getTeacher(result.getInt(Subject.TEACHER_ID)) ;
-						subject.setTeacher(teacher);
-						Section section = Section.getSection(result.getInt(Subject.SECTION_ID)) ;
-						subject.setSection(section);
-						subject.setYear(section.getYear());
+						subject.setSubject_id(result.getInt(Subject.SUBJECT_ID));
+						Year year = Year.getYear(result.getInt(Subject.YEAR_ID)) ;
+						subject.setYear(year);
 						subject.setSubject_name(result.getString(Subject.SUBJECT_NAME));
 						subject.setSubject_code(result.getString(Subject.SUBJECT_CODE));
 						subject.setSubject_unit(result.getInt(Subject.SUBJECT_UNIT));
 						
-						Node subjectImg = new ImageView(new ImageGetter("text87.png").getImage()) ;
 						
-						TreeItemData subjectItem = new TreeItemData(subject.getSubject_name() , subjectImg , subject) ;
 						
-						TreeItem<String> root = staticTreeView.getRoot() ;
+						TreeItem<String> root = Year.getItem(subject.getYear().getYear_id()) ;
 						
 						for(int x = 0 ; x < root.getChildren().size() ; x++){
-							TreeItem<String> courseNode = root.getChildren().get(x).getChildren().get(course_node) ;
-							for(int y = 0 ; y < courseNode.getChildren().size() ; y++){
-								TreeItem<String> yearNode = courseNode.getChildren().get(y) ;
-								for(int z = 0 ; z < yearNode.getChildren().size() ; z++){
-									TreeItemData sectionNode = (TreeItemData) yearNode.getChildren().get(z) ;
-									for(int a = 0 ; a < sectionNode.getChildren().size() ; a++){
-										TreeItemData main = (TreeItemData) sectionNode.getChildren().get(a);
-										Section sectionData = (Section) main.getData() ;
-										if(sectionData.getSection_id() == section.getSection_id()){
-											main.getChildren().add(subjectItem);
-										}
-									}
-									//System.out.println("Run at Department = " + sectionNode.getValue());
-									//Section sectionData = (Section) sectionNode.getData() ;
-									//if(sectionData.getSection_id() == section.getSection_id()){
-									//	System.out.print(sectionNode.getValue());
-									//}
-								}
-							}
+							Node subjectImg = new ImageView(new ImageGetter("text87.png").getImage()) ;
+							
+							TreeItemData subjectItem = new TreeItemData(subject.getSubject_name() , subjectImg , subject) ;
+							root.getChildren().get(x).getChildren().add(subjectItem) ;
 						}
-						
-						
 					}
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				
-				*/
+				
 		}
 			
 	}

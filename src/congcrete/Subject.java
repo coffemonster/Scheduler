@@ -16,8 +16,7 @@ public class Subject {
 	private String subject_code ;
 	private int subject_unit ;
 	public static String SUBJECT_ID = "subject_id";
-	public static String TEACHER_ID = "teacher_id";
-	public static String SECTION_ID = "section_id" ; 
+	public static String YEAR_ID = "year_id" ; 
 	public static String SUBJECT_NAME = "subject_name";
 	public static String SUBJECT_CODE = "subject_code";
 	public static String SUBJECT_UNIT = "subject_unit";
@@ -108,11 +107,8 @@ public class Subject {
 				subject.setSubject_code(result.getString(Subject.SUBJECT_CODE));
 				subject.setSubject_name(result.getString(Subject.SUBJECT_NAME));
 				subject.setSubject_unit(result.getInt(Subject.SUBJECT_UNIT));
-				Section section = Section.getSection(result.getInt(Subject.SECTION_ID)) ;
-				subject.setSection(section);
-				subject.setYear(section.getYear());
-				Teacher teacher = Teacher.getTeacher(result.getInt(Subject.TEACHER_ID)) ;
-				subject.setTeacher(teacher);
+				Year year = Year.getYear(result.getInt(Subject.YEAR_ID)) ;
+				subject.setYear(year);
 		
 			}
 		} catch (SQLException e) {
