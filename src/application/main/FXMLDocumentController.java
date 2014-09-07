@@ -108,6 +108,9 @@ public class FXMLDocumentController implements Initializable{
 		animation = new ScaleAnimation(scaleProperty);
 		animation.animate(child);
 		*/
+		
+		//close error box
+		FXMLDocumentController.getWorkplacePane().setBottom(null);
 	}
 
 	/*

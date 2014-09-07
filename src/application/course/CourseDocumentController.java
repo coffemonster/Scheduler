@@ -7,6 +7,7 @@ import java.util.ResourceBundle;
 import tree.TreeItemData;
 import tree.UpdateTree;
 import application.main.FXMLDocumentController;
+import application.validation.Validation;
 import congcrete.Course;
 import congcrete.Department;
 import database.Connect;
@@ -26,18 +27,33 @@ public class CourseDocumentController implements Initializable{
 	private ArrayList<Department> index ;
 	
 	@FXML public void handleAddCourse(ActionEvent e){
-				//get the primary
-				int nextPrimary = Connect.getNextIntegerPrimary("courses", "course_id") ;
-				//get the departmetn
-				int dept = index.get(department.getSelectionModel().getSelectedIndex()).getDept_id() ;
-				Connect.emptyQUERY("INSERT INTO `courses` VALUES(" + nextPrimary + "," + dept + ",'" + courseName.getText() + "','" + 
-									courseCode.getText() + "')") ;
+		//VALIDATION
+		Validation validator = new Validation() ;
+		validator.validateEmpty("Course ", courseName.getText(), courseName);
+		validator.validateTextOnly("Cours", courseName.getText(), courseName);
+		validator.validateEmpty("Course code", courseCode.getText(), courseCode);
+		validator.validateTextWithNumbers("Course code", courseCode.getText(), courseCode);
+		validator.validateChoiceBox("Department", department);
+		
+		if(validator.hasError()){
+			validator.showError();
+			return ;
+		}else{
+			FXMLDocumentController.getWorkplacePane().setBottom(null) ;
+		}
+		
+		//get the primary
+		int nextPrimary = Connect.getNextIntegerPrimary("courses", "course_id") ;
+		//get the departmetn
+		int dept = index.get(department.getSelectionModel().getSelectedIndex()).getDept_id() ;
+		Connect.emptyQUERY("INSERT INTO `courses` VALUES(" + nextPrimary + "," + dept + ",'" + courseName.getText() + "','" + 
+							courseCode.getText() + "')") ;
+		
+		FXMLDocumentController.updateTree();
 				
-				FXMLDocumentController.updateTree();
+		UpdateTree.expandTree();
 				
-				UpdateTree.expandTree();
-				
-				UpdateTree.selectItem(Course.getItem(dept, nextPrimary));
+		UpdateTree.selectItem(Course.getItem(dept, nextPrimary));
 	}
 	
 	@FXML public void removeCourse(MouseEvent e){

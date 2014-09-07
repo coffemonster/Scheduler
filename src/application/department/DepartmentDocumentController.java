@@ -8,7 +8,9 @@ import congcrete.Department;
 import NodeUtils.BounceInTransition;
 import NodeUtils.NodeAnimation;
 import NodeUtils.ScaleAnimation;
+import NodeUtils.ShakeAnimation;
 import application.main.FXMLDocumentController;
+import application.validation.Validation;
 import tree.TreeItemData;
 import tree.UpdateTree;
 import database.Connect;
@@ -33,6 +35,20 @@ public class DepartmentDocumentController implements Initializable{
 	
 	//Handle , Adding in the DB
 	@FXML public void handleAddDepartment(ActionEvent e) throws SQLException{
+		//VALIDATION
+		Validation validator = new Validation() ;
+		validator.validateTextOnly("Department Name", inputDeptName.getText() , inputDeptName);
+		validator.validateEmpty("Department Name", inputDeptName.getText() , inputDeptName);
+		validator.validateTextWithNumbers("Department Code", inputDeptCode.getText() , inputDeptCode);
+		validator.validateEmpty("Department Code", inputDeptCode.getText() , inputDeptCode);
+		
+		if(validator.hasError()){
+			validator.showError();
+			return ;
+		}else{
+			FXMLDocumentController.getWorkplacePane().setBottom(null);
+		}
+		
 		int nextPrimary = Connect.getNextIntegerPrimary("departments", "dept_id") ;
 		Connect.emptyQUERY("INSERT INTO `departments` VALUES(" + nextPrimary + 
 						   ",'" + inputDeptName.getText() + "' , '" + inputDeptCode.getText() + "')");
@@ -50,13 +66,6 @@ public class DepartmentDocumentController implements Initializable{
 	
 	//Closing the Department
 	@FXML public void removeDepartment(MouseEvent e){
-		Platform.runLater(new Runnable(){
-			public void run(){
-				NodeAnimation animation = new ScaleAnimation() ;
-				animation = new ScaleAnimation(1 , .1 , 1 , .1 , Duration.millis(200) , 1) ;
-				animation.animate(rootPane);
-			}
-		});
 		FXMLDocumentController.getWorkplacePane().setCenter(null);
 	}
 	
