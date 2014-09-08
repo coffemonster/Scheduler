@@ -25,6 +25,7 @@ import application.main.FXMLDocumentController;
 import application.main.Main;
 import application.validation.Validation;
 import database.Connect;
+import javafx.application.Platform;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -34,6 +35,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TreeItem;
+import javafx.scene.effect.Effect;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -140,29 +142,32 @@ public class TeacherDocumentController implements Initializable{
 
 		FXMLDocumentController.updateTree();
 		
-		UpdateTree.expandTree();
-		//0 = const node teacher
-		UpdateTree.selectItem(Teacher.getItem(dept_id,nextPrimary));
-		
-		/*
-		TreeItem<String> root = FXMLDocumentController.getTree().getRoot() ;
-		
-		for(int x = 0 ; x < root.getChildren().size() ; x++){
-			//0 for teacher node constant
-			TreeItem<String> teacherConst = root.getChildren().get(x).getChildren().get(0) ;
-			for(int y = 0 ; y < teacherConst.getChildren().size() ; y++){
-				TreeItemData teacher = (TreeItemData) teacherConst.getChildren().get(y) ;
-				Teacher teacherData = TreeItemData.getItemData(teacher) ;
-				if(teacherData.getTeacher_id() == nextPrimary){
-					UpdateTree.selectItem(teacher);
-				}
+		Platform.runLater(new Runnable(){
+
+			@Override
+			public void run() {
+				UpdateTree.expandTree();
+				//0 = const node teacher
+				UpdateTree.selectItem(Teacher.getItem(dept_id,nextPrimary));
 			}
-		}
-		*/
+			
+		});
+		
+		
+		firstName.setText("");
+		lastName.setText("");
+		middleInitial.setText("");
+		department.getSelectionModel().clearSelection();
+		teacherPicture.setImage(new ImageGetter("add70.png").getImage());
+		//the file
+		f = null ;
+		
+		initialize(null , null) ;
 	}
 	
 	public void initialize(URL url , ResourceBundle rsc){
 		index = Department.getDepartmentList() ;
+		department.getItems().clear();
 		for(int x = 0 ; x < index.size() ; x++){
 			department.getItems().add(index.get(x).getDept_name()) ;
 		}

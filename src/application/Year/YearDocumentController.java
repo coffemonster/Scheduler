@@ -60,16 +60,15 @@ public class YearDocumentController implements Initializable{
 		
 		UpdateTree.selectItem(Year.getItem(primary));
 		
+		course.getSelectionModel().clearSelection();
+		department.getSelectionModel().clearSelection();
+		yearLevel.setText("");
+		
+		refreshList() ;
 	}
 	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		// TODO Auto-generated method stub
-		indexDepartment = Department.getDepartmentList() ;
-		for(int x = 0 ; x < indexDepartment.size() ; x++){
-			department.getItems().add(indexDepartment.get(x).getDept_name()) ;
-		}
-		
 		//list all the course available
 		department.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Object>(){
 
@@ -117,6 +116,14 @@ public class YearDocumentController implements Initializable{
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}
+	}
+	
+	public void refreshList(){
+		indexDepartment = Department.getDepartmentList() ;
+		department.getItems().clear();
+		for(int x = 0 ; x < indexDepartment.size() ; x++){
+			department.getItems().add(indexDepartment.get(x).getDept_name()) ;
 		}
 	}
 	

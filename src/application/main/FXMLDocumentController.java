@@ -12,6 +12,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.SplitPane;
 import javafx.scene.control.TitledPane;
+import javafx.scene.control.TreeCell;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 import javafx.scene.image.Image;
@@ -42,6 +43,7 @@ import congcrete.Teacher;
 import congcrete.Year;
 import database.Connect;
 import adder.node.Adder;
+import application.department.DepartmentContextMenu;
 import application.list.SubjectList;
 import application.validation.Validation;
 public class FXMLDocumentController implements Initializable{
@@ -171,22 +173,30 @@ public class FXMLDocumentController implements Initializable{
 	}
 
 	@Override public void initialize(URL url , ResourceBundle rs){
-			
-		//LOGIN WINDOW
+		leftAccordion.setContextMenu(new DepartmentContextMenu());
+		
 		/*
 		root.getTop().setVisible(false);
 		root.getBottom().setVisible(false);
 		root.setCenter(null);
+		*/
+		/*
+		root.setTop(null);
+		root.setBottom(null);
+		root.setCenter(null);
+		root.setStyle("-fx-background-color : #222222");
+		
 		//LOAD the login
 		try {
 			AnchorPane loginPane = FXMLLoader.load(getClass().getResource("/application/login/loginDocument.fxml")) ;
 			//set the center to the loginPane
+			loginPane.setStyle("-fx-background-color : white ");
 			root.setCenter(loginPane);
-			new BounceInTransition(root.getCenter()) ;
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
 		*/
+
 		
 		//Assigning Statics
 		staticWorkplacePane = workplacePane ;
@@ -205,8 +215,7 @@ public class FXMLDocumentController implements Initializable{
 		//set the school expanded
 		staticTreeView.getRoot().setExpanded(true);
 		//TODO setting the right accrodion
-	
-		
+			
 		//set the details if any Node are selected
 		staticTreeView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<TreeItem>(){
 			@Override
@@ -331,6 +340,10 @@ public class FXMLDocumentController implements Initializable{
 						//adding to the Tree
 						TreeItemData deptTreeItem = new TreeItemData(department.getDept_name() , deptImg , department);
 						
+						//TreeCell<String> cell = new TreeCell<String>() ;
+						//FXMLDocumentController.getTree().getRoot().getChildren().add(cell);
+						
+						
 						staticTreeView.getRoot().getChildren().add(deptTreeItem);
 					}
 				}catch(SQLException e){
@@ -372,7 +385,7 @@ public class FXMLDocumentController implements Initializable{
 						Node teacherImg = new ImageView(new ImageGetter("teacher4.png").getImage()) ;
 						
 						//Adding data to TreeItemData
-						String name = data.getLast_name() + " ," + data.getFirst_name() + " " + data.getMiddle_initial() + "." ;
+						String name = data.getLast_name() + " , " + data.getFirst_name() + " " + data.getMiddle_initial() + "." ;
 						TreeItemData teacher = new TreeItemData(name , teacherImg , data) ;
 						
 						TreeItem<String> root = staticTreeView.getRoot() ;

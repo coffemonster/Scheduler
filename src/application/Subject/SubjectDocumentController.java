@@ -90,15 +90,17 @@ public class SubjectDocumentController implements Initializable{
 			public void changed(ObservableValue<? extends Object> arg0,
 					Object arg1, Object arg2) {
 				//get the new List of Course
-				courseIndex = Course.getList(departmentIndex.get(department.getSelectionModel().getSelectedIndex()).getDept_id()) ;
-				course.getItems().clear();
-				//deselect all
-				course.getSelectionModel().clearSelection();
-				year.getSelectionModel().clearSelection();
-				
-				for(int x = 0 ; x < courseIndex.size() ; x++){
-					course.getItems().add(courseIndex.get(x).getCourse_name()) ;
- 				}
+				if(department.getSelectionModel().getSelectedIndex() != -1){
+					courseIndex = Course.getList(departmentIndex.get(department.getSelectionModel().getSelectedIndex()).getDept_id()) ;
+					course.getItems().clear();
+					//deselect all
+					course.getSelectionModel().clearSelection();
+					year.getSelectionModel().clearSelection();
+					
+					for(int x = 0 ; x < courseIndex.size() ; x++){
+						course.getItems().add(courseIndex.get(x).getCourse_name()) ;
+	 				}
+				}
 			}
 			
 		});
@@ -127,6 +129,7 @@ public class SubjectDocumentController implements Initializable{
 	
 	private void refreshList(){
 		departmentIndex = Department.getDepartmentList() ;
+		department.getItems().clear();
 		for(int x = 0 ; x < departmentIndex.size() ; x++){
 			department.getItems().add(departmentIndex.get(x).getDept_name()) ;
 		}

@@ -65,6 +65,7 @@ public class SectionDocumentController implements Initializable{
 		course.getSelectionModel().clearSelection();
 		department.getSelectionModel().clearSelection();
 		year.getSelectionModel().clearSelection();
+		section.setText("");
 		refreshList() ;
 		
 	}
@@ -80,6 +81,9 @@ public class SectionDocumentController implements Initializable{
 			public void changed(ObservableValue<? extends Object> arg0,
 					Object arg1, Object arg2) {
 				//unselect the course and year
+				if(department.getSelectionModel().getSelectedIndex() == -1){
+					return ;
+				}
 				course.getSelectionModel().clearSelection();
 				year.getSelectionModel().clearSelection();
 				section.setText("");
@@ -135,7 +139,6 @@ public class SectionDocumentController implements Initializable{
 				char sectionChar = result.getString(1).charAt(0) ;
 				int sectionInt = Character.getNumericValue(sectionChar) + 56;
 				char newSection = (char)sectionInt ;
-				System.out.print(sectionInt + " = " + (int)'B');
 				section.setText((char)sectionInt + "");
 			}else{
 				section.setText("A");
