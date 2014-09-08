@@ -23,6 +23,7 @@ import congcrete.Teacher;
 import NodeUtils.ImageGetter;
 import application.main.FXMLDocumentController;
 import application.main.Main;
+import application.validation.Validation;
 import database.Connect;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
@@ -87,6 +88,25 @@ public class TeacherDocumentController implements Initializable{
 	
 	//handle add teacher
 	@FXML public void handleAddTeacher(ActionEvent e){
+		//Validation
+		Validation validator = new Validation() ;
+		validator.validateEmpty("Firstname", firstName.getText(), firstName);
+		validator.validateTextOnly("Firstname", firstName.getText(), firstName);
+		validator.validateEmpty("Lastname", lastName.getText(), lastName);
+		validator.validateTextOnly("Lastname", lastName.getText(), lastName);
+		validator.validateEmpty("Middle initial", middleInitial.getText(), middleInitial);
+		validator.validateTextOnly("Middle Initial", middleInitial.getText(), middleInitial);
+		validator.validateMiddleInitial("Middle Initial", middleInitial.getText(), middleInitial);
+		validator.validateChoiceBox("Department", department);
+		validator.validatePicture(f, browsePicture);
+		
+		if(validator.hasError()){
+			validator.showError();
+			return ;
+		}else{
+			Validation.hideError();
+		}
+		
 		//get the next Primary
 		int nextPrimary = Connect.getNextIntegerPrimary("teachers", "teacher_id") ;
 		//get the Department ID

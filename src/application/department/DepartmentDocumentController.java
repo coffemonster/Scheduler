@@ -46,7 +46,7 @@ public class DepartmentDocumentController implements Initializable{
 			validator.showError();
 			return ;
 		}else{
-			FXMLDocumentController.getWorkplacePane().setBottom(null);
+			Validation.hideError();
 		}
 		
 		int nextPrimary = Connect.getNextIntegerPrimary("departments", "dept_id") ;
@@ -61,12 +61,13 @@ public class DepartmentDocumentController implements Initializable{
 		
 		//Select the added
 		UpdateTree.selectItem(Department.getItem(nextPrimary));
-		
 	}
 	
 	//Closing the Department
 	@FXML public void removeDepartment(MouseEvent e){
 		FXMLDocumentController.getWorkplacePane().setCenter(null);
+	
+		Validation.hideError();
 	}
 	
 	public void initialize(URL url , ResourceBundle res){

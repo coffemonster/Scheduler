@@ -1,7 +1,9 @@
 package application.validation;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.regex.Pattern;
 
+import NodeUtils.BackgroundColorAnimation;
 import NodeUtils.ShakeAnimation;
 import application.main.FXMLDocumentController;
 import javafx.beans.value.ChangeListener;
@@ -9,6 +11,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.scene.Node;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ListView;
+import javafx.scene.control.Tooltip;
 
 
 public class Validation {
@@ -23,7 +26,7 @@ public class Validation {
 	
 	public void validateTextOnly(String container , String text , Node holder){
 		text = text.trim() ;
-		if(!text.matches("^[a-zA-Z]*$")){
+		if(!text.matches("^[a-zA-Z\\s]*$")){
 			String error = container + " field contains illegal characters or numbers" ;
 			errorList.add(error) ;
 			nodeList.add(holder) ;
@@ -32,7 +35,7 @@ public class Validation {
 	
 	public void validateTextWithNumbers(String container , String text , Node holder){
 		text = text.trim() ;
-		if(!text.matches("^[a-zA-Z0-9]*$")){
+		if(!text.matches("^[a-zA-Z0-9\\s]*$")){
 			String error = container + " field contains illegal characters" ;
 			errorList.add(error) ;
 			nodeList.add(holder) ;
@@ -62,6 +65,30 @@ public class Validation {
 			return true ;
 		}
 	}
+	
+	public void validateMiddleInitial(String container , String text , Node holder){
+		if(text.trim().length() != 1 && text.trim().length() != 0){
+			String error = container + " contains more than one character" ;
+			errorList.add(error) ;
+			nodeList.add(holder) ;
+		}
+	}
+	
+	public void validatePicture(File picture , Node holder){
+		if(picture == null){
+			String error = "Please select an image" ;
+			errorList.add(error) ;
+			nodeList.add(holder) ;
+		}
+	}
+	
+	public void validateNumberOnly(String container , String text, Node holder){
+		if(!text.trim().matches("^[0-9]*$")){
+			String error = container +  " must be a number" ;
+			errorList.add(error) ;
+			nodeList.add(holder) ;
+		}
+	}
 		
 	public void showError(){
 		ListView errorView = new ListView() ;
@@ -70,7 +97,7 @@ public class Validation {
 		errorView.autosize();
 		errorView.getCellFactory() ;
 		for(int x = 0 ; x < errorList.size() ; x++){
-			errorView.getItems().add(errorList.get(x)) ;
+			errorView.getItems().add("Error : " + errorList.get(x)) ;
 		}
 		FXMLDocumentController.getWorkplacePane().setBottom(errorView);
 		errorView.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Object>(){
@@ -78,12 +105,20 @@ public class Validation {
 			@Override
 			public void changed(ObservableValue<? extends Object> observable,
 					Object oldValue, Object newValue) {
-				Node active = nodeList.get(errorView.getSelectionModel().getSelectedIndex());
+				Node active = nodeList.get(errorView.getSelectionModel().getSelectedIndex());	
+			
+				/*
 				ShakeAnimation shake = new ShakeAnimation(active) ;
 				shake.animate();
+				*/
+				
 			}
 			
 		});
 		
+	}
+	
+	public static void hideError(){
+		FXMLDocumentController.getWorkplacePane().setBottom(null);
 	}
 }

@@ -24,7 +24,7 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		Dimension screenDimension = Toolkit.getDefaultToolkit().getScreenSize();
-		try {
+		try {			
 			//copy for splash purpose
 			copy = primaryStage ;
 			//Load Splash

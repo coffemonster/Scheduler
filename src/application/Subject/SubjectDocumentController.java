@@ -14,6 +14,7 @@ import congcrete.Teacher;
 import congcrete.Year;
 import database.Connect;
 import application.main.FXMLDocumentController;
+import application.validation.Validation;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -37,12 +38,41 @@ public class SubjectDocumentController implements Initializable{
 	private ArrayList<Year> yearIndex ;
 	
 	@FXML public void handleAddSubject(MouseEvent e){
+		//VALIDATION
+		Validation validator = new Validation() ;
+		validator.validateEmpty("Subject", subject.getText(), subject);
+		validator.validateTextWithNumbers("Subject", subject.getText(), subject);
+		validator.validateEmpty("Subject code", subjectCode.getText(), subjectCode);
+		validator.validateTextWithNumbers("Subject code", subjectCode.getText(), subjectCode);
+		validator.validateEmpty("Subject units",units.getText(),units);
+		validator.validateNumberOnly("Subject units",units.getText(),units);
+		validator.validateChoiceBox("department", department);
+		validator.validateChoiceBox("Course", course);
+		validator.validateChoiceBox("Year", year);
+		
+		if(validator.hasError()){
+			validator.showError();
+			return ;
+		}else{
+			Validation.hideError();
+		}
+		
 		int nextPrimary = Connect.getNextIntegerPrimary("subjects", "subject_id") ;
 		int year_id = yearIndex.get(year.getSelectionModel().getSelectedIndex()).getYear_id() ;
 		Connect.emptyQUERY("INSERT INTO subjects VALUES("+ nextPrimary +","+ year_id +",'"+subject.getText()+"','"+subjectCode.getText()+"',"+
 							units.getText() +")");
 		
-		FXMLDocumentController.updateTree();		
+		FXMLDocumentController.updateTree();
+		
+		subject.setText("");
+		subjectCode.setText("");
+		units.setText("");
+		department.getSelectionModel().clearSelection();
+		course.getSelectionModel().clearSelection();
+		year.getSelectionModel().clearSelection();
+		
+		refreshList() ;
+		
 	}
 	
 	@FXML public void removeSubject(MouseEvent e){
@@ -51,11 +81,8 @@ public class SubjectDocumentController implements Initializable{
 	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		// TODO Auto-generated method stub
-		departmentIndex = Department.getDepartmentList() ;
-		for(int x = 0 ; x < departmentIndex.size() ; x++){
-			department.getItems().add(departmentIndex.get(x).getDept_name()) ;
-		}
+
+		refreshList(); 
 		
 		department.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Object>(){
 
@@ -96,6 +123,13 @@ public class SubjectDocumentController implements Initializable{
 			}
 			
 		});
+	}
+	
+	private void refreshList(){
+		departmentIndex = Department.getDepartmentList() ;
+		for(int x = 0 ; x < departmentIndex.size() ; x++){
+			department.getItems().add(departmentIndex.get(x).getDept_name()) ;
+		}
 	}
 	
 }

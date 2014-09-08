@@ -43,6 +43,7 @@ import congcrete.Year;
 import database.Connect;
 import adder.node.Adder;
 import application.list.SubjectList;
+import application.validation.Validation;
 public class FXMLDocumentController implements Initializable{
 	
 	@FXML private BorderPane root;
@@ -110,7 +111,7 @@ public class FXMLDocumentController implements Initializable{
 		*/
 		
 		//close error box
-		FXMLDocumentController.getWorkplacePane().setBottom(null);
+		Validation.hideError();
 	}
 
 	/*

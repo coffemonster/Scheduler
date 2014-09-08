@@ -13,6 +13,7 @@ import congcrete.Section;
 import congcrete.Year;
 import database.Connect;
 import application.main.FXMLDocumentController;
+import application.validation.Validation;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -37,6 +38,19 @@ public class SectionDocumentController implements Initializable{
 	}
 	
 	@FXML public void handleAddSection(ActionEvent e){
+		//VALIDATION
+		Validation validator = new Validation() ;
+		validator.validateChoiceBox("Course", course);
+		validator.validateChoiceBox("Year", year);
+		validator.validateChoiceBox("Department", department);
+		
+		if(validator.hasError()){
+			validator.showError();
+			return ;
+		}else{
+			Validation.hideError();
+		}
+		
 		int nextPrimary = Connect.getNextIntegerPrimary("sections", "section_id") ;
 		int year_id = yearIndex.get(year.getSelectionModel().getSelectedIndex()).getYear_id() ;
 		Connect.emptyQUERY("INSERT INTO sections VALUES(" + nextPrimary + ",'" + section.getText() + "'," + year_id + ")");
@@ -48,15 +62,17 @@ public class SectionDocumentController implements Initializable{
 		
 		UpdateTree.selectItem(Section.getItem(nextPrimary));
 		
+		course.getSelectionModel().clearSelection();
+		department.getSelectionModel().clearSelection();
+		year.getSelectionModel().clearSelection();
+		refreshList() ;
 		
 	}
 	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		departmentIndex = Department.getDepartmentList() ;
-		for(int x = 0 ; x < departmentIndex.size() ; x++){
-			department.getItems().add(departmentIndex.get(x).getDept_name()) ;
-		}
+		
+		refreshList() ;
 		
 		department.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Object>(){
 
@@ -130,4 +146,11 @@ public class SectionDocumentController implements Initializable{
 		}
 	}
 	
+	private void refreshList(){
+		departmentIndex = Department.getDepartmentList() ;
+		department.getItems().clear();
+		for(int x = 0 ; x < departmentIndex.size() ; x++){
+			department.getItems().add(departmentIndex.get(x).getDept_name()) ;
+		}
+	}
 }

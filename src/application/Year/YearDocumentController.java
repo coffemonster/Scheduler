@@ -12,6 +12,7 @@ import congcrete.Department;
 import congcrete.Year;
 import database.Connect;
 import application.main.FXMLDocumentController;
+import application.validation.Validation;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -35,6 +36,18 @@ public class YearDocumentController implements Initializable{
 	}
 	
 	@FXML public void handleAddYear(ActionEvent e){
+		//VALIDATION
+		Validation validator = new Validation() ;
+		validator.validateChoiceBox("Course", course);
+		validator.validateChoiceBox("Department", department);
+		
+		if(validator.hasError()){
+			validator.showError();
+			return ;
+		}else{
+			Validation.hideError();
+		}
+		
 		int course_id = indexCourse.get(course.getSelectionModel().getSelectedIndex()).getCourse_id() ;
 		int primary = Connect.getNextIntegerPrimary("years", "year_id") ;
 		Connect.emptyQUERY("INSERT INTO `years` VALUES(" + primary + "," + year + "," + course_id + ")");

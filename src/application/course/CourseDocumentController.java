@@ -30,7 +30,7 @@ public class CourseDocumentController implements Initializable{
 		//VALIDATION
 		Validation validator = new Validation() ;
 		validator.validateEmpty("Course ", courseName.getText(), courseName);
-		validator.validateTextOnly("Cours", courseName.getText(), courseName);
+		validator.validateTextOnly("Course", courseName.getText(), courseName);
 		validator.validateEmpty("Course code", courseCode.getText(), courseCode);
 		validator.validateTextWithNumbers("Course code", courseCode.getText(), courseCode);
 		validator.validateChoiceBox("Department", department);
@@ -54,15 +54,24 @@ public class CourseDocumentController implements Initializable{
 		UpdateTree.expandTree();
 				
 		UpdateTree.selectItem(Course.getItem(dept, nextPrimary));
+		
+		courseName.setText("");
+		courseCode.setText("");
+		department.getSelectionModel().clearSelection();
+		
+		this.initialize(null, null);
+
 	}
 	
 	@FXML public void removeCourse(MouseEvent e){
 		FXMLDocumentController.getWorkplacePane().setCenter(null);
+		Validation.hideError();
 	}
 	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		index = Department.getDepartmentList() ;
+		department.getItems().clear();
 		for(int x = 0 ; x < index.size() ;x++){
 			department.getItems().add(index.get(x).getDept_name()) ;
 		}
