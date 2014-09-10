@@ -4,6 +4,10 @@ import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.sql.SQLException ;
 
+import org.controlsfx.dialog.Dialog;
+import org.controlsfx.dialog.Dialogs;
+import org.controlsfx.dialog.Dialogs.UserInfo;
+
 import application.splash.SplashDocumentController;
 import database.Connect;
 import javafx.application.Application;
@@ -24,7 +28,8 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		Dimension screenDimension = Toolkit.getDefaultToolkit().getScreenSize();
-		try {			
+		try {
+		
 			//copy for splash purpose
 			copy = primaryStage ;
 			//Load Splash

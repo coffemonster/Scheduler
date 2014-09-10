@@ -5,25 +5,37 @@ import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.fxml.* ;
 import javafx.scene.Node;
 import javafx.scene.control.Accordion;
+import javafx.scene.control.ContextMenu;
 import javafx.scene.control.ListView;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.SplitPane;
+import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
 import javafx.scene.control.TreeCell;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.ClipboardContent;
+import javafx.scene.input.DragEvent;
+import javafx.scene.input.Dragboard;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.input.TransferMode;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.util.Callback;
 import javafx.util.Duration;
 import NodeUtils.* ;
+import tree.TreeCellFactory;
 import tree.TreeItemData;
 import tree.UpdateTree;
 
@@ -33,6 +45,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.ResourceBundle ;
+
+import org.controlsfx.dialog.Dialog;
+import org.controlsfx.dialog.DialogStyle;
+import org.controlsfx.dialog.Dialogs;
+import org.controlsfx.dialog.Dialogs.UserInfo;
 
 import congcrete.Course;
 import congcrete.Department;
@@ -75,6 +92,7 @@ public class FXMLDocumentController implements Initializable{
 	private static TitledPane staticDetailsTitledPane ;
 	private static Accordion staticLeftAccordion ;
 	private static TitledPane staticHierarchyPane ;
+	private static FXMLDocumentController staticInstance ;
 	
 	/*
 	 * MENU CONTROLS HANDLER
@@ -173,8 +191,7 @@ public class FXMLDocumentController implements Initializable{
 	}
 
 	@Override public void initialize(URL url , ResourceBundle rs){
-		leftAccordion.setContextMenu(new DepartmentContextMenu());
-		
+			
 		/*
 		root.getTop().setVisible(false);
 		root.getBottom().setVisible(false);
@@ -199,6 +216,7 @@ public class FXMLDocumentController implements Initializable{
 
 		
 		//Assigning Statics
+		staticInstance = this ;
 		staticWorkplacePane = workplacePane ;
 		staticRightAccordion = rightAccordion ;
 		staticDetailsTitledPane = detailsTitledPane ;
@@ -210,12 +228,13 @@ public class FXMLDocumentController implements Initializable{
 		//Setting School as TreeView root
 		Node img = new ImageView(new ImageGetter("school47.png").getImage()) ;
 		treeView.setRoot(new TreeItem<String>("School" , img));
+				
 		staticTreeView = treeView ;
 		updateTree();
 		//set the school expanded
 		staticTreeView.getRoot().setExpanded(true);
 		//TODO setting the right accrodion
-			
+					
 		//set the details if any Node are selected
 		staticTreeView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<TreeItem>(){
 			@Override
@@ -314,8 +333,9 @@ public class FXMLDocumentController implements Initializable{
 			}
 			
 		});
-	
+		
 	}
+	
 	//update the tree
 	public static void updateTree(){
 			int teacher_node = 0 ;
@@ -584,10 +604,22 @@ public class FXMLDocumentController implements Initializable{
 				}
 				
 				
+				staticTreeView.setCellFactory(new Callback<TreeView<String> , TreeCell<String>>(){
+
+					@Override
+					public TreeCell<String> call(TreeView<String> arg0) {
+						// TODO Auto-generated method stub
+						return new TreeCellFactory();
+					}
+					
+				});
+				
 		}
 			
+			
+			
 	}
-
+	
 	//getters
 	//get the editable workplace
 	public static BorderPane getWorkplacePane(){
@@ -612,5 +644,9 @@ public class FXMLDocumentController implements Initializable{
 	}
 	public static VBox getSubjectBox(){
 		return staticSubjectBox ;
+	}
+	
+	public static FXMLDocumentController getInstance(){
+		return staticInstance ;
 	}
 }
