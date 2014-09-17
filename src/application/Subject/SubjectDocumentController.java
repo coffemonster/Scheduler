@@ -59,24 +59,21 @@ public class SubjectDocumentController implements Initializable{
 		
 		int nextPrimary = Connect.getNextIntegerPrimary("subjects", "subject_id") ;
 		int year_id = yearIndex.get(year.getSelectionModel().getSelectedIndex()).getYear_id() ;
-		Connect.emptyQUERY("INSERT INTO subjects VALUES("+ nextPrimary +","+ year_id +",'"+subject.getText()+"','"+subjectCode.getText()+"',"+
+		Connect.emptyQUERY("INSERT INTO subjects VALUES("+ nextPrimary +","+ year_id +",'"+subject.getText().trim()+"','"+subjectCode.getText().trim()+"',"+
 							units.getText() +")");
 		
 		FXMLDocumentController.updateTree();
 		
+		FXMLDocumentController.getInstance().getTree().getSelectionModel().select(Year.getItem(year_id));
+		
 		subject.setText("");
 		subjectCode.setText("");
 		units.setText("");
-		department.getSelectionModel().clearSelection();
-		course.getSelectionModel().clearSelection();
-		year.getSelectionModel().clearSelection();
-		
-		refreshList() ;
 		
 	}
 	
 	@FXML public void removeSubject(MouseEvent e){
-		FXMLDocumentController.getWorkplacePane().setCenter(null);
+		FXMLDocumentController.getInstance().getWorkplacePane().setCenter(null);
 	}
 	
 	@Override

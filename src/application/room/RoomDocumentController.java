@@ -1,6 +1,8 @@
 package application.room;
 
 import java.net.URL;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
@@ -46,8 +48,8 @@ public class RoomDocumentController implements Initializable{
 		int nextPrimary = Connect.getNextIntegerPrimary("rooms", "room_id") ;
 		//get the departmetn
 		int dept = index.get(department.getSelectionModel().getSelectedIndex()).getDept_id() ;
-		Connect.emptyQUERY("INSERT INTO `rooms` VALUES(" + nextPrimary + " , " + dept + " , '" + roomName.getText() + "' , '" + 
-							roomCode.getText() + "')");
+		Connect.emptyQUERY("INSERT INTO `rooms` VALUES(" + nextPrimary + " , " + dept + " , '" + roomName.getText().trim() + "' , '" + 
+							roomCode.getText().trim() + "')");
 		
 		FXMLDocumentController.updateTree();
 		
@@ -63,7 +65,7 @@ public class RoomDocumentController implements Initializable{
 	}
 	
 	@FXML public void removeRoom(MouseEvent e){
-		FXMLDocumentController.getWorkplacePane().setCenter(null);
+		FXMLDocumentController.getInstance().getWorkplacePane().setCenter(null);
 		Validation.hideError();
 	}
 	

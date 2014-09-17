@@ -24,7 +24,7 @@ public class CoursePropertiesController implements Initializable{
 	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		TreeItem<String> courseItem = (TreeItemData) FXMLDocumentController.getTree().getSelectionModel().getSelectedItem();
+		TreeItem<String> courseItem = (TreeItemData) FXMLDocumentController.getInstance().getTree().getSelectionModel().getSelectedItem();
 		Course courseData = TreeItemData.getItemData(courseItem) ;
 		course.setText(courseData.getCourse_name());
 		courseCode.setText(courseData.getCourse_code());
@@ -36,12 +36,11 @@ public class CoursePropertiesController implements Initializable{
 			result.next();
 			year.setText(result.getInt("year") + "");
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
-		if(FXMLDocumentController.getRightAccordion().getExpandedPane() == null){
-			FXMLDocumentController.getRightAccordion().setExpandedPane(FXMLDocumentController.getDetailsTitledPane());
+		if(FXMLDocumentController.getInstance().getRightAccordion().getExpandedPane() == null){
+			FXMLDocumentController.getInstance().getRightAccordion().setExpandedPane(FXMLDocumentController.getInstance().getDetailsTitledPane());
 		}
 	}
 	

@@ -13,7 +13,7 @@
 
 <BorderPane fx:id="root" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.main.FXMLDocumentController">
    <top>
-      <VBox prefHeight="162.0" prefWidth="800.0" BorderPane.alignment="CENTER">
+      <VBox fx:id="topPart" prefHeight="162.0" prefWidth="800.0" BorderPane.alignment="CENTER">
          <children>
             <MenuBar>
               <menus>
@@ -134,13 +134,13 @@
       </VBox>
    </top>
    <bottom>
-      <FlowPane alignment="CENTER_LEFT" prefHeight="24.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+      <FlowPane fx:id="bottomPart" alignment="CENTER_LEFT" prefHeight="24.0" prefWidth="600.0" BorderPane.alignment="CENTER">
          <children>
             <Label text=" Status : " />
          </children></FlowPane>
    </bottom>
    <center>
-      <SplitPane dividerPositions="0.5, 0.5" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+      <SplitPane fx:id="middlePart" dividerPositions="0.5, 0.5" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <items>
             <BorderPane fx:id="treeBorderPane" prefHeight="200.0" prefWidth="300.0">
                <center>

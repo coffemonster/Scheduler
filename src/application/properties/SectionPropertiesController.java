@@ -18,15 +18,15 @@ public class SectionPropertiesController implements Initializable{
 	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		// TODO Auto-generated method stub
-		TreeItem<String> item = (TreeItemData)FXMLDocumentController.getTree().getSelectionModel().getSelectedItem();
+		
+		TreeItem<String> item = (TreeItemData)FXMLDocumentController.getInstance().getTree().getSelectionModel().getSelectedItem();
 		Section sectionData = TreeItemData.getItemData(item) ;
 		
 		section.setText(sectionData.getSection());
 		year.setText(sectionData.getYear().getYear() + "");
 		
-		if(FXMLDocumentController.getRightAccordion().getExpandedPane() == null){
-			FXMLDocumentController.getRightAccordion().setExpandedPane(FXMLDocumentController.getDetailsTitledPane());
+		if(FXMLDocumentController.getInstance().getRightAccordion().getExpandedPane() == null){
+			FXMLDocumentController.getInstance().getRightAccordion().setExpandedPane(FXMLDocumentController.getInstance().getDetailsTitledPane());
 		}
 	}
 

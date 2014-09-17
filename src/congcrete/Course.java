@@ -28,7 +28,7 @@ public class Course {
 	}
 
 	public Course() {
-		// TODO Auto-generated constructor stub
+	
 	}
 
 	public int getCourse_id() {
@@ -77,7 +77,6 @@ public class Course {
 				index.add(course) ;
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return index ;
@@ -96,7 +95,6 @@ public class Course {
 			course.setCourse_name(result.getString(Course.COURSE_NAME)) ;
 			return course ;
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return null ;

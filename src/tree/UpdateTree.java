@@ -17,13 +17,13 @@ public class UpdateTree {
 	private static ArrayList<String> values ;
 	
 	public static void expandTree(){
-		if(FXMLDocumentController.getLeftAccordion().getExpandedPane() == null){
-			FXMLDocumentController.getLeftAccordion().setExpandedPane(FXMLDocumentController.getHierarchyPane());
+		if(FXMLDocumentController.getInstance().getLeftAccordion().getExpandedPane() == null){
+			FXMLDocumentController.getInstance().getLeftAccordion().setExpandedPane(FXMLDocumentController.getInstance().getHierarchyPane());
 		}
 	}
 	
 	public static void selectItem(TreeItem<String> item){
-		FXMLDocumentController.getTree().getSelectionModel().select(item);
+		FXMLDocumentController.getInstance().getTree().getSelectionModel().select(item);
 	}
 	
 }

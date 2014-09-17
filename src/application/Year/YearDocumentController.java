@@ -26,13 +26,13 @@ public class YearDocumentController implements Initializable{
 	
 	@FXML private TextField yearLevel ;
 	@FXML private ChoiceBox course  ;
-	@FXML private ChoiceBox department ;
+	@FXML private ChoiceBox<String> department ;
 	private ArrayList<Department> indexDepartment ;
 	private ArrayList<Course> indexCourse ;
 	private int year ;
 	
 	@FXML public void removeYear(MouseEvent e){
-		FXMLDocumentController.getWorkplacePane().setCenter(null);
+		FXMLDocumentController.getInstance().getWorkplacePane().setCenter(null);
 	}
 	
 	@FXML public void handleAddYear(ActionEvent e){
@@ -69,6 +69,9 @@ public class YearDocumentController implements Initializable{
 	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
+		
+		refreshList() ;
+		
 		//list all the course available
 		department.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Object>(){
 
@@ -76,6 +79,10 @@ public class YearDocumentController implements Initializable{
 			public void changed(ObservableValue<? extends Object> arg0,
 					Object arg1, Object arg2) {
 				//get the list of course associated in the dept_id
+				//if there is no selected
+				if(department.getSelectionModel().getSelectedIndex() < 0){
+					return ;
+				}
 				yearLevel.setText("");
 				indexCourse = Course.getList(indexDepartment.get(department.getSelectionModel().getSelectedIndex()).getDept_id()) ;
 				course.getItems().clear();
@@ -114,7 +121,6 @@ public class YearDocumentController implements Initializable{
 				year = 1 ;
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

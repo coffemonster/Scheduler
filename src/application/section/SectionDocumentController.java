@@ -34,7 +34,7 @@ public class SectionDocumentController implements Initializable{
 	private ArrayList<Year> yearIndex ;
 	
 	@FXML public void removeSection(MouseEvent e){
-		FXMLDocumentController.getWorkplacePane().setCenter(null);
+		FXMLDocumentController.getInstance().getWorkplacePane().setCenter(null);
 	}
 	
 	@FXML public void handleAddSection(ActionEvent e){
@@ -62,12 +62,13 @@ public class SectionDocumentController implements Initializable{
 		
 		UpdateTree.selectItem(Section.getItem(nextPrimary));
 		
+		/*
 		course.getSelectionModel().clearSelection();
 		department.getSelectionModel().clearSelection();
 		year.getSelectionModel().clearSelection();
 		section.setText("");
-		refreshList() ;
-		
+		*/
+		refreshSection() ;
 	}
 	
 	@Override
@@ -144,7 +145,6 @@ public class SectionDocumentController implements Initializable{
 				section.setText("A");
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

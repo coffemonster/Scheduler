@@ -9,14 +9,14 @@
 <AnchorPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="194.0" prefWidth="600.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.department.DepartmentDocumentController">
    <children>
       <TextField fx:id="inputDeptName" layoutX="279.0" layoutY="46.0" prefHeight="25.0" prefWidth="200.0" promptText="Name of the Department..." />
-      <Label layoutX="121.0" layoutY="45.0" text="Department Name">
+      <Label layoutX="112.0" layoutY="46.0" text="Department Name">
          <font>
-            <Font size="18.0" />
+            <Font name="System Bold" size="18.0" />
          </font>
       </Label>
-      <Label layoutX="127.0" layoutY="85.0" text="Department Code">
+      <Label layoutX="118.0" layoutY="86.0" text="Department Code">
          <font>
-            <Font size="18.0" />
+            <Font name="System Bold" size="18.0" />
          </font>
       </Label>
       <TextField fx:id="inputDeptCode" layoutX="279.0" layoutY="86.0" prefHeight="25.0" prefWidth="200.0" promptText="Department Code..." />

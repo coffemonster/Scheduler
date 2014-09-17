@@ -26,6 +26,7 @@ import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.AnchorPane;
@@ -43,6 +44,7 @@ import java.io.IOException;
 import java.net.* ;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.ResourceBundle ;
 
@@ -62,6 +64,9 @@ import database.Connect;
 import adder.node.Adder;
 import application.department.DepartmentContextMenu;
 import application.list.SubjectList;
+import application.menu.TeacherContextMenu;
+import application.priority.PriorityTime;
+import application.scheduler.Scheduler;
 import application.validation.Validation;
 public class FXMLDocumentController implements Initializable{
 	
@@ -83,16 +88,10 @@ public class FXMLDocumentController implements Initializable{
 	@FXML private TitledPane hierarchyPane ;
 	@FXML private SplitPane splitPane ;
 	@FXML private VBox	subjectBox ;
-	private static VBox staticSubjectBox ;
-	private static Accordion staticRightAccordion ;
-	private static TreeView<String> staticTreeView ;
 	private ScaleAnimationProperty scaleProperty ;
 	private NodeAnimation animation ;
-	private static BorderPane staticWorkplacePane ;
-	private static TitledPane staticDetailsTitledPane ;
-	private static Accordion staticLeftAccordion ;
-	private static TitledPane staticHierarchyPane ;
 	private static FXMLDocumentController staticInstance ;
+	private TeacherContextMenu teacherMenu ;
 	
 	/*
 	 * MENU CONTROLS HANDLER
@@ -191,7 +190,32 @@ public class FXMLDocumentController implements Initializable{
 	}
 
 	@Override public void initialize(URL url , ResourceBundle rs){
+				
+		//teacher Context menu
+		teacherMenu = new TeacherContextMenu() ;
+		teacherMenu.setAutoHide(true);
+		
+		treeView.setOnMouseClicked(new EventHandler<MouseEvent>(){
+
+			@Override
+			public void handle(MouseEvent e) {
+				teacherMenu.hide();
+				if(e.getButton() == MouseButton.SECONDARY){
+					TreeItem<String> teacherItem = treeView.getSelectionModel().getSelectedItem() ;
+					if(teacherItem instanceof TreeItemData){
+						TreeItemData teacherItemData = (TreeItemData)teacherItem ;
+						if(teacherItemData.getData() instanceof Teacher){
+							teacherMenu.show(treeView , e.getScreenX() , e.getScreenY());
+						}
+					}else{
+						e.consume();
+					}
+				}
+			}
 			
+		});
+		
+		
 		/*
 		root.getTop().setVisible(false);
 		root.getBottom().setVisible(false);
@@ -217,29 +241,24 @@ public class FXMLDocumentController implements Initializable{
 		
 		//Assigning Statics
 		staticInstance = this ;
-		staticWorkplacePane = workplacePane ;
-		staticRightAccordion = rightAccordion ;
-		staticDetailsTitledPane = detailsTitledPane ;
-		staticLeftAccordion = leftAccordion ;
-		staticHierarchyPane = hierarchyPane ;
-		staticSubjectBox = subjectBox ;
+		
 		//set Property for adding at worplacePane
 		scaleProperty = new ScaleAnimationProperty(.1 , 1 , .1 , 1 , Duration.millis(200) , 1) ;
 		//Setting School as TreeView root
 		Node img = new ImageView(new ImageGetter("school47.png").getImage()) ;
 		treeView.setRoot(new TreeItem<String>("School" , img));
 				
-		staticTreeView = treeView ;
 		updateTree();
 		//set the school expanded
-		staticTreeView.getRoot().setExpanded(true);
-		//TODO setting the right accrodion
+		treeView.getRoot().setExpanded(true);
+		//set the Hierarchy as Open
+		leftAccordion.setExpandedPane(hierarchyPane); 
 					
 		//set the details if any Node are selected
-		staticTreeView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<TreeItem>(){
+		treeView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<TreeItem>(){
 			@Override
 			public void changed(ObservableValue<? extends TreeItem> arg0,
-					TreeItem arg1, TreeItem item) {
+					TreeItem arg1, TreeItem item) {	
 				//to prevent exception null
 				if(item == null){
 					return ;
@@ -260,7 +279,6 @@ public class FXMLDocumentController implements Initializable{
 						detailsScrollPane.setContent(m);
 
 					} catch (IOException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				}else if(itemObject instanceof Department){
@@ -269,7 +287,6 @@ public class FXMLDocumentController implements Initializable{
 						pane.setPrefWidth(detailsScrollPane.getWidth() - 5) ;
 						detailsScrollPane.setContent(pane);
 					} catch (IOException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				}else if(itemObject instanceof Course){
@@ -278,7 +295,6 @@ public class FXMLDocumentController implements Initializable{
 						pane.setPrefWidth(detailsScrollPane.getWidth() - 5);
 						detailsScrollPane.setContent(pane);
 					} catch (IOException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				}else if(itemObject instanceof Room){
@@ -295,7 +311,6 @@ public class FXMLDocumentController implements Initializable{
 						pane.setPrefWidth(detailsScrollPane.getWidth() - 5);
 						detailsScrollPane.setContent(pane);
 					} catch (IOException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				}else if(itemObject instanceof Section){
@@ -304,7 +319,6 @@ public class FXMLDocumentController implements Initializable{
 						pane.setPrefWidth(detailsScrollPane.getWidth() - 5);
 						detailsScrollPane.setContent(pane);
 					} catch (IOException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				}else if(itemObject instanceof Subject){
@@ -313,7 +327,6 @@ public class FXMLDocumentController implements Initializable{
 						pane.setPrefWidth(detailsScrollPane.getWidth() - 5);
 						detailsScrollPane.setContent(pane);
 					} catch (IOException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				}
@@ -347,7 +360,7 @@ public class FXMLDocumentController implements Initializable{
 				//Adding The Departments
 				ResultSet result = Connect.QUERY("SELECT * FROM `departments`") ;
 				//emptying TreeView
-				staticTreeView.getRoot().getChildren().clear();
+				FXMLDocumentController.getInstance().getTree().getRoot().getChildren().clear();
 				try{
 					while(result.next()){
 						//set the data to insert in the TreeItemData
@@ -364,14 +377,15 @@ public class FXMLDocumentController implements Initializable{
 						//FXMLDocumentController.getTree().getRoot().getChildren().add(cell);
 						
 						
-						staticTreeView.getRoot().getChildren().add(deptTreeItem);
+						FXMLDocumentController.getInstance().getTree().getRoot().getChildren().add(deptTreeItem);
 					}
 				}catch(SQLException e){
 					e.printStackTrace();
 				}
 				
 				//Adding the teacher , room , course to Department
-				for(int x = 0 ; x < staticTreeView.getRoot().getChildren().size() ; x++){
+				TreeView<String> tree = FXMLDocumentController.getInstance().getTree() ;
+				for(int x = 0 ; x < tree.getRoot().getChildren().size() ; x++){
 					Node teacherImg = new ImageView(new ImageGetter("instructor1.png").getImage()) ;
 					TreeItem<String> teacher = new TreeItem<String>("Teachers" , teacherImg) ;
 					Node roomImg = new ImageView(new ImageGetter("house112.png").getImage()) ;
@@ -381,9 +395,9 @@ public class FXMLDocumentController implements Initializable{
 					teacher.setValue("Teachers");
 					room.setValue("Rooms");
 					course.setValue("Courses");
-					staticTreeView.getRoot().getChildren().get(x).getChildren().add(teacher) ;
-					staticTreeView.getRoot().getChildren().get(x).getChildren().add(room) ;
-					staticTreeView.getRoot().getChildren().get(x).getChildren().add(course) ;
+					tree.getRoot().getChildren().get(x).getChildren().add(teacher) ;
+					tree.getRoot().getChildren().get(x).getChildren().add(room) ;
+					tree.getRoot().getChildren().get(x).getChildren().add(course) ;
 				}
 				
 				//update Teachers
@@ -408,7 +422,7 @@ public class FXMLDocumentController implements Initializable{
 						String name = data.getLast_name() + " , " + data.getFirst_name() + " " + data.getMiddle_initial() + "." ;
 						TreeItemData teacher = new TreeItemData(name , teacherImg , data) ;
 						
-						TreeItem<String> root = staticTreeView.getRoot() ;
+						TreeItem<String> root = tree.getRoot() ;
 						
 						for(int x = 0 ; x < root.getChildren().size() ; x++){
 							TreeItemData treeItem = (TreeItemData) root.getChildren().get(x) ;
@@ -419,7 +433,6 @@ public class FXMLDocumentController implements Initializable{
 						}
 					}
 				} catch (SQLException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				
@@ -441,7 +454,7 @@ public class FXMLDocumentController implements Initializable{
 						//Adding data to TreeItemData
 						TreeItemData room = new TreeItemData(roomData.getRoom_name() , roomImg , roomData) ;
 						
-						TreeItem<String> root = staticTreeView.getRoot() ;
+						TreeItem<String> root = tree.getRoot() ;
 												
 						for(int x = 0 ; x < root.getChildren().size() ; x++){
 							TreeItemData treeItem = (TreeItemData) root.getChildren().get(x) ;
@@ -452,7 +465,6 @@ public class FXMLDocumentController implements Initializable{
 						}
 					}
 				} catch (SQLException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				
@@ -474,7 +486,7 @@ public class FXMLDocumentController implements Initializable{
 						//Adding data to TreeItemData
 						TreeItemData courseItem = new TreeItemData(course.getCourse_name() , courseImg , course) ;
 						
-						TreeItem<String> root = staticTreeView.getRoot() ;
+						TreeItem<String> root = tree.getRoot() ;
 												
 						for(int x = 0 ; x < root.getChildren().size() ; x++){
 							TreeItemData treeItem = (TreeItemData) root.getChildren().get(x) ;
@@ -485,7 +497,6 @@ public class FXMLDocumentController implements Initializable{
 						}
 					}
 				} catch (SQLException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				
@@ -507,7 +518,7 @@ public class FXMLDocumentController implements Initializable{
 						//Adding data to TreeItemData
 						TreeItemData yearItem = new TreeItemData(Year.getYearText(year.getYear()) , yearImg , year) ;
 						
-						TreeItem<String> root = staticTreeView.getRoot() ;
+						TreeItem<String> root = tree.getRoot() ;
 												
 						for(int x = 0 ; x < root.getChildren().size() ; x++){
 							TreeItemData treeItem = (TreeItemData) root.getChildren().get(x) ;
@@ -524,7 +535,6 @@ public class FXMLDocumentController implements Initializable{
 						}
 					}
 				} catch (SQLException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				
@@ -544,7 +554,7 @@ public class FXMLDocumentController implements Initializable{
 						TreeItemData sectionItem = new TreeItemData(year.getYear() + "" + section.getSection() , sectionImg , section) ;
 						//sectionItem.setValue(section.getSection_id() + "");
 						
-						TreeItem<String> root = staticTreeView.getRoot() ;
+						TreeItem<String> root = tree.getRoot() ;
 						
 						for(int x = 0 ; x < root.getChildren().size() ; x++){
 							TreeItemData treeItem = (TreeItemData) root.getChildren().get(x) ;
@@ -571,7 +581,6 @@ public class FXMLDocumentController implements Initializable{
 						}
 					}
 				} catch (SQLException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				
@@ -599,16 +608,14 @@ public class FXMLDocumentController implements Initializable{
 						}
 					}
 				} catch (SQLException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				
 				
-				staticTreeView.setCellFactory(new Callback<TreeView<String> , TreeCell<String>>(){
+				tree.setCellFactory(new Callback<TreeView<String> , TreeCell<String>>(){
 
 					@Override
 					public TreeCell<String> call(TreeView<String> arg0) {
-						// TODO Auto-generated method stub
 						return new TreeCellFactory();
 					}
 					
@@ -622,28 +629,28 @@ public class FXMLDocumentController implements Initializable{
 	
 	//getters
 	//get the editable workplace
-	public static BorderPane getWorkplacePane(){
-		return staticWorkplacePane ;
+	public BorderPane getWorkplacePane(){
+		return workplacePane ;
 	}
 	
-	public static TreeView getTree(){
-		return staticTreeView ;
+	public TreeView getTree(){
+		return treeView ;
 	}
 	
-	public static Accordion getRightAccordion(){
-		return staticRightAccordion ;
+	public Accordion getRightAccordion(){
+		return rightAccordion ;
 	}
-	public static TitledPane getDetailsTitledPane(){
-		return staticDetailsTitledPane ;
+	public TitledPane getDetailsTitledPane(){
+		return detailsTitledPane ;
 	}
-	public static Accordion getLeftAccordion(){
-		return staticLeftAccordion ;
+	public Accordion getLeftAccordion(){
+		return leftAccordion ;
 	}
-	public static TitledPane getHierarchyPane(){
-		return staticHierarchyPane ;
+	public TitledPane getHierarchyPane(){
+		return hierarchyPane ;
 	}
-	public static VBox getSubjectBox(){
-		return staticSubjectBox ;
+	public VBox getSubjectBox(){
+		return subjectBox ;
 	}
 	
 	public static FXMLDocumentController getInstance(){

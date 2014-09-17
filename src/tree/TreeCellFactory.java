@@ -2,6 +2,7 @@ package tree;
 
 import congcrete.Year;
 import application.main.FXMLDocumentController;
+import application.menu.TeacherContextMenu;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.scene.control.ContextMenu;
@@ -20,19 +21,10 @@ import javafx.scene.input.TransferMode;
 public class TreeCellFactory extends TreeCell<String> {
 	 
     private TextField textField;
-    private ContextMenu addMenu = new ContextMenu();
-    private boolean used = false ;
+    private ContextMenu teacherContextMenu = new TeacherContextMenu() ;
 
     public TreeCellFactory() {
-        MenuItem addMenuItem = new MenuItem("Add Employee");
-        addMenu.getItems().add(addMenuItem);
-        addMenuItem.setOnAction(new EventHandler() {
-            public void handle(Event t) {
-                TreeItem newEmployee = 
-                    new TreeItem<String>("New Employee");
-                        getTreeItem().getChildren().add(newEmployee);
-            }
-        });
+        
     }
     
     /*
@@ -65,7 +57,7 @@ public class TreeCellFactory extends TreeCell<String> {
             setText(null);
             setGraphic(null);
         } else {
-            
+            	        	
             	setText(getString());
                 setGraphic(getTreeItem().getGraphic());
                 

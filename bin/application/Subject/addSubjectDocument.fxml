@@ -25,17 +25,12 @@
             <Font size="18.0" />
          </font>
       </Label>
+      <TextField fx:id="units" layoutX="262.0" layoutY="116.0" prefHeight="25.0" prefWidth="200.0" />
       <Label layoutX="210.0" layoutY="232.0" text="Year">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <ChoiceBox fx:id="year" layoutX="264.0" layoutY="233.0" prefHeight="25.0" prefWidth="200.0" />
-      <Button layoutX="406.0" layoutY="273.0" mnemonicParsing="false" onMouseClicked="#handleAddSubject" style="-fx-base: #222222;" text="Finish">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Button>
       <Label layoutX="151.0" layoutY="156.0" text="Department">
          <font>
             <Font size="18.0" />
@@ -48,7 +43,12 @@
          </font>
       </Label>
       <ChoiceBox fx:id="course" layoutX="264.0" layoutY="192.0" prefHeight="25.0" prefWidth="200.0" />
-      <TextField fx:id="units" layoutX="262.0" layoutY="116.0" prefHeight="25.0" prefWidth="200.0" />
+      <ChoiceBox fx:id="year" layoutX="264.0" layoutY="233.0" prefHeight="25.0" prefWidth="200.0" />
+      <Button layoutX="406.0" layoutY="273.0" mnemonicParsing="false" onMouseClicked="#handleAddSubject" style="-fx-base: #222222;" text="Finish">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Button>
       <ImageView fitHeight="25.0" fitWidth="27.0" layoutX="565.0" layoutY="14.0" onMouseClicked="#removeSubject" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="/images/close11.png" />

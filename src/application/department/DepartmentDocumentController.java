@@ -65,7 +65,7 @@ public class DepartmentDocumentController implements Initializable{
 	
 	//Closing the Department
 	@FXML public void removeDepartment(MouseEvent e){
-		FXMLDocumentController.getWorkplacePane().setCenter(null);
+		FXMLDocumentController.getInstance().getWorkplacePane().setCenter(null);
 	
 		Validation.hideError();
 	}

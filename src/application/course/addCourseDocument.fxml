@@ -10,19 +10,19 @@
    <children>
       <Label layoutX="140.0" layoutY="57.0" text="Course Name">
          <font>
-            <Font size="18.0" />
+            <Font name="System Bold" size="18.0" />
          </font>
       </Label>
       <TextField fx:id="courseName" layoutX="261.0" layoutY="58.0" prefHeight="25.0" prefWidth="200.0" promptText="Name of the Course" />
       <Label layoutX="146.0" layoutY="97.0" text="Course Code">
          <font>
-            <Font size="18.0" />
+            <Font name="System Bold" size="18.0" />
          </font>
       </Label>
       <TextField fx:id="courseCode" layoutX="261.0" layoutY="98.0" prefHeight="25.0" prefWidth="200.0" promptText="Course code" />
-      <Label layoutX="152.0" layoutY="135.0" text="Department">
+      <Label layoutX="146.0" layoutY="135.0" text="Department">
          <font>
-            <Font size="18.0" />
+            <Font name="System Bold" size="18.0" />
          </font>
       </Label>
       <ChoiceBox fx:id="department" layoutX="261.0" layoutY="136.0" prefWidth="200.0" />

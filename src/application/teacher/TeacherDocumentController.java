@@ -78,14 +78,14 @@ public class TeacherDocumentController implements Initializable{
 			is = fileStream ;
 			teacherPicture.setImage(new Image(is));
 		} catch (FileNotFoundException e1) {
-			// TODO Auto-generated catch block
+
 			e1.printStackTrace();
 		} 
 	}
 	
 	//remove teacher
 	@FXML public void removeTeacher(MouseEvent e){
-		FXMLDocumentController.getWorkplacePane().setCenter(null);
+		FXMLDocumentController.getInstance().getWorkplacePane().setCenter(null);
 	}
 	
 	//handle add teacher
@@ -120,9 +120,9 @@ public class TeacherDocumentController implements Initializable{
 			pst = Connect.getConnection().prepareStatement(SQL) ;
 			pst.setInt(1, nextPrimary);
 			pst.setInt(2, dept_id);
-			pst.setString(3, firstName.getText());
-			pst.setString(4, lastName.getText());
-			pst.setString(5, middleInitial.getText()) ;
+			pst.setString(3, firstName.getText().trim());
+			pst.setString(4, lastName.getText().trim());
+			pst.setString(5, middleInitial.getText().trim()) ;
 			
 			BufferedImage bImage = SwingFXUtils.fromFXImage(teacherPicture.getImage(), null);
 			ByteArrayOutputStream s = new ByteArrayOutputStream();
@@ -133,10 +133,8 @@ public class TeacherDocumentController implements Initializable{
 			pst.executeUpdate();
 			
 		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		} catch (IOException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 

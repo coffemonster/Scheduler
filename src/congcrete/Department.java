@@ -24,7 +24,6 @@ public class Department {
 	}
 	
 	public Department() {
-		// TODO Auto-generated constructor stub
 	}
 
 	public int getDept_id() {
@@ -55,7 +54,6 @@ public class Department {
 				departmentObj.setDept_code(result.getString(Department.DEPT_CODE));
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return departmentObj ;
@@ -73,14 +71,13 @@ public class Department {
 				deptList.add(d) ;
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return deptList ;
 	}
 	
 	public static TreeItem<String> getItem(int dept_id){
-		TreeItem<String> root = FXMLDocumentController.getTree().getRoot() ;
+		TreeItem<String> root = FXMLDocumentController.getInstance().getTree().getRoot() ;
 		for(int x = 0 ; x < root.getChildren().size() ; x++ ){
 			TreeItem<String> deptItem = root.getChildren().get(x) ;
 			Department dept = TreeItemData.getItemData(root.getChildren().get(x)) ;

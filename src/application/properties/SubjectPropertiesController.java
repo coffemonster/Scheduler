@@ -31,7 +31,7 @@ public class SubjectPropertiesController implements Initializable{
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		TreeItem<String> item = (TreeItemData) FXMLDocumentController.getTree().getSelectionModel().getSelectedItem() ;
+		TreeItem<String> item = (TreeItemData) FXMLDocumentController.getInstance().getTree().getSelectionModel().getSelectedItem() ;
 		Subject subjectData = TreeItemData.getItemData(item) ;
 		
 		subject.setText(subjectData.getSubject_name());
@@ -64,7 +64,6 @@ public class SubjectPropertiesController implements Initializable{
 				}
 			}
 		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 		
@@ -72,7 +71,6 @@ public class SubjectPropertiesController implements Initializable{
 
 			@Override
 			public void changed(ObservableValue arg0, Object arg1, Object arg2) {
-				// TODO Auto-generated method stub
 				ResultSet result = Connect.QUERY("SELECT * FROM classes WHERE section_id = " + sectionData.getSection_id() + " AND subject_id = " + subjectData.getSubject_id()) ;
 				try {
 					result.next();
@@ -85,7 +83,6 @@ public class SubjectPropertiesController implements Initializable{
 						Connect.emptyQUERY("UPDATE classes SET teacher_id = " + teacherid + " WHERE section_id = " + sectionData.getSection_id() + " AND subject_id = " + subjectData.getSubject_id());
 					}
 				} catch (SQLException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}

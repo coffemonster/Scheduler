@@ -22,8 +22,7 @@ public class YearPropertiesController implements Initializable{
 	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		// TODO Auto-generated method stub
-		TreeItem<String> item = (TreeItemData)FXMLDocumentController.getTree().getSelectionModel().getSelectedItem() ;
+		TreeItem<String> item = (TreeItemData)FXMLDocumentController.getInstance().getTree().getSelectionModel().getSelectedItem() ;
 		Year yearData = TreeItemData.getItemData(item) ;
 		
 		year.setText(yearData.getYear() + "");
@@ -37,12 +36,11 @@ public class YearPropertiesController implements Initializable{
 			result.next() ;
 			numSubjects.setText(result.getInt("NUM") + "");
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
-		if(FXMLDocumentController.getRightAccordion().getExpandedPane() == null){
-			FXMLDocumentController.getRightAccordion().setExpandedPane(FXMLDocumentController.getDetailsTitledPane());
+		if(FXMLDocumentController.getInstance().getRightAccordion().getExpandedPane() == null){
+			FXMLDocumentController.getInstance().getRightAccordion().setExpandedPane(FXMLDocumentController.getInstance().getDetailsTitledPane());
 		}
 		
 	}

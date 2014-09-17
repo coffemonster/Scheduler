@@ -30,7 +30,7 @@ public class CourseDocumentController implements Initializable{
 		//VALIDATION
 		Validation validator = new Validation() ;
 		validator.validateEmpty("Course ", courseName.getText(), courseName);
-		validator.validateTextOnly("Course", courseName.getText(), courseName);
+		validator.validateTextWithNumbers("Course", courseName.getText(), courseName);
 		validator.validateEmpty("Course code", courseCode.getText(), courseCode);
 		validator.validateTextWithNumbers("Course code", courseCode.getText(), courseCode);
 		validator.validateChoiceBox("Department", department);
@@ -39,15 +39,15 @@ public class CourseDocumentController implements Initializable{
 			validator.showError();
 			return ;
 		}else{
-			FXMLDocumentController.getWorkplacePane().setBottom(null) ;
+			FXMLDocumentController.getInstance().getWorkplacePane().setBottom(null) ;
 		}
 		
 		//get the primary
 		int nextPrimary = Connect.getNextIntegerPrimary("courses", "course_id") ;
 		//get the departmetn
 		int dept = index.get(department.getSelectionModel().getSelectedIndex()).getDept_id() ;
-		Connect.emptyQUERY("INSERT INTO `courses` VALUES(" + nextPrimary + "," + dept + ",'" + courseName.getText() + "','" + 
-							courseCode.getText() + "')") ;
+		Connect.emptyQUERY("INSERT INTO `courses` VALUES(" + nextPrimary + "," + dept + ",'" + courseName.getText().trim() + "','" + 
+							courseCode.getText().trim() + "')") ;
 		
 		FXMLDocumentController.updateTree();
 				
@@ -64,7 +64,7 @@ public class CourseDocumentController implements Initializable{
 	}
 	
 	@FXML public void removeCourse(MouseEvent e){
-		FXMLDocumentController.getWorkplacePane().setCenter(null);
+		FXMLDocumentController.getInstance().getWorkplacePane().setCenter(null);
 		Validation.hideError();
 	}
 	

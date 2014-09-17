@@ -20,7 +20,7 @@ public class RoomPropertiesController implements Initializable{
 	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		TreeItem<String> roomItem = (TreeItemData)FXMLDocumentController.getTree().getSelectionModel().getSelectedItem() ;
+		TreeItem<String> roomItem = (TreeItemData)FXMLDocumentController.getInstance().getTree().getSelectionModel().getSelectedItem() ;
 		Room roomData = TreeItemData.getItemData(roomItem) ;
 		
 		roomName.setText(roomData.getRoom_name());
@@ -28,8 +28,8 @@ public class RoomPropertiesController implements Initializable{
 		deptName.setText(roomData.getD().getDept_name());
 		deptCode.setText(roomData.getD().getDept_code());
 		
-		if(FXMLDocumentController.getRightAccordion().getExpandedPane() == null){
-			FXMLDocumentController.getRightAccordion().setExpandedPane(FXMLDocumentController.getDetailsTitledPane());
+		if(FXMLDocumentController.getInstance().getRightAccordion().getExpandedPane() == null){
+			FXMLDocumentController.getInstance().getRightAccordion().setExpandedPane(FXMLDocumentController.getInstance().getDetailsTitledPane());
 		}
 	}
 	

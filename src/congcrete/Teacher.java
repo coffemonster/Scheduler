@@ -17,6 +17,8 @@ public class Teacher {
 	private String last_name ;
 	private String middle_initial ;
 	private byte[] picture_path ;
+	private ArrayList<Subject> subject ;
+	
 	public static final String TEACHER_ID = "teacher_id" ; 
 	public static final String DEPT_ID = "dept_id" ; 
 	public static final String FIRST_NAME = "first_name" ; 
@@ -33,10 +35,13 @@ public class Teacher {
 		this.last_name = last_name;
 		this.middle_initial = middle_initial;
 		this.picture_path = picture_path;
+		
+		subject = new ArrayList<Subject>() ;
+		
 	}
 
 	public Teacher() {
-		// TODO Auto-generated constructor stub
+		subject = new ArrayList<Subject>() ;
 	}
 
 	public int getTeacher_id() {
@@ -104,7 +109,7 @@ public class Teacher {
 				list.add(teacher) ;
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+
 			e.printStackTrace();
 		}
 		return list ;
@@ -125,7 +130,7 @@ public class Teacher {
 				return teacher ;
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+
 			e.printStackTrace();
 		}
 		
@@ -144,5 +149,13 @@ public class Teacher {
 			}
 		}
 		return null ;
+	}
+	
+	public ArrayList<Subject> getSubjects(){
+		return subject ;
+	}
+	
+	public void setSubjects(ArrayList<Subject> subjects){
+		this.subject = subjects ;
 	}
 }

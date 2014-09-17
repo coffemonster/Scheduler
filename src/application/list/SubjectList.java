@@ -44,11 +44,10 @@ public class SubjectList {
 				
 				pane.setStyle("-fx-background-color : red");
 				
-				FXMLDocumentController.getSubjectBox().getChildren().add(pane) ;
+				FXMLDocumentController.getInstance().getSubjectBox().getChildren().add(pane) ;
 				
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		

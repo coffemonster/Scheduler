@@ -24,8 +24,8 @@ public class DepartmentPropertiesController implements Initializable{
 	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		// TODO Auto-generated method stub
-		TreeItem<String> dept = (TreeItemData) FXMLDocumentController.getTree().getSelectionModel().getSelectedItem() ;
+		
+		TreeItem<String> dept = (TreeItemData) FXMLDocumentController.getInstance().getTree().getSelectionModel().getSelectedItem() ;
 		Department deptData = TreeItemData.getItemData(dept) ;
 		deptName.setText(deptData.getDept_name());
 		deptCode.setText(deptData.getDept_code());
@@ -44,13 +44,12 @@ public class DepartmentPropertiesController implements Initializable{
 			result.next() ;
 			numRooms.setText(result.getInt("NUM") + "");
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
 		//Opening the department
-		if(FXMLDocumentController.getRightAccordion().getExpandedPane() == null){
-			FXMLDocumentController.getRightAccordion().setExpandedPane(FXMLDocumentController.getDetailsTitledPane());
+		if(FXMLDocumentController.getInstance().getRightAccordion().getExpandedPane() == null){
+			FXMLDocumentController.getInstance().getRightAccordion().setExpandedPane(FXMLDocumentController.getInstance().getDetailsTitledPane());
 		}
 		
 	}

@@ -2,6 +2,7 @@ package congcrete;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import tree.TreeItemData;
 import javafx.scene.control.TreeItem;
@@ -15,6 +16,7 @@ public class Subject {
 	private String subject_name ;
 	private String subject_code ;
 	private int subject_unit ;
+	private float remaining_unit ;
 	public static String SUBJECT_ID = "subject_id";
 	public static String YEAR_ID = "year_id" ; 
 	public static String SUBJECT_NAME = "subject_name";
@@ -32,14 +34,22 @@ public class Subject {
 		this.subject_code = subject_code;
 		this.subject_unit = subject_unit;
 	}
+	
+	public Subject() {
+	
+	}
 
 	@Override
 	public String toString(){
 		return subject_name + "";
 	}
 	
-	public Subject() {
-		// TODO Auto-generated constructor stub
+	public float getRemaining_unit() {
+		return remaining_unit;
+	}
+
+	public void setRemaining_unit(float remaining_unit) {
+		this.remaining_unit = remaining_unit;
 	}
 
 	public int getSubject_id() {
@@ -96,6 +106,7 @@ public class Subject {
 
 	public void setSubject_unit(int subject_unit) {
 		this.subject_unit = subject_unit;
+		remaining_unit = this.subject_unit ;
 	}
 	
 	public static Subject getSubject(int subject_id){
@@ -112,7 +123,6 @@ public class Subject {
 		
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return subject ;
@@ -130,6 +140,32 @@ public class Subject {
 			}
 		}
 		return null ;
+	}
+	
+	public static ArrayList<Subject> getSubjectInTeacher(int teacher_id){
+		ArrayList<Subject> subjects = new ArrayList<Subject>() ;
+		String subjectQuery = "SELECT * FROM teachers T JOIN classes C ON C.teacher_id = T.teacher_id JOIN subjects S ON S.subject_id = C.subject_id WHERE T.teacher_id = " ;
+		
+		ResultSet result = Connect.QUERY(subjectQuery + teacher_id) ;
+		try {
+			while(result.next()){
+				Subject sub = new Subject() ;
+				sub.setSubject_id(result.getInt(Subject.SUBJECT_ID));
+				sub.setSubject_name(result.getString(Subject.SUBJECT_NAME));
+				sub.setSubject_code(result.getString(Subject.SUBJECT_CODE));
+				sub.setSubject_unit(result.getInt(Subject.SUBJECT_UNIT));
+				
+				Year year = Year.getYear(result.getInt(Subject.YEAR_ID)) ;
+				
+				sub.setYear(year);
+				
+				subjects.add(sub) ;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return subjects ;
 	}
 	
 }

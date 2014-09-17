@@ -1,17 +1,26 @@
 package application.validation;
+import java.awt.Paint;
 import java.io.File;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.regex.Pattern;
 
+import database.Connect;
 import NodeUtils.BackgroundColorAnimation;
 import NodeUtils.ShakeAnimation;
 import application.main.FXMLDocumentController;
+import application.priority.PriorityTime;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.Node;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
+import javafx.scene.layout.AnchorPane;
 
 
 public class Validation {
@@ -24,38 +33,46 @@ public class Validation {
 		nodeList = new ArrayList<Node>() ;
 	}
 	
-	public void validateTextOnly(String container , String text , Node holder){
+	public boolean validateTextOnly(String container , String text , Node holder){
 		text = text.trim() ;
 		if(!text.matches("^[a-zA-Z\\s]*$")){
 			String error = container + " field contains illegal characters or numbers" ;
 			errorList.add(error) ;
 			nodeList.add(holder) ;
+			return false ;
 		}
+		return true ;
 	}
 	
-	public void validateTextWithNumbers(String container , String text , Node holder){
+	public boolean validateTextWithNumbers(String container , String text , Node holder){
 		text = text.trim() ;
 		if(!text.matches("^[a-zA-Z0-9\\s]*$")){
 			String error = container + " field contains illegal characters" ;
 			errorList.add(error) ;
 			nodeList.add(holder) ;
+			return false; 
 		}
+		return true; 
 	}
 	
-	public void validateEmpty(String container , String text, Node holder){
+	public boolean validateEmpty(String container , String text, Node holder){
 		if(text.trim().length() == 0){
 			String error = container + " field is required" ;
 			errorList.add(error) ;
 			nodeList.add(holder) ;
+			return false ;
 		}
+		return true ;
 	}
 	
-	public void validateChoiceBox(String container , ChoiceBox holder){
+	public boolean validateChoiceBox(String container , ChoiceBox holder){
 		if(holder.getSelectionModel().getSelectedItem() == null){
 			String error = container + " field is required" ;
 			errorList.add(error) ;
 			nodeList.add(holder) ;
+			return false ;
 		}
+		return true ;
 	}
 	
 	public boolean hasError(){
@@ -66,30 +83,83 @@ public class Validation {
 		}
 	}
 	
-	public void validateMiddleInitial(String container , String text , Node holder){
+	public boolean validateMiddleInitial(String container , String text , Node holder){
 		if(text.trim().length() != 1 && text.trim().length() != 0){
 			String error = container + " contains more than one character" ;
 			errorList.add(error) ;
 			nodeList.add(holder) ;
+			return false ;
 		}
+		return true ;
 	}
 	
-	public void validatePicture(File picture , Node holder){
+	public boolean validatePicture(File picture , Node holder){
 		if(picture == null){
 			String error = "Please select an image" ;
 			errorList.add(error) ;
 			nodeList.add(holder) ;
+			return false ;
 		}
+		return true ;
 	}
 	
-	public void validateNumberOnly(String container , String text, Node holder){
-		if(!text.trim().matches("^[0-9]*$")){
+	public boolean validateNumberOnly(String container , String text, Node holder){
+		if(!text.trim().matches("^[0-9]*$") && text.trim().length() != 0){
 			String error = container +  " must be a number" ;
 			errorList.add(error) ;
 			nodeList.add(holder) ;
+			return false ;
 		}
+		return true ;
 	}
+	
+	public boolean validateHour(String container , String text, Node holder){
+		int hour = Integer.parseInt(text) ;
+		if(hour > 12){
+			String error = container +  " time error" ;
+			errorList.add(error) ;
+			nodeList.add(holder) ;
+			return false ;
+		}
+		return true ;
+	}
+	
+	public boolean validateMinute(String container , String text, Node holder){
+		int hour = Integer.parseInt(text) ;
+		if(hour > 60){
+			String error = container +  " time error" ;
+			errorList.add(error) ;
+			nodeList.add(holder) ;
+			return false ;
+		}
+		return true ;
+	}
+	
+	public boolean validateTimeSpan(String container , PriorityTime from , PriorityTime to){
+		if(from.getSpanHour(to) < 0){
+			String error = container +  " Invalid time range" ;
+			errorList.add(error) ;
+			nodeList.add(null) ;
+			return false ;
+		}
+		return true ;
+	}
+
+	
+	public boolean validateDuplicateRecordsPriorities(String fieldName , String value , int teacher_id){
+		ResultSet result = Connect.QUERY("SELECT * FROM `priorities` WHERE day = '" + value + "' AND teacher_id = " + teacher_id);
+		try {
+			result.next() ;
+			if(result.getRow() != 0){
+				return false ;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 		
+		return true ;
+	}
+	
 	public void showError(){
 		ListView errorView = new ListView() ;
 		errorView.maxHeight(100) ;
@@ -99,14 +169,16 @@ public class Validation {
 		for(int x = 0 ; x < errorList.size() ; x++){
 			errorView.getItems().add("Error : " + errorList.get(x)) ;
 		}
-		FXMLDocumentController.getWorkplacePane().setBottom(errorView);
+		FXMLDocumentController.getInstance().getWorkplacePane().setBottom(errorView);
 		errorView.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Object>(){
 
 			@Override
 			public void changed(ObservableValue<? extends Object> observable,
 					Object oldValue, Object newValue) {
+				
 				Node active = nodeList.get(errorView.getSelectionModel().getSelectedIndex());	
-			
+				
+				
 				/*
 				ShakeAnimation shake = new ShakeAnimation(active) ;
 				shake.animate();
@@ -119,6 +191,6 @@ public class Validation {
 	}
 	
 	public static void hideError(){
-		FXMLDocumentController.getWorkplacePane().setBottom(null);
+		FXMLDocumentController.getInstance().getWorkplacePane().setBottom(null);
 	}
 }

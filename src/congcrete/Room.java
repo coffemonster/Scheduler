@@ -1,5 +1,10 @@
 package congcrete;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+
+import database.Connect;
 import javafx.scene.control.TreeItem;
 import tree.TreeItemData;
 
@@ -68,6 +73,29 @@ public class Room {
 			}
 		}
 		return null ;
+	}
+	
+	public static ArrayList<Room> getRoomList(int dept_id){
+		ArrayList<Room> roomList = new ArrayList<Room>() ;
+		ResultSet result = Connect.QUERY("SELECT * FROM rooms WHERE dept_id = " + dept_id) ;
+		try {
+			while(result.next()){
+				Room room = new Room() ;
+				room.setRoom_id(result.getInt(Room.ROOM_ID));
+				room.setRoom_code(result.getString(Room.ROOM_CODE)) ;
+				room.setRoom_name(result.getString(Room.ROOM_NAME));
+				
+				Department dept = Department.getDepartment(result.getInt(Room.DEPT_ID)) ;
+				
+				room.setD(dept);
+				
+				roomList.add(room);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return roomList ;
 	}
 	
 }

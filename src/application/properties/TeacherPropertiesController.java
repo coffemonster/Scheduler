@@ -43,7 +43,7 @@ public class TeacherPropertiesController implements Initializable{
 	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		TreeItemData data = (TreeItemData)FXMLDocumentController.getTree().getSelectionModel().getSelectedItem() ;
+		TreeItemData data = (TreeItemData)FXMLDocumentController.getInstance().getTree().getSelectionModel().getSelectedItem() ;
 		Teacher teacher = (Teacher)data.getData() ;
 		//setting the picture		
 		ResultSet result = Connect.QUERY("SELECT `picture_path` FROM `teachers` WHERE `teacher_id` = " + teacher.getTeacher_id()) ;
@@ -58,7 +58,6 @@ public class TeacherPropertiesController implements Initializable{
 		        teacherPicture.setImage(i);
 			}
 		} catch (SQLException | IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -70,8 +69,8 @@ public class TeacherPropertiesController implements Initializable{
 		deptName.setText(teacher.getD().getDept_name());
 		deptCode.setText(teacher.getD().getDept_code());
 		
-		if(FXMLDocumentController.getRightAccordion().getExpandedPane() == null){
-			FXMLDocumentController.getRightAccordion().setExpandedPane(FXMLDocumentController.getDetailsTitledPane());
+		if(FXMLDocumentController.getInstance().getRightAccordion().getExpandedPane() == null){
+			FXMLDocumentController.getInstance().getRightAccordion().setExpandedPane(FXMLDocumentController.getInstance().getDetailsTitledPane());
 		}
 	}
 	

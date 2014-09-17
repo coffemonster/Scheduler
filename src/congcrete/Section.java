@@ -30,7 +30,6 @@ public class Section {
 	}
 	
 	public Section() {
-		// TODO Auto-generated constructor stub
 	}
 
 	public int getSection_id() {
@@ -71,7 +70,6 @@ public class Section {
 			}
 			return list ;
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return null ;
@@ -90,7 +88,6 @@ public class Section {
 				return section ;
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return null ;
