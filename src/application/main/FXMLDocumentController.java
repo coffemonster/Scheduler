@@ -59,6 +59,7 @@ import congcrete.Room;
 import congcrete.Section;
 import congcrete.Subject;
 import congcrete.Teacher;
+import congcrete.TimeSlot;
 import congcrete.Year;
 import database.Connect;
 import adder.node.Adder;
@@ -131,6 +132,8 @@ public class FXMLDocumentController implements Initializable{
 		
 		//close error box
 		Validation.hideError();
+		
+		new Scheduler(1).test();
 	}
 
 	/*
@@ -190,7 +193,7 @@ public class FXMLDocumentController implements Initializable{
 	}
 
 	@Override public void initialize(URL url , ResourceBundle rs){
-				
+		
 		//teacher Context menu
 		teacherMenu = new TeacherContextMenu() ;
 		teacherMenu.setAutoHide(true);

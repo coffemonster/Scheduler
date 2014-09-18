@@ -135,17 +135,6 @@ public class Validation {
 		return true ;
 	}
 	
-	public boolean validateTimeSpan(String container , PriorityTime from , PriorityTime to){
-		if(from.getSpanHour(to) < 0){
-			String error = container +  " Invalid time range" ;
-			errorList.add(error) ;
-			nodeList.add(null) ;
-			return false ;
-		}
-		return true ;
-	}
-
-	
 	public boolean validateDuplicateRecordsPriorities(String fieldName , String value , int teacher_id){
 		ResultSet result = Connect.QUERY("SELECT * FROM `priorities` WHERE day = '" + value + "' AND teacher_id = " + teacher_id);
 		try {

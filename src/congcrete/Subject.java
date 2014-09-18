@@ -17,6 +17,8 @@ public class Subject {
 	private String subject_code ;
 	private int subject_unit ;
 	private float remaining_unit ;
+	private ArrayList<Day> days ;
+	
 	public static String SUBJECT_ID = "subject_id";
 	public static String YEAR_ID = "year_id" ; 
 	public static String SUBJECT_NAME = "subject_name";
@@ -33,10 +35,12 @@ public class Subject {
 		this.subject_name = subject_name;
 		this.subject_code = subject_code;
 		this.subject_unit = subject_unit;
+		
+		days = new ArrayList<Day>() ;
 	}
 	
 	public Subject() {
-	
+		days = new ArrayList<Day>() ;
 	}
 
 	@Override

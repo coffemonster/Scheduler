@@ -13,6 +13,8 @@ public class Year {
 	private int year_id ;
 	private int year ;
 	private Course course ;
+	private ArrayList<Section> sections ;
+	
 	public static final String YEAR_ID = "year_id" ;
 	public static final String YEAR = "year" ;
 	public static final String COURSE_ID = "course_id" ;
@@ -30,6 +32,7 @@ public class Year {
 	}
 
 	public Year() {
+		sections = new ArrayList<Section>() ;
 	}
 
 	
@@ -126,5 +129,38 @@ public class Year {
 			}
 		}
 		return null ;
+	}
+	
+	public static ArrayList<Year> getYearList(int course_id){
+		ResultSet result = Connect.QUERY("SELECT * FROM years WHERE course_id = " + course_id) ;
+		ArrayList<Year> yearList = new ArrayList<Year>() ;
+		try {
+			while(result.next()){
+				Year year = new Year() ;
+				year.setYear_id(result.getInt(Year.YEAR_ID));
+				year.setYear(result.getInt(Year.YEAR));
+				Course course = Course.getCourse(result.getInt(Year.COURSE_ID)) ;
+				year.setCourse(course);
+				ArrayList<Section> sections = Section.getList(result.getInt(Year.YEAR_ID)) ;
+				year.setSections(sections);
+				
+				yearList.add(year) ;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return yearList ;
+	}
+
+
+
+	public ArrayList<Section> getSections() {
+		return sections;
+	}
+
+
+
+	public void setSections(ArrayList<Section> sections) {
+		this.sections = sections;
 	}
 }

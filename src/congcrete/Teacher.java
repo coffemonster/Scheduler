@@ -17,7 +17,10 @@ public class Teacher {
 	private String last_name ;
 	private String middle_initial ;
 	private byte[] picture_path ;
+	
 	private ArrayList<Subject> subject ;
+	private ArrayList<Day> days ;
+	private ArrayList<TimeSlot> priorities ;
 	
 	public static final String TEACHER_ID = "teacher_id" ; 
 	public static final String DEPT_ID = "dept_id" ; 
@@ -37,11 +40,25 @@ public class Teacher {
 		this.picture_path = picture_path;
 		
 		subject = new ArrayList<Subject>() ;
+		days = new ArrayList<Day>() ;
 		
 	}
 
 	public Teacher() {
 		subject = new ArrayList<Subject>() ;
+		days = new ArrayList<Day>() ;
+		
+		Day monday = new Day(Day.MONDAY);
+		Day tuesday = new Day(Day.TUESDAY);
+		Day wednesday = new Day(Day.WEDNESDAY);
+		Day thursday = new Day(Day.THURSDAY);
+		Day friday = new Day(Day.FRIDAY);
+		
+		days.add(monday) ;
+		days.add(tuesday) ;
+		days.add(wednesday) ;
+		days.add(thursday) ;
+		days.add(friday) ;
 	}
 
 	public int getTeacher_id() {
@@ -92,6 +109,15 @@ public class Teacher {
 		this.picture_path = picture_path;
 	}
 	
+	
+	public ArrayList<TimeSlot> getPriorities() {
+		return priorities;
+	}
+
+	public void setPriorities(ArrayList<TimeSlot> priorities) {
+		this.priorities = priorities;
+	}
+
 	public static ArrayList<Teacher> getTeacherList(int dept_id){
 		ResultSet result = Connect.QUERY("SELECT * FROM teachers WHERE dept_id = " + dept_id) ;
 		ArrayList<Teacher> list = new ArrayList<Teacher>() ;
@@ -158,4 +184,14 @@ public class Teacher {
 	public void setSubjects(ArrayList<Subject> subjects){
 		this.subject = subjects ;
 	}
+
+	public ArrayList<Day> getDays() {
+		return days;
+	}
+
+	public void setDays(ArrayList<Day> days) {
+		this.days = days;
+	}
+	
+	
 }

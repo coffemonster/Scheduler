@@ -13,13 +13,18 @@ public class Room {
 	private Department d ;
 	private String room_name ;
 	private String room_code ;
+	private ArrayList<Day> days = new ArrayList<Day>() ;
 	public static final String ROOM_ID = "room_id" ;
 	public static final String DEPT_ID = "dept_id" ;
 	public static final String ROOM_NAME = "room_name" ;
 	public static final String ROOM_CODE = "room_code" ;
 	
 	public Room(){
-		
+		days.add(new Day(Day.MONDAY)) ;
+		days.add(new Day(Day.TUESDAY)) ;
+		days.add(new Day(Day.WEDNESDAY)) ;
+		days.add(new Day(Day.THURSDAY)) ;
+		days.add(new Day(Day.FRIDAY)) ;
 	}
 	
 	public Room(int room_id, Department d, String room_name, String room_code) {
@@ -98,4 +103,11 @@ public class Room {
 		return roomList ;
 	}
 	
+	public void setDay(ArrayList<Day> days){
+		this.days = days ;
+	}
+	
+	public ArrayList<Day> getDays(){
+		return days ;
+	}
 }

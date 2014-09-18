@@ -13,6 +13,7 @@ public class Section {
 	private int section_id ;
 	private String section ;
 	private Year year ;
+	private ArrayList<Day> days ;
 	public static final String SECTION_ID = "section_id" ;
 	public static final String SECTION = "section" ;
 	public static final String YEAR_ID = "year_id" ;
@@ -22,6 +23,7 @@ public class Section {
 		this.section_id = section_id;
 		this.section = section;
 		this.year = year;
+		days = new ArrayList<Day>() ;
 	}
 
 	@Override
@@ -30,6 +32,7 @@ public class Section {
 	}
 	
 	public Section() {
+		days = new ArrayList<Day>() ;
 	}
 
 	public int getSection_id() {
@@ -106,4 +109,24 @@ public class Section {
 		return null ;
 	}
 	
+	/* DUPLICATE
+	public ArrayList<Section> getSectionList(int year_id){
+		ResultSet result = Connect.QUERY("SELECT * FROM sections WHERE section_id = " + section_id);
+		ArrayList<Section> sectionList = new ArrayList<Section>() ;
+		try {
+			while(result.next()){
+				Section section = new Section() ;
+				section.setSection_id(result.getInt(Section.SECTION_ID));
+				section.setSection(result.getString(Section.SECTION));
+				Year year = Year.getYear(result.getInt(Section.YEAR_ID)) ;
+				section.setYear(year);
+				
+				sectionList.add(section) ;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return sectionList ;
+	}
+	*/
 }
