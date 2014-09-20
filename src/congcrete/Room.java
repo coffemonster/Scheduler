@@ -33,6 +33,12 @@ public class Room {
 		this.d = d;
 		this.room_name = room_name;
 		this.room_code = room_code;
+		
+		days.add(new Day(Day.MONDAY)) ;
+		days.add(new Day(Day.TUESDAY)) ;
+		days.add(new Day(Day.WEDNESDAY)) ;
+		days.add(new Day(Day.THURSDAY)) ;
+		days.add(new Day(Day.FRIDAY)) ;
 	}
 
 	public int getRoom_id() {

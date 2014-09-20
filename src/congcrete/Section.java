@@ -24,6 +24,11 @@ public class Section {
 		this.section = section;
 		this.year = year;
 		days = new ArrayList<Day>() ;
+		days.add(new Day(Day.MONDAY)) ;
+		days.add(new Day(Day.TUESDAY)) ;
+		days.add(new Day(Day.WEDNESDAY)) ;
+		days.add(new Day(Day.THURSDAY)) ;
+		days.add(new Day(Day.FRIDAY)) ;
 	}
 
 	@Override
@@ -33,6 +38,21 @@ public class Section {
 	
 	public Section() {
 		days = new ArrayList<Day>() ;
+		days.add(new Day(Day.MONDAY)) ;
+		days.add(new Day(Day.TUESDAY)) ;
+		days.add(new Day(Day.WEDNESDAY)) ;
+		days.add(new Day(Day.THURSDAY)) ;
+		days.add(new Day(Day.FRIDAY)) ;
+	}
+
+	
+	
+	public ArrayList<Day> getDays() {
+		return days;
+	}
+
+	public void setDays(ArrayList<Day> days) {
+		this.days = days;
 	}
 
 	public int getSection_id() {
@@ -60,7 +80,12 @@ public class Section {
 	}
 	
 	public static ArrayList<Section> getList(int year_id){
-		ResultSet result = Connect.QUERY("SELECT * FROM sections WHERE year_id = " + year_id) ;
+		ResultSet result = null ;
+		if(year_id == 0){
+			result = Connect.QUERY("SELECT * FROM sections") ;
+		}else{
+			result = Connect.QUERY("SELECT * FROM sections WHERE year_id = " + year_id) ;
+		}
 		ArrayList<Section> list = new ArrayList<Section>() ;
 		try {
 			while(result.next()){
@@ -108,6 +133,7 @@ public class Section {
 		}
 		return null ;
 	}
+
 	
 	/* DUPLICATE
 	public ArrayList<Section> getSectionList(int year_id){

@@ -100,6 +100,8 @@ public class FXMLDocumentController implements Initializable{
 	//Show Add in center pane
 	@FXML public void handleAddToCenter(MouseEvent e) throws Exception{
 		
+		//new Scheduler(1).start();
+		
 		SplitPane p = new SplitPane();
 		
 		String resourceURL = null ;
@@ -133,7 +135,6 @@ public class FXMLDocumentController implements Initializable{
 		//close error box
 		Validation.hideError();
 		
-		new Scheduler(1).test();
 	}
 
 	/*

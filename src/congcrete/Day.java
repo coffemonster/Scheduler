@@ -58,4 +58,28 @@ public class Day {
 	public String getDay(){
 		return day ;
 	}
+	
+	public static Day getNextRoomDay(ArrayList<Room> rooms){
+		Time lowest = null ;
+		int locRoom = 0 ;
+		int locDay = 0 ;
+		
+		for(int iRoom = 0 ; iRoom < rooms.size() ; iRoom++){
+			if(iRoom == 0){
+				lowest = rooms.get(0).getDays().get(0).getLastTime() ;
+				locRoom = 0 ;
+				locDay = 0;
+			}
+			for(int iDay = 0 ; iDay < rooms.get(iRoom).getDays().size() ; iDay++){
+	
+				if(lowest.toLocalTime().isAfter(rooms.get(iRoom).getDays().get(iDay).getLastTime().toLocalTime())){
+					lowest = rooms.get(iRoom).getDays().get(iDay).getLastTime() ;
+					locRoom = iRoom ;
+					locDay = iDay ;
+				}
+			}
+		}
+		
+		return rooms.get(locRoom).getDays().get(locDay) ;
+	}
 }

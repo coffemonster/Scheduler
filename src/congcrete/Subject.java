@@ -37,17 +37,42 @@ public class Subject {
 		this.subject_unit = subject_unit;
 		
 		days = new ArrayList<Day>() ;
+		days.add(new Day(Day.MONDAY)) ;
+		days.add(new Day(Day.TUESDAY)) ;
+		days.add(new Day(Day.WEDNESDAY)) ;
+		days.add(new Day(Day.THURSDAY)) ;
+		days.add(new Day(Day.FRIDAY)) ;
+		
 	}
 	
 	public Subject() {
+		
 		days = new ArrayList<Day>() ;
+		days.add(new Day(Day.MONDAY)) ;
+		days.add(new Day(Day.TUESDAY)) ;
+		days.add(new Day(Day.WEDNESDAY)) ;
+		days.add(new Day(Day.THURSDAY)) ;
+		days.add(new Day(Day.FRIDAY)) ;
+		
 	}
-
+	
+	/*
 	@Override
 	public String toString(){
 		return subject_name + "";
 	}
+	*/
 	
+	
+	
+	public ArrayList<Day> getDays() {
+		return days;
+	}
+
+	public void setDays(ArrayList<Day> days) {
+		this.days = days;
+	}
+
 	public float getRemaining_unit() {
 		return remaining_unit;
 	}
@@ -148,7 +173,11 @@ public class Subject {
 	
 	public static ArrayList<Subject> getSubjectInTeacher(int teacher_id){
 		ArrayList<Subject> subjects = new ArrayList<Subject>() ;
-		String subjectQuery = "SELECT * FROM teachers T JOIN classes C ON C.teacher_id = T.teacher_id JOIN subjects S ON S.subject_id = C.subject_id WHERE T.teacher_id = " ;
+		String subjectQuery = "SELECT * FROM classes C " +
+							  "JOIN subjects S ON S.subject_id = C.subject_id " +
+							  "JOIN sections SEC ON SEC.section_id = C.section_id " +
+							  "JOIN years Y ON Y.year_id = SEC.year_ID " + 
+							  "JOIN teachers T ON T.teacher_id = C.teacher_id WHERE T.teacher_id = ";
 		
 		ResultSet result = Connect.QUERY(subjectQuery + teacher_id) ;
 		try {
@@ -160,6 +189,10 @@ public class Subject {
 				sub.setSubject_unit(result.getInt(Subject.SUBJECT_UNIT));
 				
 				Year year = Year.getYear(result.getInt(Subject.YEAR_ID)) ;
+				
+				Section section = Section.getSection(result.getInt(Section.SECTION_ID)) ;
+				
+				sub.setSection(section);
 				
 				sub.setYear(year);
 				

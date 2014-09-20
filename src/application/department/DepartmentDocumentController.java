@@ -10,6 +10,7 @@ import NodeUtils.NodeAnimation;
 import NodeUtils.ScaleAnimation;
 import NodeUtils.ShakeAnimation;
 import application.main.FXMLDocumentController;
+import application.scheduler.Scheduler;
 import application.validation.Validation;
 import tree.TreeItemData;
 import tree.UpdateTree;
@@ -32,6 +33,8 @@ public class DepartmentDocumentController implements Initializable{
 	@FXML private TextField inputDeptCode ;
 	@FXML private AnchorPane rootPane ;
 	@FXML private Button finish ;
+	
+	Scheduler sc = new Scheduler(1) ;
 	
 	//Handle , Adding in the DB
 	@FXML public void handleAddDepartment(ActionEvent e) throws SQLException{
@@ -65,9 +68,12 @@ public class DepartmentDocumentController implements Initializable{
 	
 	//Closing the Department
 	@FXML public void removeDepartment(MouseEvent e){
-		FXMLDocumentController.getInstance().getWorkplacePane().setCenter(null);
+		
+		sc.start();
+		
+		//FXMLDocumentController.getInstance().getWorkplacePane().setCenter(null);
 	
-		Validation.hideError();
+		//Validation.hideError();
 	}
 	
 	public void initialize(URL url , ResourceBundle res){
