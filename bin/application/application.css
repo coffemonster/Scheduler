@@ -1,3 +1,8 @@
 #workplacePane{
 	-fx-background-color : #222222 ;
 }
+
+#my-table .table-cell{
+	-fx-alignment: CENTER ;
+	-fx-text-fill:black ;
+}

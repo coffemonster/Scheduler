@@ -4,9 +4,11 @@ import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.sql.SQLException ;
 
+/*
 import org.controlsfx.dialog.Dialog;
 import org.controlsfx.dialog.Dialogs;
 import org.controlsfx.dialog.Dialogs.UserInfo;
+*/
 
 import application.splash.SplashDocumentController;
 import database.Connect;
@@ -41,7 +43,7 @@ public class Main extends Application {
 			stage.initStyle(StageStyle.UNDECORATED);
 			stage.setScene(splashScene);
 			stage.show();
-						
+
 			//Load Primary
 			Parent root = FXMLLoader.load(getClass().getResource("/application/main/Document - Copy - Copy - Copy - Copy.fxml"));
 			Scene scene = new Scene(root,screenDimension.getWidth(),screenDimension.getHeight() - 100);

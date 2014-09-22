@@ -48,10 +48,12 @@ import java.sql.Time;
 import java.util.ArrayList;
 import java.util.ResourceBundle ;
 
+/*
 import org.controlsfx.dialog.Dialog;
 import org.controlsfx.dialog.DialogStyle;
 import org.controlsfx.dialog.Dialogs;
 import org.controlsfx.dialog.Dialogs.UserInfo;
+*/
 
 import congcrete.Course;
 import congcrete.Department;

@@ -5,13 +5,28 @@ import java.sql.SQLException;
 import java.sql.Time;
 import java.util.ArrayList;
 
+
+
+
+
+
+import com.sun.prism.paint.Color;
+
 import application.main.FXMLDocumentController;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.Background;
+import javafx.scene.paint.Paint;
+import javafx.scene.shape.Line;
 import congcrete.Day;
 import congcrete.Room;
 import congcrete.Section;
 import congcrete.Subject;
+import congcrete.TableCellList;
 import congcrete.Teacher;
 import congcrete.TimeSlot;
 import database.Connect;
@@ -20,13 +35,15 @@ public class Scheduler {
 	
 	private int dept_id ;
 	private ResultSet result ;
-	private ArrayList<Teacher> teachersList ;
-	private ArrayList<Room> roomsList ;
-	private ArrayList<Section> sectionList ;
-	private ArrayList<Subject> subjectsList ; 
+	//TODO change to non-static if finish
+	private static ArrayList<Teacher> teachersList ;
+	private static ArrayList<Room> roomsList ;
+	private static ArrayList<Section> sectionList ;
+	private static ArrayList<Subject> subjectsList ; 
 	private String startTime = "07:00:00" ;
 	private String stopTime = "07:30:00" ;
-	
+	private static String myColor = null ;
+
 	public Scheduler(int dept_id){
 		this.dept_id = dept_id ;
 		
@@ -100,7 +117,6 @@ public class Scheduler {
 			System.out.println("Start");
 			Day targetDay = Day.getNextRoomDay(roomsList) ;
 			System.out.println("--ROOM DETAILS--");
-			
 			Room currentRoom = null ;
 			Day copyDay = null ;
 			
@@ -179,6 +195,17 @@ public class Scheduler {
 		//adding TimeSLot
 		TimeSlot time = new TimeSlot(targetDay.getLastTime() , Time.valueOf(targetDay.getLastTime().toLocalTime().plusHours(subject.getSubject_unit()))) ;
 		
+		time.setSubject(subject);
+		time.setSection(subject.getSection());
+		time.setTeacher(teacher);
+		
+		for(int x = 0 ; x < roomsList.size() ; x++){
+			if(roomsList.get(x).getDays().contains(targetDay)){
+				time.setRoom(roomsList.get(x));
+				break ;
+			}
+		}
+		
 		for(int iDay = 0 ; iDay < teacher.getDays().size() ; iDay++){
 			if(teacher.getDays().get(iDay).getDay().equalsIgnoreCase(targetDay.getDay())){
 				teacher.getDays().get(iDay).getTimeSlots().add(time) ;
@@ -218,6 +245,7 @@ public class Scheduler {
 		}
 		
 		System.out.println("--MAIN--");
+		System.out.print(time.getRoom());
 	}
 	
 	public Teacher getClosestTeacher(ArrayList<Teacher> teachers , Day targetDay){
@@ -421,6 +449,290 @@ public class Scheduler {
 		}
 		
 		return false ;
+	}
+	
+	public static boolean viewTeacherSchedule(Teacher teacher){
+		//TODO add validation if not yet Schedule
+		
+		ArrayList<Day> schedule = new ArrayList<Day>() ;
+		
+		/*
+		for(int iRoom = 0 ; iRoom < roomsList.size() ; iRoom++){
+			for(int iDay = 0 ; iDay < roomsList.get(iRoom).getDays().size() ; iDay++){
+				Day currentDay = roomsList.get(iRoom).getDays().get(iDay) ;
+				for(int iTime = 0 ; iTime < currentDay.getTimeSlots().size() ; iTime++){
+					TimeSlot currentTime = currentDay.getTimeSlots().get(iTime) ;
+					if(currentTime.getTeacher() != null){
+						if(currentTime.getTeacher().equals(teacher)){
+							schedule.get(iDay).getTimeSlots().add(currentTime) ;
+						}
+					}
+				}
+			}
+		}
+		
+		setSchedule(schedule) ;
+		*/
+		
+		for(int x = 0 ; x < teachersList.size() ; x++){
+			if(teachersList.get(x).getTeacher_id() == teacher.getTeacher_id()){
+				setSchedule(teachersList.get(x).getDays()) ;
+			}
+		}
+		
+		return true ;
+	}
+	
+	public static TableView setSchedule(ArrayList<Day> days){
+		TableView table = new TableView() ;
+		
+		//table.setDisable(true);
+		
+		table.setId("my-table");
+		
+		table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+		ArrayList<TableCellList> cells = new ArrayList<TableCellList>() ;
+		
+		ObservableList<TableCellList> data = FXCollections.observableArrayList() ;
+		
+		TableColumn time = new TableColumn("Time / Date") ;
+
+		time.setCellValueFactory(new PropertyValueFactory<TableCellList , String>("time"));
+		//TODO code coloring here
+		
+		/*
+		time.setCellFactory(column -> {
+			return new TableCell<TableCellList , String>(){
+				@Override
+				protected void updateItem(String item , boolean empty){
+					super.updateItem(item, empty);
+					
+					if(item == null || empty || item == ""){
+						setText("") ;
+						setStyle("") ;
+					}else{
+						setText(getItem());
+						//setTextFill(Color.BLACK);
+						setStyle("-fx-text-fill:white") ;
+					}
+				}
+			};
+		});
+		*/
+		
+		time.setMinWidth(60);
+		
+		TableColumn first_day = new TableColumn(days.get(0).getDay()) ;
+		first_day.setCellValueFactory(new PropertyValueFactory<TableCellList , String>("day_1"));
+		
+		
+		first_day.setCellFactory(column -> {
+			return new TableCell<TableCellList , String>(){
+				@Override
+				protected void updateItem(String item , boolean empty){
+					super.updateItem(item, empty);
+					
+					if(item == null || empty || item == ""){
+						setText("") ;
+						setStyle("") ;
+					}else{
+						setText(getItem());
+						
+						//System.out.println(getStyle());
+						
+							if(!getItem().equals("-")){
+								for(int x = 0 ; x < days.get(0).getTimeSlots().size() ; x++){
+									if(getItem().equals(days.get(0).getTimeSlots().get(x).getSubject().getSubject_name())){
+										myColor =  days.get(0).getTimeSlots().get(x).getColor() ; 
+										System.out.println(myColor);
+									}
+								}
+							}
+						
+							setStyle("-fx-background-color:" + myColor) ;	
+					}
+				}
+			};
+		});
+		
+	
+		TableColumn second_day = new TableColumn(days.get(1).getDay()) ;
+		second_day.setCellValueFactory(new PropertyValueFactory<TableCellList , String>("day_2"));
+		
+		TableColumn third_day = new TableColumn(days.get(2).getDay()) ;
+		third_day.setCellValueFactory(new PropertyValueFactory<TableCellList , String>("day_3"));
+		
+		TableColumn fourth_day = new TableColumn(days.get(3).getDay()) ;
+		fourth_day.setCellValueFactory(new PropertyValueFactory<TableCellList , String>("day_4"));
+		
+		TableColumn fifth_day = new TableColumn(days.get(4).getDay()) ;
+		fifth_day.setCellValueFactory(new PropertyValueFactory<TableCellList , String>("day_5"));
+		
+		boolean flag = true ;
+		Time high = null ;
+		
+		/*
+		//get the last time in all day
+		for(int iDay = 0 ; iDay < days.size() ; iDay++){
+			if(flag){
+				high = days.get(iDay).getLastTime() ;
+				flag = false ;
+			}else{
+				if(high.toLocalTime().isBefore(days.get(iDay).getLastTime().toLocalTime())){
+					high = days.get(iDay).getLastTime() ;
+				}
+			}
+		}
+		*/
+		
+		int NumberOfRows = TimeSlot.getTotalMinutes(Day.start, Day.stop) / 30 ;
+		
+		for(int x = 0 ; x < NumberOfRows + 5; x++){
+			if(x == 0){
+				Time start = Day.start ;
+				String startString = TimeSlot.getCompleteTime(start) ;
+				TableCellList row = new TableCellList(startString , "" , "" , "" , "" , "") ;
+				data.add(row) ;
+			}else{
+				//System.out.print(data.get(data.size() - 1).getTime().substring(0, data.get(data.size() - 1).getTime().length() - 2));
+				Time lastTime = Time.valueOf(data.get(data.size() - 1).getTime().substring(0, data.get(data.size() - 1).getTime().length() - 2) + ":00") ;
+				Time temp = Time.valueOf(lastTime.toLocalTime().plusMinutes(30)) ;
+				String startString = TimeSlot.getCompleteTime(temp) ;
+				TableCellList row = new TableCellList(startString , "" , "" , "" , "" , "") ;
+				data.add(row) ;
+			}
+		}
+		//COMPLETING the time
+		for(int x = 0 ; x < data.size() ; x++){
+			Time currentTime = Time.valueOf(data.get(x).getTime().substring(0, data.get(data.size() - 1).getTime().length() - 2) + ":00") ;
+			data.get(x).setTime(data.get(x).getTime() + "-" + TimeSlot.getCompleteTime(Time.valueOf(currentTime.toLocalTime().plusMinutes(30))));
+		}
+		
+			//FIRST DAY
+			for(int x = 0 ; x < days.get(0).getTimeSlots().size() ; x++){
+				TimeSlot timeSlot = days.get(0).getTimeSlots().get(x) ;
+				int start  = TimeSlot.getTotalMinutes(Day.start, timeSlot.getFrom()) / 30 ;
+				int stop = ((TimeSlot.getTotalMinutes(Day.start, timeSlot.getFrom()) + TimeSlot.getTotalMinutes(timeSlot.getFrom(), timeSlot.getTo())) / 30) - 1 ;
+				
+				data.get(start).setDay_1(timeSlot.getSubject().getSubject_name());
+				data.get(start + 1).setDay_1(timeSlot.getSection().getYear().getYear() + timeSlot.getSection().getSection());
+				data.get(start + 2).setDay_1(timeSlot.getRoom().getRoom_name()) ;
+						
+				for(int z = start ; z <= stop ; z++){
+					if(stop - start + 1 >= 3){
+						if(data.get(z).getDay_1().equals("") || data.get(z).getDay_1().equals(null)){
+							data.get(z).setDay_1("-");
+						}
+					}
+				}
+				/*
+				for(int z = start ; z <= stop ; z++){
+					if()
+					data.get(z).setDay_1("-");
+				}
+				*/
+				//System.out.println("FROM : " + timeSlot.getFrom() + " TO : " + timeSlot.getTo());
+				//System.out.println("LOC : " + TimeSlot.getTotalMinutes(Day.start, timeSlot.getFrom()) / 30 );
+				//System.out.println("TO : " + (((TimeSlot.getTotalMinutes(Day.start, timeSlot.getFrom()) + TimeSlot.getTotalMinutes(timeSlot.getFrom(), timeSlot.getTo())) / 30) - 1));
+				
+			}
+			
+			//SECOND DAY
+			for(int x = 0 ; x < days.get(1).getTimeSlots().size() ; x++){
+				TimeSlot timeSlot = days.get(1).getTimeSlots().get(x) ;
+				int start  = TimeSlot.getTotalMinutes(Day.start, timeSlot.getFrom()) / 30 ;
+				int stop = ((TimeSlot.getTotalMinutes(Day.start, timeSlot.getFrom()) + TimeSlot.getTotalMinutes(timeSlot.getFrom(), timeSlot.getTo())) / 30) - 1 ;
+				
+				data.get(start).setDay_2(timeSlot.getSubject().getSubject_name());
+				data.get(start + 1).setDay_2(timeSlot.getSection().getYear().getYear() + timeSlot.getSection().getSection());
+				data.get(start + 2).setDay_2(timeSlot.getRoom().getRoom_name()) ;
+				
+				for(int z = start ; z <= stop ; z++){
+					if(stop - start + 1 >= 3){
+						if(data.get(z).getDay_2().equals("") || data.get(z).getDay_2().equals(null)){
+							data.get(z).setDay_2("-");
+						}
+					}
+				}
+				
+			}
+			
+			
+			//THIRD DAY
+			for(int x = 0 ; x < days.get(2).getTimeSlots().size() ; x++){
+				TimeSlot timeSlot = days.get(2).getTimeSlots().get(x) ;
+				int start  = TimeSlot.getTotalMinutes(Day.start, timeSlot.getFrom()) / 30 ;
+				int stop = ((TimeSlot.getTotalMinutes(Day.start, timeSlot.getFrom()) + TimeSlot.getTotalMinutes(timeSlot.getFrom(), timeSlot.getTo())) / 30) - 1 ;
+				
+				data.get(start).setDay_3(timeSlot.getSubject().getSubject_name());
+				data.get(start + 1).setDay_3(timeSlot.getSection().getYear().getYear() + timeSlot.getSection().getSection());
+				data.get(start + 2).setDay_3(timeSlot.getRoom().getRoom_name()) ;
+				
+				for(int z = start ; z <= stop ; z++){
+					if(stop - start + 1 >= 3){
+						if(data.get(z).getDay_3().equals("") || data.get(z).getDay_3().equals(null)){
+							data.get(z).setDay_3("-");
+						}
+					}
+				}
+				
+			}
+			
+			//FOURTH DAY
+			for(int x = 0 ; x < days.get(3).getTimeSlots().size() ; x++){
+				TimeSlot timeSlot = days.get(3).getTimeSlots().get(x) ;
+				int start  = TimeSlot.getTotalMinutes(Day.start, timeSlot.getFrom()) / 30 ;
+				int stop = ((TimeSlot.getTotalMinutes(Day.start, timeSlot.getFrom()) + TimeSlot.getTotalMinutes(timeSlot.getFrom(), timeSlot.getTo())) / 30) - 1 ;
+				
+				data.get(start).setDay_4(timeSlot.getSubject().getSubject_name());
+				data.get(start + 1).setDay_4(timeSlot.getSection().getYear().getYear() + timeSlot.getSection().getSection());
+				data.get(start + 2).setDay_4(timeSlot.getRoom().getRoom_name()) ;
+				
+				for(int z = start ; z <= stop ; z++){
+					if(stop - start + 1 >= 3){
+						if(data.get(z).getDay_4().equals("") || data.get(z).getDay_4().equals(null)){
+							data.get(z).setDay_4("-");
+						}
+					}
+				}
+				
+			}
+			
+			//FIFTH DAY
+			for(int x = 0 ; x < days.get(4).getTimeSlots().size() ; x++){
+				TimeSlot timeSlot = days.get(4).getTimeSlots().get(x) ;
+				int start  = TimeSlot.getTotalMinutes(Day.start, timeSlot.getFrom()) / 30 ;
+				int stop = ((TimeSlot.getTotalMinutes(Day.start, timeSlot.getFrom()) + TimeSlot.getTotalMinutes(timeSlot.getFrom(), timeSlot.getTo())) / 30) - 1 ;
+				
+				data.get(start).setDay_5(timeSlot.getSubject().getSubject_name());
+				data.get(start + 1).setDay_5(timeSlot.getSection().getYear().getYear() + timeSlot.getSection().getSection());
+				data.get(start + 2).setDay_5(timeSlot.getRoom().getRoom_name()) ;
+				
+				for(int z = start ; z <= stop ; z++){
+					if(stop - start + 1 >= 3){
+						if(data.get(z).getDay_5().equals("") || data.get(z).getDay_5().equals(null)){
+							data.get(z).setDay_5("-");
+						}
+					}
+				}
+				
+			}
+		
+		
+		table.setItems(data);
+		
+		table.getColumns().add(time) ;
+		table.getColumns().add(first_day) ;
+		table.getColumns().add(second_day) ;
+		table.getColumns().add(third_day) ;
+		table.getColumns().add(fourth_day) ;
+		table.getColumns().add(fifth_day) ;
+		
+		FXMLDocumentController.getInstance().getWorkplacePane().setCenter(table);
+		
+		//FXMLDocumentController.getInstance().getWorkplacePane().getCenter().setDisable(true);		
+		
+		return null ;
 	}
 	
 }
