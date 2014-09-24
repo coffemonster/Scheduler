@@ -154,24 +154,17 @@ public class Scheduler {
 				if(availableTeachers.size() == 0 && !isComplete()){
 					targetDay.getTimeSlots().add(new TimeSlot(targetDay.getLastTime() , Time.valueOf(targetDay.getLastTime().toLocalTime().plusMinutes(30)))) ;
 					System.out.println("--Cant Find available Teachers--");
+					break main;
 				}else{
+					simpleAlgorithm(targetDay , availableTeachers , availableSections) ;
 					break main ;
-					/*
-					availableSections = getAvailableSections(availableTeachers, targetDay) ; 
-					if(availableSections.size() == 0){
-						targetDay.getLastTime().toLocalTime().plusMinutes(30) ;
-					}else{
-						break main ;
-					}
-					*/
+					
 				}
 				
 			}
 			
 			//System.out.print(availableTeachers.size() + " " + availableSections.size());
 			
-			simpleAlgorithm(targetDay , availableTeachers , availableSections) ;
-	
 		}
 			
 		if(isComplete()){
@@ -198,7 +191,9 @@ public class Scheduler {
 		System.out.println("Subject : " + subject.getSubject_name());
 		
 		//adding TimeSLot
-		TimeSlot time = new TimeSlot(targetDay.getLastTime() , Time.valueOf(targetDay.getLastTime().toLocalTime().plusHours(subject.getSubject_unit()))) ;
+		float sliceUnit = getSliceableTime(subject.getRemaining_unit()) ;
+				
+		TimeSlot time = new TimeSlot(targetDay.getLastTime() , Time.valueOf(targetDay.getLastTime().toLocalTime().plusHours(Math.round(sliceUnit)))) ;
 		
 		time.setSubject(subject);
 		time.setSection(subject.getSection());
@@ -245,7 +240,8 @@ public class Scheduler {
 		}
 		
 		//System.out.println(subject.getSubject_name() + " " + subject.getSection().getYear().getYear() + subject.getSection().getSection());
-		subject.setRemaining_unit(0);
+		subject.setRemaining_unit(subject.getRemaining_unit() - sliceUnit);
+		
 		System.out.println("Remaining Unit : " + getRem());
 		
 		System.out.println("-- MORE DETAILS --") ;
@@ -469,7 +465,7 @@ public class Scheduler {
 	public static void viewSectionSchedule(Section section){
 		for(int x = 0 ; x < sectionList.size() ; x++){
 			if(sectionList.get(x).getSection_id() == section.getSection_id()){
-				setSchedule(sectionList.get(x).getDays()) ;
+				setSchedule(sectionList.get(x).getDays() , section) ;
 			}
 		}
 	}
@@ -477,7 +473,7 @@ public class Scheduler {
 	public static void viewRoomSchedule(Room room){
 		for(int iRoom = 0 ; iRoom < roomsList.size() ; iRoom++){
 			if(roomsList.get(iRoom).getRoom_id() == room.getRoom_id()){
-				setSchedule(roomsList.get(iRoom).getDays()) ;
+				setSchedule(roomsList.get(iRoom).getDays() , room) ;
 				break ;
 			}
 		}
@@ -508,7 +504,7 @@ public class Scheduler {
 		
 		for(int x = 0 ; x < teachersList.size() ; x++){
 			if(teachersList.get(x).getTeacher_id() == teacher.getTeacher_id()){
-				setSchedule(teachersList.get(x).getDays()) ;
+				setSchedule(teachersList.get(x).getDays() , teacher) ;
 				break ;
 			}
 		}
@@ -516,7 +512,7 @@ public class Scheduler {
 		return true ;
 	}
 	
-	public static TableView setSchedule(ArrayList<Day> days){
+	public static TableView setSchedule(ArrayList<Day> days , Object obj){
 		TableView table = new TableView() ;
 		ArrayList<ColorInator> colors = new ArrayList<ColorInator>() ;
 		
@@ -726,26 +722,148 @@ public class Scheduler {
 				int stop = ((TimeSlot.getTotalMinutes(Day.start, timeSlot.getFrom()) + TimeSlot.getTotalMinutes(timeSlot.getFrom(), timeSlot.getTo())) / 30) - 1 ;
 				
 				//SETTING THE DETAILS
-				if(iDay == 0){
-					data.get(start).setDay_1(timeSlot.getSubject().getSubject_code());
-					data.get(start + 1).setDay_1(timeSlot.getSection().getYear().getYear() + timeSlot.getSection().getSection());
-					data.get(start + 2).setDay_1(timeSlot.getRoom().getRoom_code()) ;
-				}else if(iDay == 1){
-					data.get(start).setDay_2(timeSlot.getSubject().getSubject_code());
-					data.get(start + 1).setDay_2(timeSlot.getSection().getYear().getYear() + timeSlot.getSection().getSection());
-					data.get(start + 2).setDay_2(timeSlot.getRoom().getRoom_code()) ;
-				}else if(iDay == 2){
-					data.get(start).setDay_3(timeSlot.getSubject().getSubject_code());
-					data.get(start + 1).setDay_3(timeSlot.getSection().getYear().getYear() + timeSlot.getSection().getSection());
-					data.get(start + 2).setDay_3(timeSlot.getRoom().getRoom_code()) ;
-				}else if(iDay == 3){
-					data.get(start).setDay_4(timeSlot.getSubject().getSubject_code());
-					data.get(start + 1).setDay_4(timeSlot.getSection().getYear().getYear() + timeSlot.getSection().getSection());
-					data.get(start + 2).setDay_4(timeSlot.getRoom().getRoom_code()) ;
-				}else if(iDay == 4){
-					data.get(start).setDay_5(timeSlot.getSubject().getSubject_code());
-					data.get(start + 1).setDay_5(timeSlot.getSection().getYear().getYear() + timeSlot.getSection().getSection());
-					data.get(start + 2).setDay_5(timeSlot.getRoom().getRoom_code()) ;
+				//FOR Room
+				if(obj instanceof Room){
+					if(iDay == 0){
+						if(stop - start + 1 == 2){
+							data.get(start).setDay_1(timeSlot.getSubject().getSubject_code() + "," + timeSlot.getSection().getYear().getYear() + timeSlot.getSection().getSection());
+							data.get(start + 1).setDay_1(timeSlot.getTeacher().getLast_name() + " " + timeSlot.getTeacher().getMiddle_initial() + ".") ;
+						}else{
+							data.get(start).setDay_1(timeSlot.getSubject().getSubject_code());
+							data.get(start + 1).setDay_1(timeSlot.getSection().getYear().getYear() + timeSlot.getSection().getSection());
+							data.get(start + 2).setDay_1(timeSlot.getTeacher().getLast_name() + " " + timeSlot.getTeacher().getMiddle_initial() + ".") ;
+						}
+					}else if(iDay == 1){
+						if(stop - start + 1 == 2){
+							data.get(start).setDay_2(timeSlot.getSubject().getSubject_code() + "," + timeSlot.getSection().getYear().getYear() + timeSlot.getSection().getSection());
+							data.get(start + 1).setDay_2(timeSlot.getTeacher().getLast_name() + " " + timeSlot.getTeacher().getMiddle_initial() + ".") ;
+						}else{
+							data.get(start).setDay_2(timeSlot.getSubject().getSubject_code());
+							data.get(start + 1).setDay_2(timeSlot.getSection().getYear().getYear() + timeSlot.getSection().getSection());
+							data.get(start + 2).setDay_2(timeSlot.getTeacher().getLast_name() + " " + timeSlot.getTeacher().getMiddle_initial() + ".") ;	
+						}
+					}else if(iDay == 2){
+						if(stop - start + 1 == 2){
+							data.get(start).setDay_3(timeSlot.getSubject().getSubject_code() + "," + timeSlot.getSection().getYear().getYear() + timeSlot.getSection().getSection());
+							data.get(start + 1).setDay_3(timeSlot.getTeacher().getLast_name() + " " + timeSlot.getTeacher().getMiddle_initial() + ".") ;
+						}else{
+							data.get(start).setDay_3(timeSlot.getSubject().getSubject_code());
+							data.get(start + 1).setDay_3(timeSlot.getSection().getYear().getYear() + timeSlot.getSection().getSection());
+							data.get(start + 2).setDay_3(timeSlot.getTeacher().getLast_name() + " " + timeSlot.getTeacher().getMiddle_initial() + ".") ;
+						}
+					}else if(iDay == 3){
+						if(stop - start + 1 == 2){
+							data.get(start).setDay_4(timeSlot.getSubject().getSubject_code() + "," + timeSlot.getSection().getYear().getYear() + timeSlot.getSection().getSection());
+							data.get(start + 1).setDay_4(timeSlot.getTeacher().getLast_name() + " " + timeSlot.getTeacher().getMiddle_initial() + ".") ;
+						}else{
+							data.get(start).setDay_4(timeSlot.getSubject().getSubject_code());
+							data.get(start + 1).setDay_4(timeSlot.getSection().getYear().getYear() + timeSlot.getSection().getSection());
+							data.get(start + 2).setDay_4(timeSlot.getTeacher().getLast_name() + " " + timeSlot.getTeacher().getMiddle_initial() + ".") ;
+						}
+					}else if(iDay == 4){
+						if(stop - start + 1 == 2){
+							data.get(start).setDay_5(timeSlot.getSubject().getSubject_code() + "," + timeSlot.getSection().getYear().getYear() + timeSlot.getSection().getSection());
+							data.get(start + 1).setDay_5(timeSlot.getTeacher().getLast_name() + " " + timeSlot.getTeacher().getMiddle_initial() + ".") ;
+						}else{
+							data.get(start).setDay_5(timeSlot.getSubject().getSubject_code());
+							data.get(start + 1).setDay_5(timeSlot.getSection().getYear().getYear() + timeSlot.getSection().getSection());
+							data.get(start + 2).setDay_5(timeSlot.getTeacher().getLast_name() + " " + timeSlot.getTeacher().getMiddle_initial() + ".") ;
+						}
+					}
+				}else if(obj instanceof Teacher){
+					if(iDay == 0){
+						if(stop - start + 1 == 2){
+							data.get(start).setDay_1(timeSlot.getSubject().getSubject_code() + "," + timeSlot.getSection().getYear().getYear() + timeSlot.getSection().getSection());
+							data.get(start + 1).setDay_1(timeSlot.getRoom().getRoom_code()) ;
+						}else{
+							data.get(start).setDay_1(timeSlot.getSubject().getSubject_code());
+							data.get(start + 1).setDay_1(timeSlot.getSection().getYear().getYear() + timeSlot.getSection().getSection());
+							data.get(start + 2).setDay_1(timeSlot.getRoom().getRoom_code()) ;
+						}
+					}else if(iDay == 1){
+						if(stop - start + 1 == 2){
+							data.get(start).setDay_2(timeSlot.getSubject().getSubject_code() + "," + timeSlot.getSection().getYear().getYear() + timeSlot.getSection().getSection());
+							data.get(start + 1).setDay_2(timeSlot.getRoom().getRoom_code()) ;
+						}else{
+							data.get(start).setDay_2(timeSlot.getSubject().getSubject_code());
+							data.get(start + 1).setDay_2(timeSlot.getSection().getYear().getYear() + timeSlot.getSection().getSection());
+							data.get(start + 2).setDay_2(timeSlot.getRoom().getRoom_code()) ;
+						}
+					}else if(iDay == 2){
+						if(stop - start + 1 == 2){
+							data.get(start).setDay_3(timeSlot.getSubject().getSubject_code() + "," + timeSlot.getSection().getYear().getYear() + timeSlot.getSection().getSection());
+							data.get(start + 1).setDay_3(timeSlot.getRoom().getRoom_code());
+						}else{
+							data.get(start).setDay_3(timeSlot.getSubject().getSubject_code());
+							data.get(start + 1).setDay_3(timeSlot.getSection().getYear().getYear() + timeSlot.getSection().getSection());
+							data.get(start + 2).setDay_3(timeSlot.getRoom().getRoom_code()) ;
+						}
+					}else if(iDay == 3){
+						if(stop - start + 1 == 2){
+							data.get(start).setDay_4(timeSlot.getSubject().getSubject_code() + "," + timeSlot.getSection().getYear().getYear() + timeSlot.getSection().getSection());
+							data.get(start + 1).setDay_4(timeSlot.getRoom().getRoom_code()) ;
+						}else{
+							data.get(start).setDay_4(timeSlot.getSubject().getSubject_code());
+							data.get(start + 1).setDay_4(timeSlot.getSection().getYear().getYear() + timeSlot.getSection().getSection());
+							data.get(start + 2).setDay_4(timeSlot.getRoom().getRoom_code()) ;
+						}
+					}else if(iDay == 4){
+						if(stop - start + 1 == 2){
+							data.get(start).setDay_5(timeSlot.getSubject().getSubject_code() + "," + timeSlot.getSection().getYear().getYear() + timeSlot.getSection().getSection());
+							data.get(start + 1).setDay_5(timeSlot.getRoom().getRoom_code()) ;
+						}else{
+							data.get(start).setDay_5(timeSlot.getSubject().getSubject_code());
+							data.get(start + 1).setDay_5(timeSlot.getSection().getYear().getYear() + timeSlot.getSection().getSection());
+							data.get(start + 2).setDay_5(timeSlot.getRoom().getRoom_code()) ;
+						}
+					}
+				}else if(obj instanceof Section){
+					if(iDay == 0){
+						if(stop - start + 1 == 2){
+							data.get(start).setDay_1(timeSlot.getSubject().getSubject_code() + "," + timeSlot.getRoom().getRoom_code());
+							data.get(start + 1).setDay_1(timeSlot.getTeacher().getLast_name() + " " + timeSlot.getTeacher().getMiddle_initial() + ".") ;
+						}else{
+							data.get(start).setDay_1(timeSlot.getSubject().getSubject_code());
+							data.get(start + 1).setDay_1(timeSlot.getRoom().getRoom_code());
+							data.get(start + 2).setDay_1(timeSlot.getTeacher().getLast_name() + " " + timeSlot.getTeacher().getMiddle_initial() + ".") ;
+						}
+					}else if(iDay == 1){
+						if(stop - start + 1 == 2){
+							data.get(start).setDay_2(timeSlot.getSubject().getSubject_code() + "," + timeSlot.getRoom().getRoom_code());
+							data.get(start + 1).setDay_2(timeSlot.getTeacher().getLast_name() + " " + timeSlot.getTeacher().getMiddle_initial() + ".") ;
+						}else{
+							data.get(start).setDay_2(timeSlot.getSubject().getSubject_code());
+							data.get(start + 1).setDay_2(timeSlot.getRoom().getRoom_code());
+							data.get(start + 2).setDay_2(timeSlot.getTeacher().getLast_name() + " " + timeSlot.getTeacher().getMiddle_initial() + ".") ;
+						}
+					}else if(iDay == 2){
+						if(stop - start + 1 == 2){
+							data.get(start).setDay_3(timeSlot.getSubject().getSubject_code() + "," + timeSlot.getRoom().getRoom_code());
+							data.get(start + 1).setDay_3(timeSlot.getTeacher().getLast_name() + " " + timeSlot.getTeacher().getMiddle_initial() + ".") ;
+						}else{
+							data.get(start).setDay_3(timeSlot.getSubject().getSubject_code());
+							data.get(start + 1).setDay_3(timeSlot.getRoom().getRoom_code());
+							data.get(start + 2).setDay_3(timeSlot.getTeacher().getLast_name() + " " + timeSlot.getTeacher().getMiddle_initial() + ".") ;
+						}
+					}else if(iDay == 3){
+						if(stop - start + 1 == 2){
+							data.get(start).setDay_4(timeSlot.getSubject().getSubject_code() + "," + timeSlot.getRoom().getRoom_code());
+							data.get(start + 1).setDay_4(timeSlot.getTeacher().getLast_name() + " " + timeSlot.getTeacher().getMiddle_initial() + ".") ;
+						}else{
+							data.get(start).setDay_4(timeSlot.getSubject().getSubject_code());
+							data.get(start + 1).setDay_4(timeSlot.getRoom().getRoom_code());
+							data.get(start + 2).setDay_4(timeSlot.getTeacher().getLast_name() + " " + timeSlot.getTeacher().getMiddle_initial() + ".") ;
+						}
+					}else if(iDay == 4){
+						if(stop - start + 1 == 2){
+							data.get(start).setDay_5(timeSlot.getSubject().getSubject_code() + "," + timeSlot.getRoom().getRoom_code());
+							data.get(start + 1).setDay_5(timeSlot.getTeacher().getLast_name() + " " + timeSlot.getTeacher().getMiddle_initial() + ".") ;	
+						}else{
+							data.get(start).setDay_5(timeSlot.getSubject().getSubject_code());
+							data.get(start + 1).setDay_5(timeSlot.getRoom().getRoom_code());
+							data.get(start + 2).setDay_5(timeSlot.getTeacher().getLast_name() + " " + timeSlot.getTeacher().getMiddle_initial() + ".") ;
+						}
+					}
 				}
 				
 				ColorInator currentColor = new ColorInator(start , stop , timeSlot.getColor() , days.get(iDay).getDay()) ;
@@ -780,155 +898,7 @@ public class Scheduler {
 			}
 		}
 		
-		/*
-			for(int x = 0 ; x < days.get(0).getTimeSlots().size() ; x++){
-				TimeSlot timeSlot = days.get(0).getTimeSlots().get(x) ;
-				
-				if(timeSlot.getSection() == null || timeSlot.getSubject() == null || timeSlot.getRoom() == null){
-					continue ;
-				}
-				
-				int start  = TimeSlot.getTotalMinutes(Day.start, timeSlot.getFrom()) / 30 ;
-				int stop = ((TimeSlot.getTotalMinutes(Day.start, timeSlot.getFrom()) + TimeSlot.getTotalMinutes(timeSlot.getFrom(), timeSlot.getTo())) / 30) - 1 ;
-				
-				data.get(start).setDay_1(timeSlot.getSubject().getSubject_code());
-				data.get(start + 1).setDay_1(timeSlot.getSection().getYear().getYear() + timeSlot.getSection().getSection());
-				data.get(start + 2).setDay_1(timeSlot.getRoom().getRoom_code()) ;
-				
-				ColorInator currentColor = new ColorInator(start , stop , timeSlot.getColor() , days.get(0).getDay()) ;
-				colors.add(currentColor) ;
-				
-				for(int z = start ; z <= stop ; z++){
-					if(stop - start + 1 >= 3){
-						if(data.get(z).getDay_1().equals("") || data.get(z).getDay_1().equals(null)){
-							data.get(z).setDay_1("-");
-						}
-					}
-				}
-				
-				//for(int z = start ; z <= stop ; z++){
-				//	if()
-				//	data.get(z).setDay_1("-");
-				//}
-				
-				//System.out.println("FROM : " + timeSlot.getFrom() + " TO : " + timeSlot.getTo());
-				//System.out.println("LOC : " + TimeSlot.getTotalMinutes(Day.start, timeSlot.getFrom()) / 30 );
-				//System.out.println("TO : " + (((TimeSlot.getTotalMinutes(Day.start, timeSlot.getFrom()) + TimeSlot.getTotalMinutes(timeSlot.getFrom(), timeSlot.getTo())) / 30) - 1));
-				
-			}
-	
-			
-			//SECOND DAY
-			for(int x = 0 ; x < days.get(1).getTimeSlots().size() ; x++){
-				TimeSlot timeSlot = days.get(1).getTimeSlots().get(x) ;
-				int start  = TimeSlot.getTotalMinutes(Day.start, timeSlot.getFrom()) / 30 ;
-				int stop = ((TimeSlot.getTotalMinutes(Day.start, timeSlot.getFrom()) + TimeSlot.getTotalMinutes(timeSlot.getFrom(), timeSlot.getTo())) / 30) - 1 ;
-				
-				if(timeSlot.getSection() == null || timeSlot.getSubject() == null || timeSlot.getRoom() == null){
-					continue ;
-				}
-				
-				data.get(start).setDay_2(timeSlot.getSubject().getSubject_code());
-				data.get(start + 1).setDay_2(timeSlot.getSection().getYear().getYear() + timeSlot.getSection().getSection());
-				data.get(start + 2).setDay_2(timeSlot.getRoom().getRoom_code()) ;
-				
-				ColorInator currentColor = new ColorInator(start , stop , timeSlot.getColor() , days.get(1).getDay()) ;
-				colors.add(currentColor) ;
-				
-				for(int z = start ; z <= stop ; z++){
-					if(stop - start + 1 >= 3){
-						if(data.get(z).getDay_2().equals("") || data.get(z).getDay_2().equals(null)){
-							data.get(z).setDay_2("-");
-						}
-					}
-				}
-				
-			}
-			
-			
-			//THIRD DAY
-			for(int x = 0 ; x < days.get(2).getTimeSlots().size() ; x++){
-				TimeSlot timeSlot = days.get(2).getTimeSlots().get(x) ;
-				int start  = TimeSlot.getTotalMinutes(Day.start, timeSlot.getFrom()) / 30 ;
-				int stop = ((TimeSlot.getTotalMinutes(Day.start, timeSlot.getFrom()) + TimeSlot.getTotalMinutes(timeSlot.getFrom(), timeSlot.getTo())) / 30) - 1 ;
-				
-				if(timeSlot.getSection() == null || timeSlot.getSubject() == null || timeSlot.getRoom() == null){
-					continue ;
-				}
-				
-				data.get(start).setDay_3(timeSlot.getSubject().getSubject_code());
-				data.get(start + 1).setDay_3(timeSlot.getSection().getYear().getYear() + timeSlot.getSection().getSection());
-				data.get(start + 2).setDay_3(timeSlot.getRoom().getRoom_code()) ;
-				
-				ColorInator currentColor = new ColorInator(start , stop , timeSlot.getColor() , days.get(2).getDay()) ;
-				colors.add(currentColor) ;
-				
-				for(int z = start ; z <= stop ; z++){
-					if(stop - start + 1 >= 3){
-						if(data.get(z).getDay_3().equals("") || data.get(z).getDay_3().equals(null)){
-							data.get(z).setDay_3("-");
-						}
-					}
-				}
-				
-			}
-			
-			//FOURTH DAY
-			for(int x = 0 ; x < days.get(3).getTimeSlots().size() ; x++){
-				TimeSlot timeSlot = days.get(3).getTimeSlots().get(x) ;
-				int start  = TimeSlot.getTotalMinutes(Day.start, timeSlot.getFrom()) / 30 ;
-				int stop = ((TimeSlot.getTotalMinutes(Day.start, timeSlot.getFrom()) + TimeSlot.getTotalMinutes(timeSlot.getFrom(), timeSlot.getTo())) / 30) - 1 ;
-				
-				if(timeSlot.getSection() == null || timeSlot.getSubject() == null || timeSlot.getRoom() == null){
-					continue ;
-				}
-				
-				data.get(start).setDay_4(timeSlot.getSubject().getSubject_code());
-				data.get(start + 1).setDay_4(timeSlot.getSection().getYear().getYear() + timeSlot.getSection().getSection());
-				data.get(start + 2).setDay_4(timeSlot.getRoom().getRoom_code()) ;
-				
-				ColorInator currentColor = new ColorInator(start , stop , timeSlot.getColor() , days.get(3).getDay()) ;
-				colors.add(currentColor) ;
-				
-				for(int z = start ; z <= stop ; z++){
-					if(stop - start + 1 >= 3){
-						if(data.get(z).getDay_4().equals("") || data.get(z).getDay_4().equals(null)){
-							data.get(z).setDay_4("-");
-						}
-					}
-				}
-				
-			}
-			
-			//FIFTH DAY
-			for(int x = 0 ; x < days.get(4).getTimeSlots().size() ; x++){
-				TimeSlot timeSlot = days.get(4).getTimeSlots().get(x) ;
-				int start  = TimeSlot.getTotalMinutes(Day.start, timeSlot.getFrom()) / 30 ;
-				int stop = ((TimeSlot.getTotalMinutes(Day.start, timeSlot.getFrom()) + TimeSlot.getTotalMinutes(timeSlot.getFrom(), timeSlot.getTo())) / 30) - 1 ;
-				
-				if(timeSlot.getSection() == null || timeSlot.getSubject() == null || timeSlot.getRoom() == null){
-					continue ;
-				}
-				
-				data.get(start).setDay_5(timeSlot.getSubject().getSubject_code());
-				data.get(start + 1).setDay_5(timeSlot.getSection().getYear().getYear() + timeSlot.getSection().getSection());
-				data.get(start + 2).setDay_5(timeSlot.getRoom().getRoom_code()) ;
-				
-				ColorInator currentColor = new ColorInator(start , stop , timeSlot.getColor() , days.get(4).getDay()) ;
-				colors.add(currentColor) ;
-				
-				for(int z = start ; z <= stop ; z++){
-					if(stop - start + 1 >= 3){
-						if(data.get(z).getDay_5().equals("") || data.get(z).getDay_5().equals(null)){
-							data.get(z).setDay_5("-");
-						}
-					}
-				}
-				
-			}
-			*/
-		
-		
+
 		table.setItems(data);
 		
 		table.getColumns().add(time) ;
@@ -954,5 +924,15 @@ public class Scheduler {
 			}
 		}
 		return null ;
+	}
+	
+	private static float getSliceableTime(float units){
+		if(units == 5){
+			return 2 ;
+		}else if(units == 3){
+			return 1 ;
+		}else{
+			return units ;
+		}
 	}
 }
