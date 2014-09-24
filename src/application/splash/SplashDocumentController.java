@@ -25,7 +25,7 @@ public class SplashDocumentController implements Initializable{
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		Timer time = new Timer();
 		double val = 0 ;
-		Connect.connect("localhost", "3306", "scheduler", "root", "") ;
+		Connect.connect("localhost", "3306", "scheduler", "root", "1234") ;
 		splashStatus.setText("Connecting to localhost ...");
 		time.schedule(new TimerTask(){
 			public void run(){

@@ -49,6 +49,7 @@ public class Main extends Application {
 			Scene scene = new Scene(root,screenDimension.getWidth(),screenDimension.getHeight() - 100);
 			scene.getStylesheets().add(getClass().getResource("/application/application.css").toExternalForm());
 			primaryStage.setScene(scene);
+			primaryStage.setFullScreen(true);
 			//primaryStage.show();
 		} catch(Exception e) {
 			e.printStackTrace();

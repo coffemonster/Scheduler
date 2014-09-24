@@ -10,7 +10,10 @@ import java.util.ArrayList;
 
 
 
+
+
 import com.sun.prism.paint.Color;
+
 
 import application.main.FXMLDocumentController;
 import javafx.collections.FXCollections;
@@ -19,9 +22,11 @@ import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.effect.BlendMode;
 import javafx.scene.layout.Background;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Line;
+import congcrete.ColorInator;
 import congcrete.Day;
 import congcrete.Room;
 import congcrete.Section;
@@ -222,10 +227,20 @@ public class Scheduler {
 		
 		targetDay.getTimeSlots().add(time);
 		
+		for(int iSection = 0 ; iSection < sectionList.size() ; iSection++){
+			if(sectionList.get(iSection).getSection_id() == subject.getSection().getSection_id()){
+				for(int iDay = 0 ; iDay < sectionList.get(iSection).getDays().size() ; iDay++){
+					if(sectionList.get(iSection).getDays().get(iDay).getDay().equals(targetDay.getDay())){
+						sectionList.get(iSection).getDays().get(iDay).getTimeSlots().add(time) ;
+						break ;
+					}
+				}
+			}
+		}
+		
 		for(int iDay = 0 ; iDay < subject.getSection().getDays().size() ; iDay++){
 			if(subject.getSection().getDays().get(iDay).getDay().equalsIgnoreCase(targetDay.getDay())){
 				subject.getSection().getDays().get(iDay).getTimeSlots().add(time) ;
-				System.out.println("Updated Time : " + subject.getSection().getDays().get(iDay).getLastTime());
 			}
 		}
 		
@@ -451,6 +466,23 @@ public class Scheduler {
 		return false ;
 	}
 	
+	public static void viewSectionSchedule(Section section){
+		for(int x = 0 ; x < sectionList.size() ; x++){
+			if(sectionList.get(x).getSection_id() == section.getSection_id()){
+				setSchedule(sectionList.get(x).getDays()) ;
+			}
+		}
+	}
+	
+	public static void viewRoomSchedule(Room room){
+		for(int iRoom = 0 ; iRoom < roomsList.size() ; iRoom++){
+			if(roomsList.get(iRoom).getRoom_id() == room.getRoom_id()){
+				setSchedule(roomsList.get(iRoom).getDays()) ;
+				break ;
+			}
+		}
+	}
+	
 	public static boolean viewTeacherSchedule(Teacher teacher){
 		//TODO add validation if not yet Schedule
 		
@@ -477,6 +509,7 @@ public class Scheduler {
 		for(int x = 0 ; x < teachersList.size() ; x++){
 			if(teachersList.get(x).getTeacher_id() == teacher.getTeacher_id()){
 				setSchedule(teachersList.get(x).getDays()) ;
+				break ;
 			}
 		}
 		
@@ -485,6 +518,7 @@ public class Scheduler {
 	
 	public static TableView setSchedule(ArrayList<Day> days){
 		TableView table = new TableView() ;
+		ArrayList<ColorInator> colors = new ArrayList<ColorInator>() ;
 		
 		//table.setDisable(true);
 		
@@ -539,17 +573,8 @@ public class Scheduler {
 						setText(getItem());
 						
 						//System.out.println(getStyle());
-						
-							if(!getItem().equals("-")){
-								for(int x = 0 ; x < days.get(0).getTimeSlots().size() ; x++){
-									if(getItem().equals(days.get(0).getTimeSlots().get(x).getSubject().getSubject_name())){
-										myColor =  days.get(0).getTimeSlots().get(x).getColor() ; 
-										System.out.println(myColor);
-									}
-								}
-							}
-						
-							setStyle("-fx-background-color:" + myColor) ;	
+						setStyle("-fx-background-color:" + getColor(colors , getIndex() , days.get(0).getDay())) ;
+						//System.out.println("-fx-background-color:" + getColor(colors , getIndex() , days.get(0).getDay())) ;
 					}
 				}
 			};
@@ -559,14 +584,93 @@ public class Scheduler {
 		TableColumn second_day = new TableColumn(days.get(1).getDay()) ;
 		second_day.setCellValueFactory(new PropertyValueFactory<TableCellList , String>("day_2"));
 		
+		second_day.setCellFactory(column -> {
+			return new TableCell<TableCellList , String>(){
+				@Override
+				protected void updateItem(String item , boolean empty){
+					super.updateItem(item, empty);
+					
+					if(item == null || empty || item == ""){
+						setText("") ;
+						setStyle("") ;
+					}else{
+						setText(getItem());
+						
+						//System.out.println(getStyle());
+						setStyle("-fx-background-color:" + getColor(colors , getIndex() , days.get(1).getDay())) ;
+						//System.out.println("-fx-background-color:" + getColor(colors , getIndex() , days.get(0).getDay())) ;
+					}
+				}
+			};
+		});
+		
 		TableColumn third_day = new TableColumn(days.get(2).getDay()) ;
 		third_day.setCellValueFactory(new PropertyValueFactory<TableCellList , String>("day_3"));
+		
+		third_day.setCellFactory(column -> {
+			return new TableCell<TableCellList , String>(){
+				@Override
+				protected void updateItem(String item , boolean empty){
+					super.updateItem(item, empty);
+					
+					if(item == null || empty || item == ""){
+						setText("") ;
+						setStyle("") ;
+					}else{
+						setText(getItem());
+						
+						//System.out.println(getStyle());
+						setStyle("-fx-background-color:" + getColor(colors , getIndex() , days.get(2).getDay())) ;
+						//System.out.println("-fx-background-color:" + getColor(colors , getIndex() , days.get(0).getDay())) ;
+					}
+				}
+			};
+		});
 		
 		TableColumn fourth_day = new TableColumn(days.get(3).getDay()) ;
 		fourth_day.setCellValueFactory(new PropertyValueFactory<TableCellList , String>("day_4"));
 		
+		fourth_day.setCellFactory(column -> {
+			return new TableCell<TableCellList , String>(){
+				@Override
+				protected void updateItem(String item , boolean empty){
+					super.updateItem(item, empty);
+					
+					if(item == null || empty || item == ""){
+						setText("") ;
+						setStyle("") ;
+					}else{
+						setText(getItem());
+						
+						//System.out.println(getStyle());
+						setStyle("-fx-background-color:" + getColor(colors , getIndex() , days.get(3).getDay())) ;
+						//System.out.println("-fx-background-color:" + getColor(colors , getIndex() , days.get(0).getDay())) ;
+					}
+				}
+			};
+		});
+		
 		TableColumn fifth_day = new TableColumn(days.get(4).getDay()) ;
 		fifth_day.setCellValueFactory(new PropertyValueFactory<TableCellList , String>("day_5"));
+		
+		fifth_day.setCellFactory(column -> {
+			return new TableCell<TableCellList , String>(){
+				@Override
+				protected void updateItem(String item , boolean empty){
+					super.updateItem(item, empty);
+					
+					if(item == null || empty || item == ""){
+						setText("") ;
+						setStyle("") ;
+					}else{
+						setText(getItem());
+						//System.out.println(getStyle());
+						setStyle("-fx-background-color:" + getColor(colors , getIndex() , days.get(4).getDay())) ;
+						//System.out.println("-fx-background-color:" + getColor(colors , getIndex() , days.get(0).getDay())) ;
+					}
+				}
+			};
+		});
 		
 		boolean flag = true ;
 		Time high = null ;
@@ -609,15 +713,91 @@ public class Scheduler {
 		}
 		
 			//FIRST DAY
-			for(int x = 0 ; x < days.get(0).getTimeSlots().size() ; x++){
-				TimeSlot timeSlot = days.get(0).getTimeSlots().get(x) ;
+		
+		for(int iDay = 0 ; iDay < days.size() ; iDay++){
+			for(int iTime = 0 ; iTime < days.get(iDay).getTimeSlots().size() ; iTime++){
+				TimeSlot timeSlot = days.get(iDay).getTimeSlots().get(iTime) ;
+				
+				if(timeSlot.getSection() == null || timeSlot.getSubject() == null || timeSlot.getRoom() == null){
+					continue ;
+				}
+				
 				int start  = TimeSlot.getTotalMinutes(Day.start, timeSlot.getFrom()) / 30 ;
 				int stop = ((TimeSlot.getTotalMinutes(Day.start, timeSlot.getFrom()) + TimeSlot.getTotalMinutes(timeSlot.getFrom(), timeSlot.getTo())) / 30) - 1 ;
 				
-				data.get(start).setDay_1(timeSlot.getSubject().getSubject_name());
+				//SETTING THE DETAILS
+				if(iDay == 0){
+					data.get(start).setDay_1(timeSlot.getSubject().getSubject_code());
+					data.get(start + 1).setDay_1(timeSlot.getSection().getYear().getYear() + timeSlot.getSection().getSection());
+					data.get(start + 2).setDay_1(timeSlot.getRoom().getRoom_code()) ;
+				}else if(iDay == 1){
+					data.get(start).setDay_2(timeSlot.getSubject().getSubject_code());
+					data.get(start + 1).setDay_2(timeSlot.getSection().getYear().getYear() + timeSlot.getSection().getSection());
+					data.get(start + 2).setDay_2(timeSlot.getRoom().getRoom_code()) ;
+				}else if(iDay == 2){
+					data.get(start).setDay_3(timeSlot.getSubject().getSubject_code());
+					data.get(start + 1).setDay_3(timeSlot.getSection().getYear().getYear() + timeSlot.getSection().getSection());
+					data.get(start + 2).setDay_3(timeSlot.getRoom().getRoom_code()) ;
+				}else if(iDay == 3){
+					data.get(start).setDay_4(timeSlot.getSubject().getSubject_code());
+					data.get(start + 1).setDay_4(timeSlot.getSection().getYear().getYear() + timeSlot.getSection().getSection());
+					data.get(start + 2).setDay_4(timeSlot.getRoom().getRoom_code()) ;
+				}else if(iDay == 4){
+					data.get(start).setDay_5(timeSlot.getSubject().getSubject_code());
+					data.get(start + 1).setDay_5(timeSlot.getSection().getYear().getYear() + timeSlot.getSection().getSection());
+					data.get(start + 2).setDay_5(timeSlot.getRoom().getRoom_code()) ;
+				}
+				
+				ColorInator currentColor = new ColorInator(start , stop , timeSlot.getColor() , days.get(iDay).getDay()) ;
+				colors.add(currentColor) ;
+				
+				//SETTING the '-'
+				for(int z = start ; z <= stop ; z++){
+					if(stop - start + 1 >= 3){
+						if(iDay == 0){
+							if(data.get(z).getDay_1().equals("") || data.get(z).getDay_1().equals(null)){
+								data.get(z).setDay_1("-");
+							}
+						}else if(iDay == 1){
+							if(data.get(z).getDay_2().equals("") || data.get(z).getDay_2().equals(null)){
+								data.get(z).setDay_2("-");
+							}
+						}else if(iDay == 2){
+							if(data.get(z).getDay_3().equals("") || data.get(z).getDay_3().equals(null)){
+								data.get(z).setDay_3("-");
+							}
+						}else if(iDay == 3){
+							if(data.get(z).getDay_4().equals("") || data.get(z).getDay_4().equals(null)){
+								data.get(z).setDay_4("-");
+							}
+						}else if(iDay == 4){
+							if(data.get(z).getDay_5().equals("") || data.get(z).getDay_5().equals(null)){
+								data.get(z).setDay_5("-");
+							}
+						}
+					}
+				}
+			}
+		}
+		
+		/*
+			for(int x = 0 ; x < days.get(0).getTimeSlots().size() ; x++){
+				TimeSlot timeSlot = days.get(0).getTimeSlots().get(x) ;
+				
+				if(timeSlot.getSection() == null || timeSlot.getSubject() == null || timeSlot.getRoom() == null){
+					continue ;
+				}
+				
+				int start  = TimeSlot.getTotalMinutes(Day.start, timeSlot.getFrom()) / 30 ;
+				int stop = ((TimeSlot.getTotalMinutes(Day.start, timeSlot.getFrom()) + TimeSlot.getTotalMinutes(timeSlot.getFrom(), timeSlot.getTo())) / 30) - 1 ;
+				
+				data.get(start).setDay_1(timeSlot.getSubject().getSubject_code());
 				data.get(start + 1).setDay_1(timeSlot.getSection().getYear().getYear() + timeSlot.getSection().getSection());
-				data.get(start + 2).setDay_1(timeSlot.getRoom().getRoom_name()) ;
-						
+				data.get(start + 2).setDay_1(timeSlot.getRoom().getRoom_code()) ;
+				
+				ColorInator currentColor = new ColorInator(start , stop , timeSlot.getColor() , days.get(0).getDay()) ;
+				colors.add(currentColor) ;
+				
 				for(int z = start ; z <= stop ; z++){
 					if(stop - start + 1 >= 3){
 						if(data.get(z).getDay_1().equals("") || data.get(z).getDay_1().equals(null)){
@@ -625,17 +805,18 @@ public class Scheduler {
 						}
 					}
 				}
-				/*
-				for(int z = start ; z <= stop ; z++){
-					if()
-					data.get(z).setDay_1("-");
-				}
-				*/
+				
+				//for(int z = start ; z <= stop ; z++){
+				//	if()
+				//	data.get(z).setDay_1("-");
+				//}
+				
 				//System.out.println("FROM : " + timeSlot.getFrom() + " TO : " + timeSlot.getTo());
 				//System.out.println("LOC : " + TimeSlot.getTotalMinutes(Day.start, timeSlot.getFrom()) / 30 );
 				//System.out.println("TO : " + (((TimeSlot.getTotalMinutes(Day.start, timeSlot.getFrom()) + TimeSlot.getTotalMinutes(timeSlot.getFrom(), timeSlot.getTo())) / 30) - 1));
 				
 			}
+	
 			
 			//SECOND DAY
 			for(int x = 0 ; x < days.get(1).getTimeSlots().size() ; x++){
@@ -643,9 +824,16 @@ public class Scheduler {
 				int start  = TimeSlot.getTotalMinutes(Day.start, timeSlot.getFrom()) / 30 ;
 				int stop = ((TimeSlot.getTotalMinutes(Day.start, timeSlot.getFrom()) + TimeSlot.getTotalMinutes(timeSlot.getFrom(), timeSlot.getTo())) / 30) - 1 ;
 				
-				data.get(start).setDay_2(timeSlot.getSubject().getSubject_name());
+				if(timeSlot.getSection() == null || timeSlot.getSubject() == null || timeSlot.getRoom() == null){
+					continue ;
+				}
+				
+				data.get(start).setDay_2(timeSlot.getSubject().getSubject_code());
 				data.get(start + 1).setDay_2(timeSlot.getSection().getYear().getYear() + timeSlot.getSection().getSection());
-				data.get(start + 2).setDay_2(timeSlot.getRoom().getRoom_name()) ;
+				data.get(start + 2).setDay_2(timeSlot.getRoom().getRoom_code()) ;
+				
+				ColorInator currentColor = new ColorInator(start , stop , timeSlot.getColor() , days.get(1).getDay()) ;
+				colors.add(currentColor) ;
 				
 				for(int z = start ; z <= stop ; z++){
 					if(stop - start + 1 >= 3){
@@ -664,9 +852,16 @@ public class Scheduler {
 				int start  = TimeSlot.getTotalMinutes(Day.start, timeSlot.getFrom()) / 30 ;
 				int stop = ((TimeSlot.getTotalMinutes(Day.start, timeSlot.getFrom()) + TimeSlot.getTotalMinutes(timeSlot.getFrom(), timeSlot.getTo())) / 30) - 1 ;
 				
-				data.get(start).setDay_3(timeSlot.getSubject().getSubject_name());
+				if(timeSlot.getSection() == null || timeSlot.getSubject() == null || timeSlot.getRoom() == null){
+					continue ;
+				}
+				
+				data.get(start).setDay_3(timeSlot.getSubject().getSubject_code());
 				data.get(start + 1).setDay_3(timeSlot.getSection().getYear().getYear() + timeSlot.getSection().getSection());
-				data.get(start + 2).setDay_3(timeSlot.getRoom().getRoom_name()) ;
+				data.get(start + 2).setDay_3(timeSlot.getRoom().getRoom_code()) ;
+				
+				ColorInator currentColor = new ColorInator(start , stop , timeSlot.getColor() , days.get(2).getDay()) ;
+				colors.add(currentColor) ;
 				
 				for(int z = start ; z <= stop ; z++){
 					if(stop - start + 1 >= 3){
@@ -684,9 +879,16 @@ public class Scheduler {
 				int start  = TimeSlot.getTotalMinutes(Day.start, timeSlot.getFrom()) / 30 ;
 				int stop = ((TimeSlot.getTotalMinutes(Day.start, timeSlot.getFrom()) + TimeSlot.getTotalMinutes(timeSlot.getFrom(), timeSlot.getTo())) / 30) - 1 ;
 				
-				data.get(start).setDay_4(timeSlot.getSubject().getSubject_name());
+				if(timeSlot.getSection() == null || timeSlot.getSubject() == null || timeSlot.getRoom() == null){
+					continue ;
+				}
+				
+				data.get(start).setDay_4(timeSlot.getSubject().getSubject_code());
 				data.get(start + 1).setDay_4(timeSlot.getSection().getYear().getYear() + timeSlot.getSection().getSection());
-				data.get(start + 2).setDay_4(timeSlot.getRoom().getRoom_name()) ;
+				data.get(start + 2).setDay_4(timeSlot.getRoom().getRoom_code()) ;
+				
+				ColorInator currentColor = new ColorInator(start , stop , timeSlot.getColor() , days.get(3).getDay()) ;
+				colors.add(currentColor) ;
 				
 				for(int z = start ; z <= stop ; z++){
 					if(stop - start + 1 >= 3){
@@ -704,9 +906,16 @@ public class Scheduler {
 				int start  = TimeSlot.getTotalMinutes(Day.start, timeSlot.getFrom()) / 30 ;
 				int stop = ((TimeSlot.getTotalMinutes(Day.start, timeSlot.getFrom()) + TimeSlot.getTotalMinutes(timeSlot.getFrom(), timeSlot.getTo())) / 30) - 1 ;
 				
-				data.get(start).setDay_5(timeSlot.getSubject().getSubject_name());
+				if(timeSlot.getSection() == null || timeSlot.getSubject() == null || timeSlot.getRoom() == null){
+					continue ;
+				}
+				
+				data.get(start).setDay_5(timeSlot.getSubject().getSubject_code());
 				data.get(start + 1).setDay_5(timeSlot.getSection().getYear().getYear() + timeSlot.getSection().getSection());
-				data.get(start + 2).setDay_5(timeSlot.getRoom().getRoom_name()) ;
+				data.get(start + 2).setDay_5(timeSlot.getRoom().getRoom_code()) ;
+				
+				ColorInator currentColor = new ColorInator(start , stop , timeSlot.getColor() , days.get(4).getDay()) ;
+				colors.add(currentColor) ;
 				
 				for(int z = start ; z <= stop ; z++){
 					if(stop - start + 1 >= 3){
@@ -717,6 +926,7 @@ public class Scheduler {
 				}
 				
 			}
+			*/
 		
 		
 		table.setItems(data);
@@ -735,4 +945,14 @@ public class Scheduler {
 		return null ;
 	}
 	
+	private static String getColor(ArrayList<ColorInator> colors , int index , String day){
+		for(int x = 0 ; x < colors.size() ; x++){
+			if(colors.get(x).getDay().equalsIgnoreCase(day)){
+				if(colors.get(x).getStart() <= index && colors.get(x).getStop() >= index){
+					return colors.get(x).getColor() ;
+				}
+			}
+		}
+		return null ;
+	}
 }

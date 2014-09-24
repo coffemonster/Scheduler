@@ -14,9 +14,11 @@ public class TimeSlot {
 	private Room room ;
 	private Teacher teacher ;
 	private String color ;
-	private static final String[] colorChoice = {"#e67e22" , "#1abc9c" , "#2ecc71" , "#9b59b6" , "#34495e" , "#f1c40f" , "#e74c3c" , "#95a5a6" , "#f39c12" , "#d35400" , "#c0392b" , "#bdc3c7"} ;
+	private static final String[] colorChoice = {"#d35400" , "#c0392b" , "#bdc3c7" , "#7CB9E8" , "#C9FFE5" , "#EFDECD" , "#F19CBB" , "#FAEBD7" , "#FBCEB1" , "#7FFFD4" , "#B2BEB5" , "#F0FFFF" , "#DBE9F4" , "#F4C2C2" , "#FF91AF" , "#FAE7B5" , "#BCD4E6" , "#F5F5DC" , "#FFE4C4" , "#FE6F5E" , "#FFEBCD" , "#ACE5EE" , "#FAF0BE" , "#E3DAC9" , "#BF94E4" , "#D891EF" , "#D19FE8" , "#F4BBFF" , "#FFC1CC" , "#F0DC82"} ;
 	
 	public TimeSlot(Time from , Time to){
+		int colorChoiceLoc = (int) (Math.random() * colorChoice.length - 1) ;
+		color = colorChoice[colorChoiceLoc] ;
 		this.from  = from ;
 		this.to = to ;
 	}
@@ -30,8 +32,6 @@ public class TimeSlot {
 	
 
 	public String getColor() {
-		int colorChoiceLoc = (int) (Math.random() * colorChoice.length - 1) ;
-		color = colorChoice[colorChoiceLoc] ;
 		return color ;
 	}
 

@@ -55,6 +55,8 @@ import org.controlsfx.dialog.Dialogs;
 import org.controlsfx.dialog.Dialogs.UserInfo;
 */
 
+
+
 import congcrete.Course;
 import congcrete.Department;
 import congcrete.Room;
@@ -67,6 +69,8 @@ import database.Connect;
 import adder.node.Adder;
 import application.department.DepartmentContextMenu;
 import application.list.SubjectList;
+import application.menu.RoomContextMenu;
+import application.menu.SectionContextMenu;
 import application.menu.TeacherContextMenu;
 import application.priority.PriorityTime;
 import application.scheduler.Scheduler;
@@ -95,6 +99,8 @@ public class FXMLDocumentController implements Initializable{
 	private NodeAnimation animation ;
 	private static FXMLDocumentController staticInstance ;
 	private TeacherContextMenu teacherMenu ;
+	private RoomContextMenu roomMenu ;
+	private SectionContextMenu sectionMenu ;
 	
 	/*
 	 * MENU CONTROLS HANDLER
@@ -199,7 +205,12 @@ public class FXMLDocumentController implements Initializable{
 		
 		//teacher Context menu
 		teacherMenu = new TeacherContextMenu() ;
+		roomMenu = new RoomContextMenu() ;
+		sectionMenu = new SectionContextMenu() ;
+		sectionMenu.setAutoHide(true);
+		roomMenu.setAutoHide(true);
 		teacherMenu.setAutoHide(true);
+		
 		
 		treeView.setOnMouseClicked(new EventHandler<MouseEvent>(){
 
@@ -212,6 +223,10 @@ public class FXMLDocumentController implements Initializable{
 						TreeItemData teacherItemData = (TreeItemData)teacherItem ;
 						if(teacherItemData.getData() instanceof Teacher){
 							teacherMenu.show(treeView , e.getScreenX() , e.getScreenY());
+						}else if(teacherItemData.getData() instanceof Room){
+							roomMenu.show(treeView , e.getScreenX() , e.getScreenY());
+						}else if(teacherItemData.getData() instanceof Section){
+							sectionMenu.show(treeView , e.getScreenX() , e.getScreenY());
 						}
 					}else{
 						e.consume();
