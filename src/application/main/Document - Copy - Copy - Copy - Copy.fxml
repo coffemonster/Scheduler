@@ -120,6 +120,27 @@
                                     <Font size="11.0" />
                                  </font>
                               </Label>
+                              <ImageView fx:id="subjectImageView1" fitHeight="42.0" fitWidth="45.0" layoutX="557.0" layoutY="12.0" onMouseClicked="#handleRTS" onMouseEntered="#menuHover" onMouseExited="#menuRestore" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="/images/list85.png" />
+                                 </image>
+                              </ImageView>
+                              <Label layoutX="565.0" layoutY="54.0" text="RTS">
+                                 <font>
+                                    <Font size="11.0" />
+                                 </font>
+                              </Label>
+                              <Label layoutX="565.0" layoutY="86.0" text="Scheduling Algorithm" />
+                              <ImageView fx:id="subjectImageView11" fitHeight="42.0" fitWidth="45.0" layoutX="623.0" layoutY="12.0" onMouseClicked="#handleSRTS" onMouseEntered="#menuHover" onMouseExited="#menuRestore" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="/images/schedule.png" />
+                                 </image>
+                              </ImageView>
+                              <Label layoutX="628.0" layoutY="54.0" text="SRTS">
+                                 <font>
+                                    <Font size="11.0" />
+                                 </font>
+                              </Label>
                            </children></AnchorPane>
                   </content>
                 </Tab>

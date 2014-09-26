@@ -10,6 +10,8 @@ import org.controlsfx.dialog.Dialogs;
 import org.controlsfx.dialog.Dialogs.UserInfo;
 */
 
+
+import application.User;
 import application.splash.SplashDocumentController;
 import database.Connect;
 import javafx.application.Application;
@@ -62,7 +64,9 @@ public class Main extends Application {
 	
 	@Override
 	public void stop() throws SQLException{
-		
+		if(User.isActive()){
+			User.logout();
+		}
 	}
 	
 	public static Stage getMainStage(){

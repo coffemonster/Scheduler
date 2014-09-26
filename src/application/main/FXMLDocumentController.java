@@ -57,6 +57,11 @@ import org.controlsfx.dialog.Dialogs.UserInfo;
 
 
 
+
+
+
+import org.controlsfx.control.Notifications;
+
 import congcrete.Course;
 import congcrete.Department;
 import congcrete.Room;
@@ -67,13 +72,16 @@ import congcrete.TimeSlot;
 import congcrete.Year;
 import database.Connect;
 import adder.node.Adder;
+import application.User;
 import application.department.DepartmentContextMenu;
 import application.list.SubjectList;
 import application.menu.RoomContextMenu;
 import application.menu.SectionContextMenu;
 import application.menu.TeacherContextMenu;
 import application.priority.PriorityTime;
+import application.scheduler.HybridScheduling;
 import application.scheduler.Scheduler;
+import application.scheduler.SimpleScheduler;
 import application.validation.Validation;
 public class FXMLDocumentController implements Initializable{
 	
@@ -200,9 +208,27 @@ public class FXMLDocumentController implements Initializable{
 			}
 		});
 	}
+	
+	@FXML public void handleRTS(MouseEvent e){
+		SimpleScheduler sc = new SimpleScheduler(1) ;
+		sc.start();
+		Scheduler.setRoomsList(sc.roomsList);
+		Scheduler.setTeachersList(sc.teachersList);
+		Scheduler.setSectionList(sc.sectionList);
+	}
+	
+	@FXML public void handleSRTS(MouseEvent e){
+		HybridScheduling sc = new HybridScheduling(1) ;
+		sc.start();
+		Scheduler.setRoomsList(sc.roomsList);
+		Scheduler.setTeachersList(sc.teachersList);
+		Scheduler.setSectionList(sc.sectionList);
+	}
 
 	@Override public void initialize(URL url , ResourceBundle rs){
-		
+			
+		//new HybridScheduling(1).start(); 
+				
 		//teacher Context menu
 		teacherMenu = new TeacherContextMenu() ;
 		roomMenu = new RoomContextMenu() ;

@@ -2,15 +2,18 @@ package application.department;
 
 import java.net.URL;
 import java.sql.SQLException;
+import java.sql.Time;
 import java.util.ResourceBundle;
 
 import congcrete.Department;
+import congcrete.TimeSlot;
 import NodeUtils.BounceInTransition;
 import NodeUtils.NodeAnimation;
 import NodeUtils.ScaleAnimation;
 import NodeUtils.ShakeAnimation;
 import application.main.FXMLDocumentController;
 import application.scheduler.Scheduler;
+import application.scheduler.SimpleScheduler;
 import application.validation.Validation;
 import tree.TreeItemData;
 import tree.UpdateTree;
@@ -34,7 +37,7 @@ public class DepartmentDocumentController implements Initializable{
 	@FXML private AnchorPane rootPane ;
 	@FXML private Button finish ;
 	
-	Scheduler sc = new Scheduler(1) ;
+	Scheduler sc ;
 	
 	//Handle , Adding in the DB
 	@FXML public void handleAddDepartment(ActionEvent e) throws SQLException{
@@ -68,7 +71,6 @@ public class DepartmentDocumentController implements Initializable{
 	
 	//Closing the Department
 	@FXML public void removeDepartment(MouseEvent e){
-		
 		sc.start();
 		
 		//FXMLDocumentController.getInstance().getWorkplacePane().setCenter(null);
@@ -77,6 +79,8 @@ public class DepartmentDocumentController implements Initializable{
 	}
 	
 	public void initialize(URL url , ResourceBundle res){
-		
+		//sc = new Scheduler(1) ;
+		new SimpleScheduler(1).start();
+		System.out.println(TimeSlot.getTotalMinutes(Time.valueOf("7:00:00"), Time.valueOf("7:00:00"))) ;
 	}
 }

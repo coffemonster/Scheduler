@@ -63,7 +63,29 @@ public class Day {
 		Time lowest = null ;
 		int locRoom = 0 ;
 		int locDay = 0 ;
+		int minimum = 0 ;
+		boolean flag = true ;
 		
+		for(int iRoom = 0 ; iRoom < rooms.size() ; iRoom++){
+			for(int iDay = 0 ; iDay < rooms.get(iRoom).getDays().size() ; iDay++){
+				if(flag){
+					minimum = TimeSlot.getTotalMinutes(Day.start,rooms.get(iRoom).getDays().get(iDay).getLastTime()) ;
+					locRoom = 0 ;
+					locDay = 0;
+					flag = false ;
+				}else{
+					int temp = TimeSlot.getTotalMinutes(Day.start,rooms.get(iRoom).getDays().get(iDay).getLastTime()) ;
+					if(minimum > temp){
+						minimum = temp ;
+						locRoom = iRoom ;
+						locDay = iDay ;
+						System.out.print("MINIMUM : " + minimum);
+					}
+				}
+			}
+		}
+		
+		/*
 		for(int iRoom = 0 ; iRoom < rooms.size() ; iRoom++){
 			if(iRoom == 0){
 				lowest = rooms.get(0).getDays().get(0).getLastTime() ;
@@ -71,7 +93,7 @@ public class Day {
 				locDay = 0;
 			}
 			for(int iDay = 0 ; iDay < rooms.get(iRoom).getDays().size() ; iDay++){
-	
+
 				if(lowest.toLocalTime().isAfter(rooms.get(iRoom).getDays().get(iDay).getLastTime().toLocalTime())){
 					lowest = rooms.get(iRoom).getDays().get(iDay).getLastTime() ;
 					locRoom = iRoom ;
@@ -79,6 +101,7 @@ public class Day {
 				}
 			}
 		}
+		*/
 		
 		return rooms.get(locRoom).getDays().get(locDay) ;
 	}

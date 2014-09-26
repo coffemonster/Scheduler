@@ -205,4 +205,45 @@ public class Subject {
 		return subjects ;
 	}
 	
+	public static ArrayList<Subject> getSubjectInTeacher(int teacher_id , ArrayList<Section> sectionList){
+		ArrayList<Subject> subjects = new ArrayList<Subject>() ;
+		String subjectQuery = "SELECT * FROM classes C " +
+							  "JOIN subjects S ON S.subject_id = C.subject_id " +
+							  "JOIN sections SEC ON SEC.section_id = C.section_id " +
+							  "JOIN years Y ON Y.year_id = SEC.year_ID " + 
+							  "JOIN teachers T ON T.teacher_id = C.teacher_id WHERE T.teacher_id = ";
+		
+		ResultSet result = Connect.QUERY(subjectQuery + teacher_id) ;
+		try {
+			while(result.next()){
+				Subject sub = new Subject() ;
+				sub.setSubject_id(result.getInt(Subject.SUBJECT_ID));
+				sub.setSubject_name(result.getString(Subject.SUBJECT_NAME));
+				sub.setSubject_code(result.getString(Subject.SUBJECT_CODE));
+				sub.setSubject_unit(result.getInt(Subject.SUBJECT_UNIT));
+				
+				Year year = Year.getYear(result.getInt(Subject.YEAR_ID)) ;
+				
+				Section section = null ;
+				
+				for(int iSection = 0 ; iSection < sectionList.size() ; iSection++){
+					if(sectionList.get(iSection).getSection_id() == result.getInt(Section.SECTION_ID)){
+						section = sectionList.get(iSection) ;
+						break ;
+					}
+				}
+				
+				sub.setSection(section);
+				
+				sub.setYear(year);
+				
+				subjects.add(sub) ;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return subjects ;
+	}
+	
 }
