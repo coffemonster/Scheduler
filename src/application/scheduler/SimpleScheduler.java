@@ -40,8 +40,6 @@ public class SimpleScheduler {
 			main:while(true){
 				availableTeacher = getAvailableTeacher(teachersList , targetDay) ;
 				
-				System.out.println("Available Teacher : " + availableTeacher.size());
-				
 				if(availableTeacher.size() == 0 && !Scheduler.isComplete(teachersList)){
 					targetDay.getTimeSlots().add(new TimeSlot(targetDay.getLastTime() , Time.valueOf(targetDay.getLastTime().toLocalTime().plusMinutes(30)))) ;
 					break main ;
@@ -56,9 +54,7 @@ public class SimpleScheduler {
 	
 	public static void teacherRoomPriority(ArrayList<Teacher> teachers , Day targetDay){
 		Teacher targetTeacher = getTeacher(teachers, targetDay) ;
-		if(targetTeacher.getTeacher_id() == 2){
-			System.out.print("DEBUH");
-		}
+
 		ArrayList<Subject> targetSubject = getAvailableSubject(targetTeacher , targetDay) ;
 		Subject currentSubject = getSubject(targetSubject , targetDay) ;
 		
@@ -83,6 +79,7 @@ public class SimpleScheduler {
 		
 		currentSubject.setRemaining_unit(currentSubject.getRemaining_unit() - sliceUnit);
 		
+		/*
 		System.out.println("Selected Subject : " + currentSubject.getSubject_code()) ;
 		System.out.println("--Teachers Time--");
 		for(int x = 0 ; x < teachersList.size() ; x++){
@@ -113,6 +110,7 @@ public class SimpleScheduler {
 			}
 			System.out.println();
 		}
+		*/
 		
 	}
 	
@@ -146,10 +144,6 @@ public class SimpleScheduler {
 			Section currentSection = targetTeacher.getSubjects().get(iSubject).getSection() ;
 			Day currentDay = getDayFrom(currentSection.getDays() , targetDay.getDay()) ;
 			//Check if there is a mathcing day or if there is no remaining units
-			if(currentDay == null || targetTeacher.getSubjects().get(iSubject).getRemaining_unit() == 0){
-				System.out.print("aw");
-				continue ;
-			}
 			
 			//Check if there is the same Subject
 			boolean isDuplicate = false ;
@@ -251,6 +245,7 @@ public class SimpleScheduler {
 			
 		}
 		
+		/*
 		System.out.println("--Selected Teacher--");
 		for(int x = 0 ; x < teachersList.size() ; x++){
 			System.out.println("Teacher : " + teachersList.get(x).getFirst_name());
@@ -259,6 +254,7 @@ public class SimpleScheduler {
 				System.out.println(teachersList.get(x).getSubjects().get(y).getSubject_name() + " : " + teachersList.get(x).getSubjects().get(y).getRemaining_unit());
 			}
 		}
+		*/
 		
 		return teachersList.get(teacherLoc) ;
 	}
