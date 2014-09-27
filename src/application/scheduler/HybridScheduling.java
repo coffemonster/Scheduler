@@ -13,9 +13,9 @@ import congcrete.TimeSlot;
 public class HybridScheduling {
 	
 	private int dept_id ;
-	public static ArrayList<Teacher> teachersList ;
-	public static ArrayList<Room> roomsList ;
-	public static ArrayList<Section> sectionList ;
+	private ArrayList<Teacher> teachersList ;
+	private ArrayList<Room> roomsList ;
+	private ArrayList<Section> sectionList ;
 	
 	public HybridScheduling(int dept_id){
 		this.dept_id = dept_id ;
@@ -29,6 +29,10 @@ public class HybridScheduling {
 			ArrayList<Subject> subjectList = Subject.getSubjectInTeacher(teachersList.get(x).getTeacher_id() , sectionList) ;
 			teachersList.get(x).setSubjects(subjectList);
 		}	
+	}
+	
+	public HybridScheduling(int dept_id , ArrayList<Teacher> teachers , ArrayList<Room> rooms , ArrayList<Section> sections){
+		
 	}
 	
 	public void start(){
@@ -45,14 +49,14 @@ public class HybridScheduling {
 					break main ;
 				}else{
 					teacherRoomPriority(availableTeacher , targetDay) ;
-					//break algo
+					giveBreak(teachersList , sectionList) ;
 					break main ;
 				}
 			}
 		}
 	}
 	
-	public static void teacherRoomPriority(ArrayList<Teacher> teachers , Day targetDay){
+	private void teacherRoomPriority(ArrayList<Teacher> teachers , Day targetDay){
 		Teacher choosenTeacher = null ;
 		Section choosenSection = null ;
 		Subject choosenSubject = null ;
@@ -87,6 +91,15 @@ public class HybridScheduling {
 				if(isDuplicate){
 					continue ;
 				}
+				//Check if Section is Available
+				if(sectionDay.getLastTime().toLocalTime().isAfter(targetDay.getLastTime().toLocalTime())){
+					continue ;
+				}
+				
+				ArrayList<Room> roomsTemp = (ArrayList<Room>) roomsList.clone() ;
+				
+				//HybridScheduling temp = new HybridScheduling(dept_id , teachersList, roomsList , sectionList) ;
+				//temp.getSectionList()
 				
 				//MAIN
 				if(flag){
@@ -99,6 +112,7 @@ public class HybridScheduling {
 				}else{
 					int tempTeacherDelay = TimeSlot.getTotalMinutes(teacherDay.getLastTime(), targetDay.getLastTime()) ;
 					int tempSectionDelay = TimeSlot.getTotalMinutes(sectionDay.getLastTime(), targetDay.getLastTime()) ;
+
 					if(teacherDelay + sectionDelay > tempTeacherDelay + tempSectionDelay){
 						teacherDelay = tempTeacherDelay ;
 						sectionDelay = tempSectionDelay ;
@@ -136,5 +150,98 @@ public class HybridScheduling {
 		choosenSubject.setRemaining_unit(choosenSubject.getRemaining_unit() - sliceUnit);
 		
 		
+	}
+	
+	public void giveBreak(ArrayList<Teacher> teachers , ArrayList<Section> section){
+		//Giving break to teacher
+		for(int iTeacher = 0 ; iTeacher < teachers.size() ; iTeacher++){
+			Teacher currentTeacher = teachers.get(iTeacher) ;
+			for(int iDay = 0 ; iDay < currentTeacher.getDays().size() ; iDay++){
+				Day currentDay = currentTeacher.getDays().get(iDay) ;
+				if(!Scheduler.validateBreak(currentDay)){
+					TimeSlot time = new TimeSlot(currentDay.getLastTime() , Time.valueOf(currentDay.getLastTime().toLocalTime().plusHours(1))) ;
+					
+					Subject subject = new Subject() ;
+					subject.setSubject_code("null");
+					Teacher teacher = new Teacher() ;
+					teacher.setFirst_name("Wala");
+					teacher.setMiddle_initial("B");
+					Room room = new Room() ;
+					room.setRoom_code("WW");
+					Section mysection = Section.getSection(1) ;
+					
+					time.setRoom(room);
+					time.setTeacher(teacher);
+					time.setSubject(subject);
+					time.setSection(mysection);
+					
+					currentDay.getTimeSlots().add(time) ;
+				}
+			}
+		}
+		
+		//Giving break to Section
+		for(int iSection = 0 ; iSection < section.size() ; iSection++){
+			Section currentSection = section.get(iSection) ;
+			for(int iDay = 0 ; iDay < currentSection.getDays().size() ; iDay++){
+				Day currentDay = currentSection.getDays().get(iDay) ;
+				if(!Scheduler.validateBreak(currentDay)){
+					
+					TimeSlot time = new TimeSlot(currentDay.getLastTime() , Time.valueOf(currentDay.getLastTime().toLocalTime().plusHours(1))) ;
+					
+					Subject subject = new Subject() ;
+					subject.setSubject_code("null");
+					Teacher teacher = new Teacher() ;
+					teacher.setFirst_name("Wala");
+					teacher.setMiddle_initial("B");
+					Room room = new Room() ;
+					room.setRoom_code("WW");
+					Section mysection = Section.getSection(1) ;
+					
+					time.setRoom(room);
+					time.setTeacher(teacher);
+					time.setSubject(subject);
+					time.setSection(mysection);
+					
+					currentDay.getTimeSlots().add(time) ;
+					
+				}
+			}
+		}
+		
+		
+		
+	}
+
+	public int getDept_id() {
+		return dept_id;
+	}
+
+	public void setDept_id(int dept_id) {
+		this.dept_id = dept_id;
+	}
+
+	public ArrayList<Teacher> getTeachersList() {
+		return teachersList;
+	}
+
+	public void setTeachersList(ArrayList<Teacher> teachersList) {
+		this.teachersList = teachersList;
+	}
+
+	public ArrayList<Room> getRoomsList() {
+		return roomsList;
+	}
+
+	public void setRoomsList(ArrayList<Room> roomsList) {
+		this.roomsList = roomsList;
+	}
+
+	public ArrayList<Section> getSectionList() {
+		return sectionList;
+	}
+
+	public void setSectionList(ArrayList<Section> sectionList) {
+		this.sectionList = sectionList;
 	}
 }

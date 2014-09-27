@@ -144,6 +144,9 @@ public class SimpleScheduler {
 			Section currentSection = targetTeacher.getSubjects().get(iSubject).getSection() ;
 			Day currentDay = getDayFrom(currentSection.getDays() , targetDay.getDay()) ;
 			//Check if there is a mathcing day or if there is no remaining units
+			if(currentDay == null || targetTeacher.getSubjects().get(iSubject).getRemaining_unit() == 0){
+				continue ;
+			}
 			
 			//Check if there is the same Subject
 			boolean isDuplicate = false ;

@@ -484,7 +484,7 @@ public class Scheduler {
 									TimeSlot time = new TimeSlot(currentDay.getLastTime() , Time.valueOf(currentDay.getLastTime().toLocalTime().plusHours(1))) ;
 									
 									Subject subject = new Subject() ;
-									subject.setSubject_code("aw");
+									subject.setSubject_code("null");
 									Teacher teacher = new Teacher() ;
 									teacher.setFirst_name("Wala");
 									teacher.setMiddle_initial("B");
@@ -538,7 +538,7 @@ public class Scheduler {
 							
 							
 							Subject subject = new Subject() ;
-							subject.setSubject_code("aw");
+							subject.setSubject_code("null");
 							Teacher teacher = new Teacher() ;
 							teacher.setFirst_name("Wala");
 							teacher.setMiddle_initial("B");
@@ -848,6 +848,10 @@ public class Scheduler {
 				if(timeSlot.getSection() == null || timeSlot.getSubject() == null || timeSlot.getRoom() == null || timeSlot.getTeacher() == null){
 					continue ;
 				}
+				//FOR BREAK
+				if(timeSlot.getSubject().getSubject_code().equals("null")){
+					continue ;
+				}
 				
 				int start  = TimeSlot.getTotalMinutes(Day.start, timeSlot.getFrom()) / 30 ;
 				int stop = ((TimeSlot.getTotalMinutes(Day.start, timeSlot.getFrom()) + TimeSlot.getTotalMinutes(timeSlot.getFrom(), timeSlot.getTo())) / 30) - 1 ;
@@ -1075,14 +1079,14 @@ public class Scheduler {
 		}
 	}
 	
-	private static boolean validateBreak(Day day){
+	public static boolean validateBreak(Day day){
 		int totalMinutes = 0;
 		Time tempTime = Time.valueOf("00:00:00") ;
 		for(int iTime = day.getTimeSlots().size() - 1 ; iTime >= 0 ; iTime--){
 			if(totalMinutes != 0 && !tempTime.toLocalTime().equals(day.getTimeSlots().get(iTime).getTo().toLocalTime())){
 				return true ;
 			}
-			if(day.getTimeSlots().get(iTime).getSubject().getSubject_code().equals("aw")){
+			if(day.getTimeSlots().get(iTime).getSubject().getSubject_code().equals("null")){
 				return true ;
 			}
 			tempTime = day.getTimeSlots().get(iTime).getFrom() ;

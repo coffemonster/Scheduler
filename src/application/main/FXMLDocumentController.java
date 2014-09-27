@@ -103,6 +103,7 @@ public class FXMLDocumentController implements Initializable{
 	@FXML private TitledPane hierarchyPane ;
 	@FXML private SplitPane splitPane ;
 	@FXML private VBox	subjectBox ;
+	@FXML private ListView departmentList ;
 	private ScaleAnimationProperty scaleProperty ;
 	private NodeAnimation animation ;
 	private static FXMLDocumentController staticInstance ;
@@ -220,9 +221,9 @@ public class FXMLDocumentController implements Initializable{
 	@FXML public void handleSRTS(MouseEvent e){
 		HybridScheduling sc = new HybridScheduling(1) ;
 		sc.start();
-		Scheduler.setRoomsList(sc.roomsList);
-		Scheduler.setTeachersList(sc.teachersList);
-		Scheduler.setSectionList(sc.sectionList);
+		Scheduler.setRoomsList(sc.getRoomsList());
+		Scheduler.setTeachersList(sc.getTeachersList());
+		Scheduler.setSectionList(sc.getSectionList());
 	}
 
 	@Override public void initialize(URL url , ResourceBundle rs){
@@ -531,7 +532,7 @@ public class FXMLDocumentController implements Initializable{
 						Node courseImg = new ImageView(new ImageGetter("certificate3.png").getImage()) ;
 						
 						//Adding data to TreeItemData
-						TreeItemData courseItem = new TreeItemData(course.getCourse_name() , courseImg , course) ;
+						TreeItemData courseItem = new TreeItemData(course.getCourse_code(), courseImg , course) ;
 						
 						TreeItem<String> root = tree.getRoot() ;
 												
@@ -676,9 +677,9 @@ public class FXMLDocumentController implements Initializable{
 	
 	//getters
 	//get the editable workplace
-	public BorderPane getWorkplacePane(){
-		return workplacePane ;
-	}
+ 	//public BorderPane getWorkplacePane(){
+	//	return workplacePane ;
+	//}
 	
 	public TreeView getTree(){
 		return treeView ;
