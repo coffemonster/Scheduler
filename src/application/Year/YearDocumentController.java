@@ -6,6 +6,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
+import org.controlsfx.control.NotificationPane;
+
 import tree.UpdateTree;
 import congcrete.Course;
 import congcrete.Department;
@@ -20,6 +22,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 
 public class YearDocumentController implements Initializable{
@@ -31,10 +34,6 @@ public class YearDocumentController implements Initializable{
 	private ArrayList<Course> indexCourse ;
 	private int year ;
 	
-	@FXML public void removeYear(MouseEvent e){
-		FXMLDocumentController.getInstance().getWorkplacePane().setCenter(null);
-	}
-	
 	@FXML public void handleAddYear(ActionEvent e){
 		//VALIDATION
 		Validation validator = new Validation() ;
@@ -43,14 +42,21 @@ public class YearDocumentController implements Initializable{
 		
 		if(validator.hasError()){
 			validator.showError();
+			ImageView image = new ImageView(new NodeUtils.ImageGetter("error.png").getImage()) ;
+			NotificationPane noti = (NotificationPane)FXMLDocumentController.getInstance().getTabpane().getSelectionModel().getSelectedItem().getContent() ;
+			noti.show("An error occured during validation" , image);
 			return ;
 		}else{
-			Validation.hideError();
+			validator.hideError();
 		}
 		
 		int course_id = indexCourse.get(course.getSelectionModel().getSelectedIndex()).getCourse_id() ;
 		int primary = Connect.getNextIntegerPrimary("years", "year_id") ;
 		Connect.emptyQUERY("INSERT INTO `years` VALUES(" + primary + "," + year + "," + course_id + ")");
+		
+		ImageView image = new ImageView(new NodeUtils.ImageGetter("check.png").getImage()) ;
+		NotificationPane noti = (NotificationPane)FXMLDocumentController.getInstance().getTabpane().getSelectionModel().getSelectedItem().getContent() ;
+		noti.show("Success" , image);
 		
 		refreshYear(); 
 		

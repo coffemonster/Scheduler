@@ -6,6 +6,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
+import org.controlsfx.control.NotificationPane;
+
 import tree.TreeItemData;
 import congcrete.Teacher;
 import database.Connect;
@@ -17,6 +19,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 
 public class PriorityDocumentController implements Initializable{
@@ -51,7 +54,12 @@ public class PriorityDocumentController implements Initializable{
 
 		if(validator.hasError()){
 			validator.showError();
+			ImageView image = new ImageView(new NodeUtils.ImageGetter("error.png").getImage()) ;
+			NotificationPane noti = (NotificationPane)FXMLDocumentController.getInstance().getTabpane().getSelectionModel().getSelectedItem().getContent() ;
+			noti.show("An error occured during validation" , image);
 			return ;
+		}else{
+			validator.hideError();
 		}
 		
 		//TODO validate if time is sufficient
@@ -78,7 +86,11 @@ public class PriorityDocumentController implements Initializable{
 			Connect.emptyQUERY("INSERT INTO priorities(`priority_id`,`teacher_id`,`day`,`from`) VALUES("+ nextPrimary +","+ teacher.getTeacher_id() +",'"+ dayString +"','"+fromPriority.getTime() +"')");
 		}
 		
-		Validation.hideError(); 
+		validator.hideError(); 
+		
+		ImageView image = new ImageView(new NodeUtils.ImageGetter("check.png").getImage()) ;
+		NotificationPane noti = (NotificationPane)FXMLDocumentController.getInstance().getTabpane().getSelectionModel().getSelectedItem().getContent() ;
+		noti.show("Success" , image);
 		
 		//empty fields
 		fromHours.clear();
@@ -86,11 +98,7 @@ public class PriorityDocumentController implements Initializable{
 		fromType.getSelectionModel().clearSelection();
 		
 	}
-	
-	@FXML public void removePriority(MouseEvent e){
-		FXMLDocumentController.getInstance().getWorkplacePane().setCenter(null);
-	}
-	
+		
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		TreeItemData item =  (TreeItemData) arg1.getObject("item") ;

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="457.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.user.AddUserController">
+   <children>
+      <Label layoutX="156.0" layoutY="56.0" text="Username">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <Label layoutX="160.0" layoutY="93.0" text="Password">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <TextField fx:id="txtUsername" layoutX="257.0" layoutY="57.0" prefHeight="25.0" prefWidth="200.0" promptText="Username..." />
+      <PasswordField fx:id="txtPassword" layoutX="257.0" layoutY="94.0" prefHeight="25.0" prefWidth="200.0" promptText="Password..." />
+      <CheckBox fx:id="chkAdmin" layoutX="156.0" layoutY="126.0" mnemonicParsing="false" text="Admin">
+         <font>
+            <Font name="System Bold Italic" size="12.0" />
+         </font>
+      </CheckBox>
+      <Hyperlink layoutX="400.0" layoutY="123.0" onAction="#handleCheckAll" text="Check All" />
+      <Pane layoutX="99.0" layoutY="183.0" prefHeight="99.0" prefWidth="200.0" style="-fx-border-style: solid; -fx-border-color: silver;">
+         <children>
+            <CheckBox fx:id="chkViewResources" layoutX="5.0" layoutY="6.0" mnemonicParsing="false" selected="true" text="View Resources" />
+            <CheckBox fx:id="chkDeleteResources" layoutX="5.0" layoutY="75.0" mnemonicParsing="false" text="Delete Resources" />
+            <CheckBox fx:id="chkEditResources" layoutX="5.0" layoutY="53.0" mnemonicParsing="false" text="Edit Resources" />
+            <CheckBox fx:id="chkAddResources" layoutX="5.0" layoutY="30.0" mnemonicParsing="false" text="Add Resources" />
+         </children>
+      </Pane>
+      <Hyperlink layoutX="95.0" layoutY="156.0" onAction="#handleCheckAllResources" text="Check All Resources Privilieges" />
+      <Pane layoutX="306.0" layoutY="183.0" prefHeight="55.0" prefWidth="200.0" style="-fx-border-style: solid; -fx-border-color: silver;">
+         <children>
+            <CheckBox fx:id="chkViewLogs" layoutX="5.0" layoutY="6.0" mnemonicParsing="false" text="View Logs" />
+            <CheckBox fx:id="chkDeleteLogs" layoutX="5.0" layoutY="30.0" mnemonicParsing="false" text="Delete Logs" />
+         </children>
+      </Pane>
+      <Hyperlink layoutX="306.0" layoutY="156.0" onAction="#handleCheckAllLogs" text="Check All Logs Privileges" />
+      <Pane layoutX="99.0" layoutY="311.0" prefHeight="55.0" prefWidth="200.0" style="-fx-border-style: solid; -fx-border-color: silver;">
+         <children>
+            <CheckBox fx:id="chkPrintSchedule" layoutX="5.0" layoutY="6.0" mnemonicParsing="false" text="Print Schedule" />
+            <CheckBox fx:id="chkPrintLogs" layoutX="5.0" layoutY="30.0" mnemonicParsing="false" text="Print Logs" />
+         </children>
+      </Pane>
+      <Hyperlink layoutX="95.0" layoutY="288.0" onAction="#handleCheckAllPriviliedges" text="Check All Print Privilieges" />
+      <Hyperlink layoutX="306.0" layoutY="244.0" onAction="#handleCheckAllAccounts" text="Check All Accounts Privilieges" />
+      <Pane layoutX="306.0" layoutY="267.0" prefHeight="99.0" prefWidth="200.0" style="-fx-border-style: solid; -fx-border-color: silver;">
+         <children>
+            <CheckBox fx:id="chkAddAccounts" layoutX="5.0" layoutY="6.0" mnemonicParsing="false" text="Add Accounts" />
+            <CheckBox fx:id="chkChangePriviledge" layoutX="5.0" layoutY="75.0" mnemonicParsing="false" text="Change Privileges" />
+            <CheckBox fx:id="chkChangeLoginInformation" layoutX="5.0" layoutY="53.0" mnemonicParsing="false" text="Change Login Information" />
+            <CheckBox fx:id="chkDisableAccounts" layoutX="5.0" layoutY="30.0" mnemonicParsing="false" text="Disable Accounts" />
+         </children>
+      </Pane>
+      <Button fx:id="finish" layoutX="429.0" layoutY="375.0" mnemonicParsing="false" onAction="#handleAddUser" style="-fx-base: #222222;" text="Add User">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Button>
+      <Label layoutX="156.0" layoutY="22.0">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>

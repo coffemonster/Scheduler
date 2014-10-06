@@ -10,19 +10,19 @@
    <children>
       <Label layoutX="143.0" layoutY="47.0" text="Room Name">
          <font>
-            <Font size="18.0" />
+            <Font name="System Bold" size="18.0" />
          </font>
       </Label>
-      <TextField fx:id="roomName" layoutX="257.0" layoutY="48.0" prefHeight="25.0" prefWidth="200.0" promptText="room name..." />
+      <TextField fx:id="roomName" layoutX="257.0" layoutY="48.0" prefHeight="25.0" prefWidth="200.0" promptText="Room name..." />
       <Label layoutX="149.0" layoutY="83.0" text="Room Code">
          <font>
-            <Font size="18.0" />
+            <Font name="System Bold" size="18.0" />
          </font>
       </Label>
-      <TextField fx:id="roomCode" layoutX="257.0" layoutY="84.0" prefHeight="25.0" prefWidth="200.0" promptText="room code..." />
-      <Label layoutX="148.0" layoutY="118.0" text="Department">
+      <TextField fx:id="roomCode" layoutX="257.0" layoutY="84.0" prefHeight="25.0" prefWidth="200.0" promptText="Room code..." />
+      <Label layoutX="145.0" layoutY="118.0" text="Department">
          <font>
-            <Font size="18.0" />
+            <Font name="System Bold" size="18.0" />
          </font>
       </Label>
       <ChoiceBox fx:id="department" layoutX="257.0" layoutY="119.0" prefHeight="25.0" prefWidth="200.0" />
@@ -31,10 +31,5 @@
             <Font size="14.0" />
          </font>
       </Button>
-      <ImageView fitHeight="25.0" fitWidth="27.0" layoutX="565.0" layoutY="14.0" onMouseClicked="#removeRoom" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="/images/close11.png" />
-         </image>
-      </ImageView>
    </children>
 </AnchorPane>

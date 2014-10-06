@@ -16,6 +16,8 @@ import java.util.ResourceBundle;
 
 import javax.imageio.ImageIO;
 
+import org.controlsfx.control.NotificationPane;
+
 import tree.TreeItemData;
 import tree.UpdateTree;
 import congcrete.Department;
@@ -83,11 +85,6 @@ public class TeacherDocumentController implements Initializable{
 		} 
 	}
 	
-	//remove teacher
-	@FXML public void removeTeacher(MouseEvent e){
-		FXMLDocumentController.getInstance().getWorkplacePane().setCenter(null);
-	}
-	
 	//handle add teacher
 	@FXML public void handleAddTeacher(ActionEvent e){
 		//Validation
@@ -104,9 +101,12 @@ public class TeacherDocumentController implements Initializable{
 		
 		if(validator.hasError()){
 			validator.showError();
+			ImageView image = new ImageView(new NodeUtils.ImageGetter("error.png").getImage()) ;
+			NotificationPane noti = (NotificationPane)FXMLDocumentController.getInstance().getTabpane().getSelectionModel().getSelectedItem().getContent() ;
+			noti.show("An error occured during validation" , image);
 			return ;
 		}else{
-			Validation.hideError();
+			validator.hideError();
 		}
 		
 		//get the next Primary
@@ -139,6 +139,10 @@ public class TeacherDocumentController implements Initializable{
 		}
 
 		FXMLDocumentController.updateTree();
+		
+		ImageView image = new ImageView(new NodeUtils.ImageGetter("check.png").getImage()) ;
+		NotificationPane noti = (NotificationPane)FXMLDocumentController.getInstance().getTabpane().getSelectionModel().getSelectedItem().getContent() ;
+		noti.show("Success" , image);
 		
 		Platform.runLater(new Runnable(){
 

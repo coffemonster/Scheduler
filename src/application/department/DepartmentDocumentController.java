@@ -5,6 +5,8 @@ import java.sql.SQLException;
 import java.sql.Time;
 import java.util.ResourceBundle;
 
+import org.controlsfx.control.NotificationPane;
+
 import congcrete.Department;
 import congcrete.TimeSlot;
 import NodeUtils.BounceInTransition;
@@ -25,6 +27,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TreeItem;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.shape.Circle;
@@ -50,9 +53,12 @@ public class DepartmentDocumentController implements Initializable{
 		
 		if(validator.hasError()){
 			validator.showError();
+			ImageView image = new ImageView(new NodeUtils.ImageGetter("error.png").getImage()) ;
+			NotificationPane noti = (NotificationPane)FXMLDocumentController.getInstance().getTabpane().getSelectionModel().getSelectedItem().getContent() ;
+			noti.show("An error occured during validation" , image);
 			return ;
 		}else{
-			Validation.hideError();
+			validator.hideError() ;
 		}
 		
 		int nextPrimary = Connect.getNextIntegerPrimary("departments", "dept_id") ;
@@ -60,6 +66,10 @@ public class DepartmentDocumentController implements Initializable{
 						   ",'" + inputDeptName.getText() + "' , '" + inputDeptCode.getText() + "')");
 		inputDeptName.setText("");
 		inputDeptCode.setText("");
+		
+		ImageView image = new ImageView(new NodeUtils.ImageGetter("check.png").getImage()) ;
+		NotificationPane noti = (NotificationPane)FXMLDocumentController.getInstance().getTabpane().getSelectionModel().getSelectedItem().getContent() ;
+		noti.show("Success" , image);
 		
 		FXMLDocumentController.updateTree();
 		

@@ -19,6 +19,7 @@ public class Connect {
 			return connection ;
 		}catch(Exception e){
 			e.printStackTrace();
+			connection = null ;
 			return null ;
 		}
 	}

@@ -5,7 +5,7 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="264.0" prefWidth="225.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller = "application.properties.RoomPropertiesController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="275.0" prefWidth="225.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.properties.RoomPropertiesController">
    <children>
       <Label alignment="CENTER_RIGHT" contentDisplay="TOP" layoutY="20.0" prefHeight="27.0" prefWidth="225.0" style="-fx-background-color: #dee7ee;" text="Room Details" textAlignment="JUSTIFY" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
          <padding>
@@ -21,9 +21,11 @@
             <Insets bottom="5.0" right="15.0" top="5.0" />
          </padding>
       </Label>
-      <TextField fx:id="deptCode" editable="false" layoutX="120.0" layoutY="206.0" minHeight="-Infinity" prefHeight="20.0" prefWidth="92.0" AnchorPane.leftAnchor="119.0" AnchorPane.rightAnchor="14.0" />
-      <Label layoutX="14.0" layoutY="207.0" text="Department Code" />
-      <TextField fx:id="deptName" editable="false" layoutX="120.0" layoutY="177.0" minHeight="-Infinity" prefHeight="20.0" prefWidth="92.0" AnchorPane.leftAnchor="119.0" AnchorPane.rightAnchor="14.0" />
-      <Label layoutX="14.0" layoutY="178.0" text="Department Name" />
+      <TextField fx:id="deptCode" editable="false" layoutX="119.0" layoutY="231.0" minHeight="-Infinity" prefHeight="20.0" prefWidth="92.0" AnchorPane.leftAnchor="119.0" AnchorPane.rightAnchor="14.0" />
+      <Label layoutX="14.0" layoutY="232.0" text="Department Code" />
+      <TextField fx:id="deptName" editable="false" layoutX="119.0" layoutY="202.0" minHeight="-Infinity" prefHeight="20.0" prefWidth="92.0" AnchorPane.leftAnchor="119.0" AnchorPane.rightAnchor="14.0" />
+      <Label layoutX="14.0" layoutY="203.0" text="Department Name" />
+      <Label layoutX="14.0" layoutY="171.0" text="Department" />
+      <ChoiceBox fx:id="cboDepartment" layoutX="119.0" layoutY="167.0" prefHeight="25.0" prefWidth="92.0" AnchorPane.leftAnchor="119.0" AnchorPane.rightAnchor="14.0" />
    </children>
 </AnchorPane>

@@ -5,7 +5,7 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="303.0" prefWidth="225.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller = "application.properties.CoursePropertiesController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="342.0" prefWidth="225.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.properties.CoursePropertiesController">
    <children>
       <Label alignment="CENTER_RIGHT" contentDisplay="TOP" layoutY="20.0" prefHeight="27.0" prefWidth="225.0" style="-fx-background-color: #dee7ee;" text="Course Details" textAlignment="JUSTIFY" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
          <padding>
@@ -21,16 +21,18 @@
             <Insets bottom="5.0" right="15.0" top="5.0" />
          </padding>
       </Label>
-      <TextField fx:id="deptCode" editable="false" layoutX="120.0" layoutY="189.0" minHeight="-Infinity" prefHeight="20.0" prefWidth="92.0" AnchorPane.leftAnchor="119.0" AnchorPane.rightAnchor="14.0" />
-      <Label layoutX="14.0" layoutY="190.0" text="Department Code" />
-      <TextField fx:id="deptName" editable="false" layoutX="120.0" layoutY="163.0" minHeight="-Infinity" prefHeight="20.0" prefWidth="92.0" AnchorPane.leftAnchor="119.0" AnchorPane.rightAnchor="14.0" />
-      <Label layoutX="14.0" layoutY="164.0" text="Department Name" />
-      <Label alignment="CENTER_RIGHT" contentDisplay="TOP" layoutY="221.0" prefHeight="27.0" prefWidth="225.0" style="-fx-background-color: #dee7ee;" text="Year" textAlignment="JUSTIFY" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+      <TextField fx:id="deptCode" editable="false" layoutX="120.0" layoutY="214.0" minHeight="-Infinity" prefHeight="20.0" prefWidth="92.0" AnchorPane.leftAnchor="120.0" AnchorPane.rightAnchor="13.0" />
+      <Label layoutX="15.0" layoutY="215.0" text="Department Code" />
+      <TextField fx:id="deptName" editable="false" layoutX="120.0" layoutY="188.0" minHeight="-Infinity" prefHeight="20.0" prefWidth="92.0" AnchorPane.leftAnchor="120.0" AnchorPane.rightAnchor="13.0" />
+      <Label layoutX="15.0" layoutY="189.0" text="Department Name" />
+      <Label alignment="CENTER_RIGHT" contentDisplay="TOP" layoutY="260.0" prefHeight="27.0" prefWidth="225.0" style="-fx-background-color: #dee7ee;" text="Year" textAlignment="JUSTIFY" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
          <padding>
             <Insets bottom="5.0" right="15.0" top="5.0" />
          </padding>
       </Label>
-      <Label layoutX="14.0" layoutY="265.0" text="Number of Years" />
-      <TextField fx:id="year" editable="false" layoutX="174.0" layoutY="264.0" minHeight="-Infinity" prefHeight="20.0" prefWidth="35.0" AnchorPane.leftAnchor="174.0" AnchorPane.rightAnchor="14.0" />
+      <Label layoutX="15.0" layoutY="303.0" text="Number of Years" />
+      <TextField fx:id="year" editable="false" layoutX="175.0" layoutY="302.0" minHeight="-Infinity" prefHeight="20.0" prefWidth="35.0" AnchorPane.leftAnchor="175.0" AnchorPane.rightAnchor="13.0" />
+      <ChoiceBox fx:id="cboDepartment" layoutX="119.0" layoutY="156.0" prefHeight="25.0" prefWidth="92.0" AnchorPane.leftAnchor="119.0" AnchorPane.rightAnchor="14.0" />
+      <Label layoutX="16.0" layoutY="160.0" text="Department" />
    </children>
 </AnchorPane>

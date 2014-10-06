@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.image.*?>
-<?import javafx.scene.text.*?>
-<?import javafx.scene.control.*?>
 <?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="240.0" prefWidth="600.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.Year.YearDocumentController">
    <children>
       <Label layoutX="153.0" layoutY="114.0" text="Year Level">
          <font>
-            <Font size="18.0" />
+            <Font name="System Bold" size="18.0" />
          </font>
       </Label>
       <ChoiceBox fx:id="course" layoutX="248.0" layoutY="78.0" prefHeight="25.0" prefWidth="200.0" />
       <Label layoutX="177.0" layoutY="77.0" text="Course">
          <font>
-            <Font size="18.0" />
+            <Font name="System Bold" size="18.0" />
          </font>
       </Label>
       <Button layoutX="392.0" layoutY="149.0" mnemonicParsing="false" onAction="#handleAddYear" style="-fx-base: #222222;" text="Finish">
@@ -25,14 +25,9 @@
          </font>
       </Button>
       <TextField fx:id="yearLevel" disable="true" editable="false" layoutX="248.0" layoutY="115.0" prefHeight="25.0" prefWidth="200.0" />
-      <ImageView fitHeight="25.0" fitWidth="27.0" layoutX="565.0" layoutY="14.0" onMouseClicked="#removeYear" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="/images/close11.png" />
-         </image>
-      </ImageView>
       <Label layoutX="137.0" layoutY="39.0" text="Department">
          <font>
-            <Font size="18.0" />
+            <Font name="System Bold" size="18.0" />
          </font>
       </Label>
       <ChoiceBox fx:id="department" layoutX="248.0" layoutY="40.0" prefHeight="25.0" prefWidth="200.0" />

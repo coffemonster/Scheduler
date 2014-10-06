@@ -5,7 +5,11 @@ import java.util.Enumeration;
 import java.util.ResourceBundle;
 import java.util.Vector;
 
+import node.NodeUtils;
+import congcrete.Department;
+import congcrete.Section;
 import congcrete.Teacher;
+import database.Connect;
 import tree.TreeItemData;
 import application.main.FXMLDocumentController;
 import application.scheduler.Scheduler;
@@ -25,6 +29,7 @@ public class TeacherContextMenu extends ContextMenu{
 	
 	private MenuItem setPriorities ;
 	private MenuItem viewSchedule ;
+	private MenuItem delete ;
 	
 	public TeacherContextMenu(){
 		super() ;
@@ -65,7 +70,12 @@ public class TeacherContextMenu extends ContextMenu{
 				try {
 					AnchorPane priorityPane = loader.load() ;
 					priorityPane.setStyle("-fx-background-color : white ");
-					node.NodeUtils.addToCenter(FXMLDocumentController.getInstance().getWorkplacePane(), priorityPane);
+					
+					TreeItem<String> obj = (TreeItem<String>) FXMLDocumentController.getInstance().getTree().getSelectionModel().getSelectedItem() ; 
+					Teacher teacher = TreeItemData.getItemData(obj) ;
+					
+					NodeUtils.addToCenter(priorityPane , teacher.getFirst_name() + " " + teacher.getLast_name() + " Priorities");
+					
 					
 					Platform.runLater(new Runnable(){
 
@@ -96,6 +106,22 @@ public class TeacherContextMenu extends ContextMenu{
 			
 		});
 		
+		ImageView imageT = new ImageView(new ImageGetter("delete23.png").getImage()) ;
+		delete = new MenuItem("Delete" , imageT) ;
+		
+		delete.setOnAction(new EventHandler<ActionEvent>(){
+			@Override
+			public void handle(ActionEvent arg0) {
+				TreeItem<String> treeItem = (TreeItem<String>) FXMLDocumentController.getInstance().getTree().getSelectionModel().getSelectedItem() ;
+				Teacher teacherData = TreeItemData.getItemData(treeItem) ;
+				Connect.emptyQUERY("DELETE FROM teachers WHERE teacher_id = " + teacherData.getTeacher_id());
+				FXMLDocumentController.updateTree();
+				TreeItem<String> dept = Department.getItem(teacherData.getD().getDept_id()) ;
+				FXMLDocumentController.getInstance().getTree().getSelectionModel().select(dept.getChildren().get(0)) ;
+			}
+		});
+		
+		getItems().add(delete) ;
 		getItems().add(setPriorities);
 		getItems().add(viewSchedule) ;
 	}

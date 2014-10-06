@@ -10,10 +10,13 @@ import javafx.fxml.* ;
 import javafx.scene.Node;
 import javafx.scene.control.Accordion;
 import javafx.scene.control.ContextMenu;
+import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.SplitPane;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
 import javafx.scene.control.TreeCell;
@@ -46,6 +49,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Time;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.ResourceBundle ;
 
 /*
@@ -60,8 +64,20 @@ import org.controlsfx.dialog.Dialogs.UserInfo;
 
 
 
+
+
+
+
+
+
+
+
+
+import java.util.Vector;
+
 import org.controlsfx.control.Notifications;
 
+import congcrete.Account;
 import congcrete.Course;
 import congcrete.Department;
 import congcrete.Room;
@@ -71,13 +87,13 @@ import congcrete.Teacher;
 import congcrete.TimeSlot;
 import congcrete.Year;
 import database.Connect;
-import adder.node.Adder;
 import application.User;
-import application.department.DepartmentContextMenu;
 import application.list.SubjectList;
+import application.menu.CourseContextMenu;
 import application.menu.RoomContextMenu;
 import application.menu.SectionContextMenu;
 import application.menu.TeacherContextMenu;
+import application.menu.YearContextMenu;
 import application.priority.PriorityTime;
 import application.scheduler.HybridScheduling;
 import application.scheduler.Scheduler;
@@ -103,13 +119,18 @@ public class FXMLDocumentController implements Initializable{
 	@FXML private TitledPane hierarchyPane ;
 	@FXML private SplitPane splitPane ;
 	@FXML private VBox	subjectBox ;
-	@FXML private ListView departmentList ;
+	@FXML private ListView accountsList ;
+	@FXML private TabPane tabPaneWorlplace ;
+	@FXML private TabPane topTabPane ;
 	private ScaleAnimationProperty scaleProperty ;
 	private NodeAnimation animation ;
 	private static FXMLDocumentController staticInstance ;
 	private TeacherContextMenu teacherMenu ;
 	private RoomContextMenu roomMenu ;
 	private SectionContextMenu sectionMenu ;
+	private application.menu.DepartmentContextMenu departmentMenu ;
+	private CourseContextMenu courseMenu ;
+	private YearContextMenu yearMenu ;
 	
 	/*
 	 * MENU CONTROLS HANDLER
@@ -124,34 +145,40 @@ public class FXMLDocumentController implements Initializable{
 		String resourceURL = null ;
 		ImageView ev = (ImageView)e.getSource() ;
 		
+		String text = null ;
+		
 		if(ev.getId().equals("departmentImageView")){
+			text = "Add Department" ;
 			resourceURL = "/application/department/addDepartmentDocument.fxml" ;
 		}else if(ev.getId().equals("teacherImageView")){
+			text = "Add Teacher" ;
 			resourceURL = "/application/teacher/addTeacherDocument.fxml" ;
 		}else if(ev.getId().equals("roomImageView")){
 			resourceURL = "/application/room/addRoomDocument.fxml" ;
+			text = "Add Room" ;
 		}else if(ev.getId().equals("courseImageView")){
 			resourceURL = "/application/course/addCourseDocument.fxml" ;
+			text = "Add Course" ;
 		}else if(ev.getId().equals("yearImageView")){
 			resourceURL = "/application/Year/addYearDocument.fxml" ;
+			text = "Add Year" ;
 		}else if(ev.getId().equals("sectionImageView")){
+			text = "Add Section";
 			resourceURL = "/application/section/addSectionDocument.fxml" ;
 		}else if(ev.getId().equals("subjectImageView")){
 			resourceURL = "/application/Subject/addSubjectDocument.fxml" ;
+			text = "Add Subject" ;
+			
 		}
 		
 		Pane child = FXMLLoader.load(getClass().getResource(resourceURL)) ;
 		
-		Adder.addToCenter(workplacePane , child);
+		node.NodeUtils.addToCenter(child, text);
 		BounceInTransition bounce = new BounceInTransition(child) ;
 		/*
 		animation = new ScaleAnimation(scaleProperty);
 		animation.animate(child);
 		*/
-		
-		//close error box
-		Validation.hideError();
-		
 	}
 
 	/*
@@ -229,14 +256,68 @@ public class FXMLDocumentController implements Initializable{
 	@Override public void initialize(URL url , ResourceBundle rs){
 			
 		//new HybridScheduling(1).start(); 
+		
+		//Set the property listener for account list
+		accountsList.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Object>(){
+
+			@Override
+			public void changed(ObservableValue<? extends Object> arg0,
+					Object arg1, Object arg2) {
+				if(FXMLDocumentController.getInstance().getAccountsList().getSelectionModel().getSelectedItem() == null){
+					return ;
+				}
 				
+				FXMLLoader loader = new FXMLLoader() ;
+				loader.setLocation(getClass().getResource("/application/properties/userProperties.fxml"));
+				loader.setResources(new ResourceBundle(){
+
+					@Override
+					public Enumeration<String> getKeys() {
+						Vector<String> key = new Vector<String>() ;
+						key.add("account") ;
+						return (Enumeration<String>) key;
+					}
+
+					@Override
+					protected Object handleGetObject(String arg0) {
+						Account account = Account.getAccount(FXMLDocumentController.getInstance().getAccountsList().getSelectionModel().getSelectedItem().toString()) ;
+						return account ;
+					}
+					
+				});
+				
+				try {
+					AnchorPane details = loader.load() ;
+					ScrollPane sp = (ScrollPane) FXMLDocumentController.getInstance().getDetailsTitledPane().getContent() ;
+					details.setPrefWidth(sp.getWidth() - 5);
+					sp.setContent(details);
+					
+					
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				
+				FXMLDocumentController.getInstance().getRightAccordion().setExpandedPane(FXMLDocumentController.getInstance().getDetailsTitledPane()) ;
+			}
+			
+		});
+		
+		//show the accounts list
+		updateAccounts() ;
+		
 		//teacher Context menu
 		teacherMenu = new TeacherContextMenu() ;
 		roomMenu = new RoomContextMenu() ;
 		sectionMenu = new SectionContextMenu() ;
+		departmentMenu = new application.menu.DepartmentContextMenu() ;
+		courseMenu = new CourseContextMenu(); 
+		yearMenu = new YearContextMenu() ;
 		sectionMenu.setAutoHide(true);
 		roomMenu.setAutoHide(true);
 		teacherMenu.setAutoHide(true);
+		departmentMenu.setAutoHide(true);
+		courseMenu.setAutoHide(true);
+		yearMenu.setAutoHide(true);
 		
 		
 		treeView.setOnMouseClicked(new EventHandler<MouseEvent>(){
@@ -244,6 +325,13 @@ public class FXMLDocumentController implements Initializable{
 			@Override
 			public void handle(MouseEvent e) {
 				teacherMenu.hide();
+				roomMenu.hide();
+				sectionMenu.hide();
+				departmentMenu.hide();
+				courseMenu.hide();
+				yearMenu.hide();
+				
+				//teacherItemData is for the whole
 				if(e.getButton() == MouseButton.SECONDARY){
 					TreeItem<String> teacherItem = treeView.getSelectionModel().getSelectedItem() ;
 					if(teacherItem instanceof TreeItemData){
@@ -254,11 +342,28 @@ public class FXMLDocumentController implements Initializable{
 							roomMenu.show(treeView , e.getScreenX() , e.getScreenY());
 						}else if(teacherItemData.getData() instanceof Section){
 							sectionMenu.show(treeView , e.getScreenX() , e.getScreenY());
+						}else if(teacherItemData.getData() instanceof Department){
+							departmentMenu.show(treeView , e.getScreenX() , e.getScreenY());
+						}else if(teacherItemData.getData() instanceof Course){
+							courseMenu.show(treeView , e.getScreenX() , e.getScreenY());
+						}else if(teacherItemData.getData() instanceof Year){
+							yearMenu.show(treeView , e.getScreenX() , e.getScreenY());
 						}
 					}else{
 						e.consume();
 					}
 				}
+			}			
+		});
+		
+		treeView.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Object>(){
+			@Override
+			public void changed(ObservableValue<? extends Object> arg0,
+					Object arg1, Object arg2) {
+				teacherMenu.hide();
+				roomMenu.hide();
+				sectionMenu.hide();
+				departmentMenu.hide();
 			}
 			
 		});
@@ -419,7 +524,7 @@ public class FXMLDocumentController implements Initializable{
 						//getting image for the item
 						Node deptImg = new ImageView(new ImageGetter("school7-s.png").getImage()) ;
 						//adding to the Tree
-						TreeItemData deptTreeItem = new TreeItemData(department.getDept_name() , deptImg , department);
+						TreeItemData deptTreeItem = new TreeItemData(department.getDept_code() , deptImg , department);
 						
 						//TreeCell<String> cell = new TreeCell<String>() ;
 						//FXMLDocumentController.getTree().getRoot().getChildren().add(cell);
@@ -500,7 +605,7 @@ public class FXMLDocumentController implements Initializable{
 						Node roomImg = new ImageView(new ImageGetter("home113.png").getImage()) ;
 						
 						//Adding data to TreeItemData
-						TreeItemData room = new TreeItemData(roomData.getRoom_name() , roomImg , roomData) ;
+						TreeItemData room = new TreeItemData(roomData.getRoom_code() , roomImg , roomData) ;
 						
 						TreeItem<String> root = tree.getRoot() ;
 												
@@ -675,12 +780,46 @@ public class FXMLDocumentController implements Initializable{
 			
 	}
 	
-	//getters
-	//get the editable workplace
- 	//public BorderPane getWorkplacePane(){
-	//	return workplacePane ;
-	//}
+	public void updateAccounts(){
+		ArrayList<Account> accounts = User.getAccountsList() ;
+		accountsList.getItems().clear();
+		for(int x = 0 ; x < accounts.size() ; x++){
+			accountsList.getItems().add(accounts.get(x).getUsername()) ;
+		}
+		accountsList.setCellFactory(cell -> 
+		 new ListCell<String>(){
+				@Override
+		        public void updateItem(String item, boolean empty) {
+		            super.updateItem(item, empty);
+		            if (item != null) {
+		                ImageView image ;
+		                image = new ImageView(new NodeUtils.ImageGetter("male157.png").getImage()) ;
+		                setGraphic(image);
+		                
+		                if(!accounts.get(getIndex()).isEnabled()){
+		                	setStyle("-fx-background-color:red") ;
+		                }
+		                
+		                setText(item);
+		            }
+		        }
+			});
+	}
 	
+	
+	
+	public ListView getAccountsList() {
+		return accountsList;
+	}
+
+	public TabPane getTabpane(){
+		return tabPaneWorlplace ;
+	}
+	
+	public TabPane getTopTabPane() {
+		return topTabPane;
+	}
+
 	public TreeView getTree(){
 		return treeView ;
 	}

@@ -4,6 +4,8 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
+import org.controlsfx.control.NotificationPane;
+
 import tree.TreeItemData;
 import tree.UpdateTree;
 import application.main.FXMLDocumentController;
@@ -17,7 +19,9 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TreeItem;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.BorderPane;
 
 public class CourseDocumentController implements Initializable{
 
@@ -37,9 +41,12 @@ public class CourseDocumentController implements Initializable{
 		
 		if(validator.hasError()){
 			validator.showError();
+			ImageView image = new ImageView(new NodeUtils.ImageGetter("error.png").getImage()) ;
+			NotificationPane noti = (NotificationPane)FXMLDocumentController.getInstance().getTabpane().getSelectionModel().getSelectedItem().getContent() ;
+			noti.show("An error occured during validation" , image);
 			return ;
 		}else{
-			FXMLDocumentController.getInstance().getWorkplacePane().setBottom(null) ;
+			validator.hideError();
 		}
 		
 		//get the primary
@@ -48,6 +55,10 @@ public class CourseDocumentController implements Initializable{
 		int dept = index.get(department.getSelectionModel().getSelectedIndex()).getDept_id() ;
 		Connect.emptyQUERY("INSERT INTO `courses` VALUES(" + nextPrimary + "," + dept + ",'" + courseName.getText().trim() + "','" + 
 							courseCode.getText().trim() + "')") ;
+		
+		ImageView image = new ImageView(new NodeUtils.ImageGetter("check.png").getImage()) ;
+		NotificationPane noti = (NotificationPane)FXMLDocumentController.getInstance().getTabpane().getSelectionModel().getSelectedItem().getContent() ;
+		noti.show("Success" , image);
 		
 		FXMLDocumentController.updateTree();
 				
@@ -62,12 +73,7 @@ public class CourseDocumentController implements Initializable{
 		this.initialize(null, null);
 
 	}
-	
-	@FXML public void removeCourse(MouseEvent e){
-		FXMLDocumentController.getInstance().getWorkplacePane().setCenter(null);
-		Validation.hideError();
-	}
-	
+		
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		index = Department.getDepartmentList() ;

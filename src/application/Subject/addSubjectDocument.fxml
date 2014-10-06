@@ -1,45 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.image.*?>
-<?import javafx.scene.text.*?>
-<?import javafx.scene.control.*?>
 <?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="352.0" prefWidth="600.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.Subject.SubjectDocumentController">
    <children>
       <Label layoutX="186.0" layoutY="45.0" text="Subject">
          <font>
-            <Font size="18.0" />
+            <Font name="System Bold" size="18.0" />
          </font>
       </Label>
       <TextField fx:id="subject" layoutX="262.0" layoutY="46.0" prefHeight="25.0" prefWidth="200.0" />
       <Label layoutX="139.0" layoutY="79.0" text="Subject Code">
          <font>
-            <Font size="18.0" />
+            <Font name="System Bold" size="18.0" />
          </font>
       </Label>
       <TextField fx:id="subjectCode" layoutX="262.0" layoutY="80.0" prefHeight="25.0" prefWidth="200.0" />
       <Label layoutX="204.0" layoutY="115.0" text="Units">
          <font>
-            <Font size="18.0" />
+            <Font name="System Bold" size="18.0" />
          </font>
       </Label>
       <TextField fx:id="units" layoutX="262.0" layoutY="116.0" prefHeight="25.0" prefWidth="200.0" />
       <Label layoutX="210.0" layoutY="232.0" text="Year">
          <font>
-            <Font size="18.0" />
+            <Font name="System Bold" size="18.0" />
          </font>
       </Label>
-      <Label layoutX="151.0" layoutY="156.0" text="Department">
+      <Label layoutX="147.0" layoutY="156.0" text="Department">
          <font>
-            <Font size="18.0" />
+            <Font name="System Bold" size="18.0" />
          </font>
       </Label>
       <ChoiceBox fx:id="department" layoutX="264.0" layoutY="157.0" prefHeight="25.0" prefWidth="200.0" />
-      <Label layoutX="188.0" layoutY="191.0" text="Course">
+      <Label layoutX="189.0" layoutY="191.0" text="Course">
          <font>
-            <Font size="18.0" />
+            <Font name="System Bold" size="18.0" />
          </font>
       </Label>
       <ChoiceBox fx:id="course" layoutX="264.0" layoutY="192.0" prefHeight="25.0" prefWidth="200.0" />
@@ -49,10 +49,5 @@
             <Font size="14.0" />
          </font>
       </Button>
-      <ImageView fitHeight="25.0" fitWidth="27.0" layoutX="565.0" layoutY="14.0" onMouseClicked="#removeSubject" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="/images/close11.png" />
-         </image>
-      </ImageView>
    </children>
 </AnchorPane>

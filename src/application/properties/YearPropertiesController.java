@@ -18,7 +18,8 @@ public class YearPropertiesController implements Initializable{
 
 	@FXML private TextField year ;
 	@FXML private TextField numSections ;
-	@FXML private TextField numSubjects ;
+	@FXML private TextField txtNumberOfSubject ;
+	@FXML private TextField txtTotalUnits ;
 	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
@@ -33,8 +34,11 @@ public class YearPropertiesController implements Initializable{
 			result.next() ;
 			numSections.setText(result.getInt("NUM") + "");
 			result = Connect.QUERY("SELECT COUNT(*) AS NUM FROM subjects WHERE year_id = " + yearData.getYear_id()); 
-			result.next() ;
-			numSubjects.setText(result.getInt("NUM") + "");
+			result.next();
+			txtNumberOfSubject.setText(result.getInt("NUM") + "");
+			result = Connect.QUERY("SELECT SUM(subject_unit) AS NUM FROM subjects WHERE year_id = " + yearData.getYear_id());
+			result.next();
+			txtTotalUnits.setText(result.getInt("NUM") + "");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -42,6 +46,8 @@ public class YearPropertiesController implements Initializable{
 		if(FXMLDocumentController.getInstance().getRightAccordion().getExpandedPane() == null){
 			FXMLDocumentController.getInstance().getRightAccordion().setExpandedPane(FXMLDocumentController.getInstance().getDetailsTitledPane());
 		}
+		
+		
 		
 	}
 	

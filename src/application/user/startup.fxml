@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="208.0" prefWidth="502.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.user.startupController">
+   <children>
+      <Label layoutX="100.0" layoutY="56.0" text="Username">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <Label layoutX="104.0" layoutY="93.0" text="Password">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <TextField fx:id="txtUsername" layoutX="201.0" layoutY="57.0" prefHeight="25.0" prefWidth="200.0" promptText="Username..." />
+      <PasswordField fx:id="txtPassword" layoutX="201.0" layoutY="94.0" prefHeight="25.0" prefWidth="200.0" promptText="Password..." />
+      <CheckBox disable="true" layoutX="100.0" layoutY="126.0" mnemonicParsing="false" selected="true" text="Admin">
+         <font>
+            <Font name="System Bold Italic" size="12.0" />
+         </font>
+      </CheckBox>
+      <Button fx:id="finish" layoutX="297.0" layoutY="128.0" mnemonicParsing="false" onAction="#handleAddUser" style="-fx-base: #222222;" text="Add  Account">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Button>
+   </children>
+</AnchorPane>

@@ -57,10 +57,5 @@
          <image>
             <Image url="/images/add70.png" />
          </image></ImageView>
-      <ImageView fitHeight="25.0" fitWidth="27.0" layoutX="559.0" layoutY="14.0" onMouseClicked="#removeTeacher" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="/images/close11.png" />
-         </image>
-      </ImageView>
    </children>
 </AnchorPane>
