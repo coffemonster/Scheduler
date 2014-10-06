@@ -11,6 +11,9 @@ import org.controlsfx.dialog.Dialogs.UserInfo;
 */
 
 
+
+import org.controlsfx.dialog.Dialogs;
+
 import application.User;
 import application.splash.SplashDocumentController;
 import database.Connect;
@@ -33,7 +36,6 @@ public class Main extends Application {
 	public void start(Stage primaryStage) {
 		Dimension screenDimension = Toolkit.getDefaultToolkit().getScreenSize();
 		try {
-		
 			//copy for splash purpose
 			copy = primaryStage ;
 			//Load Splash
@@ -45,6 +47,16 @@ public class Main extends Application {
 			stage.initStyle(StageStyle.UNDECORATED);
 			stage.setScene(splashScene);
 			stage.show();
+			
+			if(Connect.getConnection() == null){
+				Dialogs.create()
+				.title("Error")
+				.message("Can't connect to the server")
+				.showError() ;
+				stop() ;
+				stage.close();
+				return ;
+			}
 
 			//Load Primary
 			Parent root = FXMLLoader.load(getClass().getResource("/application/main/Document - Copy - Copy - Copy - Copy.fxml"));

@@ -7,6 +7,8 @@ import java.sql.Time;
 import java.util.ArrayList;
 import java.util.regex.Pattern;
 
+import org.controlsfx.control.NotificationPane;
+
 import database.Connect;
 import NodeUtils.BackgroundColorAnimation;
 import NodeUtils.ShakeAnimation;
@@ -17,10 +19,13 @@ import javafx.beans.value.ObservableValue;
 import javafx.scene.Node;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
 
 
 public class Validation {
@@ -74,6 +79,8 @@ public class Validation {
 		}
 		return true ;
 	}
+	
+	
 	
 	public boolean hasError(){
 		if(errorList.size() == 0){
@@ -149,6 +156,12 @@ public class Validation {
 		return true ;
 	}
 	
+	
+	
+	public ArrayList<String> getErrorList() {
+		return errorList;
+	}
+
 	public void showError(){
 		ListView errorView = new ListView() ;
 		errorView.maxHeight(100) ;
@@ -158,7 +171,25 @@ public class Validation {
 		for(int x = 0 ; x < errorList.size() ; x++){
 			errorView.getItems().add("Error : " + errorList.get(x)) ;
 		}
-		FXMLDocumentController.getInstance().getWorkplacePane().setBottom(errorView);
+		
+		errorView.setCellFactory(call -> {
+			return new ListCell<String>(){
+				@Override
+		        public void updateItem(String item, boolean empty) {
+		            super.updateItem(item, empty);
+		            if (item != null) {
+		                ImageView image = new ImageView(new NodeUtils.ImageGetter("exclamation.png").getImage()) ;
+		                setGraphic(image);
+		                setText(item);
+		            }
+		        }
+			};
+		});
+		
+		NotificationPane bda = (NotificationPane) FXMLDocumentController.getInstance().getTabpane().getSelectionModel().getSelectedItem().getContent() ;
+		BorderPane bd = (BorderPane) bda.getContent() ;
+		bd.setBottom(errorView);
+		
 		errorView.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Object>(){
 
 			@Override
@@ -179,7 +210,9 @@ public class Validation {
 		
 	}
 	
-	public static void hideError(){
-		FXMLDocumentController.getInstance().getWorkplacePane().setBottom(null);
+	public void hideError(){
+		NotificationPane bd = (NotificationPane) FXMLDocumentController.getInstance().getTabpane().getSelectionModel().getSelectedItem().getContent() ;
+		BorderPane bda = (BorderPane) bd.getContent() ;
+		bda.setBottom(null);
 	}
 }

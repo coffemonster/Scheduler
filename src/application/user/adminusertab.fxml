@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="108.0" prefWidth="266.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.user.adminUserTabController">
+   <children>
+      <ImageView fx:id="subjectImageView111" fitHeight="42.0" fitWidth="45.0" layoutX="12.0" layoutY="12.0" onMouseClicked="#handleAddUser" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="/images/add99.png" />
+         </image>
+      </ImageView>
+      <Label layoutX="19.0" layoutY="54.0" text="Add">
+         <font>
+            <Font size="11.0" />
+         </font>
+      </Label>
+      <ImageView fx:id="subjectImageView1111" fitHeight="42.0" fitWidth="45.0" layoutX="78.0" layoutY="12.0" onMouseClicked="#handleDisableUser" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="/images/remove5.png" />
+         </image>
+      </ImageView>
+      <Label layoutX="77.0" layoutY="54.0" text="Disable">
+         <font>
+            <Font size="11.0" />
+         </font>
+      </Label>
+      <Label layoutX="139.0" layoutY="54.0" text="Change ">
+         <font>
+            <Font size="11.0" />
+         </font>
+      </Label>
+      <ImageView fx:id="subjectImageView11111" fitHeight="42.0" fitWidth="45.0" layoutX="142.0" layoutY="12.0" onMouseClicked="#handleEditUser" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="/images/three115.png" />
+         </image>
+      </ImageView>
+      <Label layoutX="95.0" layoutY="86.0" text="Admin Controls">
+         <font>
+            <Font size="11.0" />
+         </font>
+      </Label>
+      <Label layoutX="136.0" layoutY="67.0" text="Password">
+         <font>
+            <Font size="11.0" />
+         </font>
+      </Label>
+      <ImageView fx:id="subjectImageView111111" fitHeight="42.0" fitWidth="45.0" layoutX="206.0" layoutY="12.0" onMouseClicked="#handleChangePrivilege" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="/images/right3.png" />
+         </image>
+      </ImageView>
+      <Label layoutX="203.0" layoutY="54.0" text="Privilege">
+         <font>
+            <Font size="11.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>

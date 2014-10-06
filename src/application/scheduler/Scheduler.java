@@ -445,8 +445,7 @@ public class Scheduler {
 		for(int x = 0 ; x < maximum / 30 ; x++){
 			table.getItems().add("aw") ;
 		}
-		
-		FXMLDocumentController.getInstance().getWorkplacePane().setCenter(table);
+	
 
 	}
 	
@@ -1051,7 +1050,20 @@ public class Scheduler {
 		table.getColumns().add(fourth_day) ;
 		table.getColumns().add(fifth_day) ;
 		
-		FXMLDocumentController.getInstance().getWorkplacePane().setCenter(table);
+		String text = "Tab" ;
+		
+		if(obj instanceof Teacher){
+			Teacher teacher = (Teacher)obj ;
+			text = teacher.getFirst_name() + " " + teacher.getLast_name() + " Schedule" ;
+		}else if(obj instanceof Room){
+			Room room = (Room)obj ;
+			text = room.getRoom_code() + " Schedule" ;
+		}else if(obj instanceof Section){
+			Section section = (Section)obj ;
+			text = section.getYear().getYear() + section.getSection() + " Schedule";
+		}
+		
+		node.NodeUtils.addToCenter(table, text);
 		
 		//FXMLDocumentController.getInstance().getWorkplacePane().getCenter().setDisable(true);		
 		

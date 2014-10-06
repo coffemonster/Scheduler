@@ -7,7 +7,7 @@
 <?import java.lang.*?>
 <?import javafx.scene.shape.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="306.0" prefWidth="225.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.properties.YearPropertiesController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="320.0" prefWidth="225.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.properties.YearPropertiesController">
    <children>
       <Label alignment="CENTER_RIGHT" contentDisplay="TOP" layoutY="20.0" prefHeight="27.0" prefWidth="225.0" style="-fx-background-color: #dee7ee;" text="Year Details" textAlignment="JUSTIFY" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
          <padding>
@@ -22,15 +22,17 @@
          </padding>
       </Label>
       <Label layoutX="14.0" layoutY="154.0" text="Number of" />
-      <Label layoutX="14.0" layoutY="171.0" text="Sections" />
+      <Label layoutX="79.0" layoutY="154.0" text="Sections" />
       <TextField fx:id="numSections" editable="false" layoutX="176.0" layoutY="153.0" minHeight="-Infinity" prefHeight="20.0" prefWidth="35.0" AnchorPane.leftAnchor="176.0" AnchorPane.rightAnchor="14.0" />
       <Label alignment="CENTER_RIGHT" contentDisplay="TOP" layoutY="206.0" prefHeight="27.0" prefWidth="225.0" style="-fx-background-color: #dee7ee;" text="Subjects" textAlignment="JUSTIFY" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
          <padding>
             <Insets bottom="5.0" right="15.0" top="5.0" />
          </padding>
       </Label>
-      <Label layoutX="14.0" layoutY="243.0" text="Number of" />
-      <Label layoutX="14.0" layoutY="262.0" text="Subjects" />
-      <TextField fx:id="numSubjects" editable="false" layoutX="176.0" layoutY="250.0" minHeight="-Infinity" prefHeight="20.0" prefWidth="35.0" AnchorPane.leftAnchor="176.0" AnchorPane.rightAnchor="14.0" />
+      <Label layoutX="18.0" layoutY="252.0" text="Number of" />
+      <Label layoutX="82.0" layoutY="252.0" text="Subjects" />
+      <TextField fx:id="txtNumberOfSubject" editable="false" layoutX="176.0" layoutY="250.0" minHeight="-Infinity" prefHeight="20.0" prefWidth="35.0" AnchorPane.leftAnchor="176.0" AnchorPane.rightAnchor="14.0" />
+      <TextField fx:id="txtTotalUnits" editable="false" layoutX="176.0" layoutY="279.0" minHeight="-Infinity" prefHeight="20.0" prefWidth="35.0" AnchorPane.leftAnchor="176.0" AnchorPane.rightAnchor="14.0" />
+      <Label layoutX="19.0" layoutY="281.0" text="Total Units" />
    </children>
 </AnchorPane>

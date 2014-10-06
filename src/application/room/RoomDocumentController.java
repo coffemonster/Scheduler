@@ -6,6 +6,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
+import org.controlsfx.control.NotificationPane;
+
 import tree.TreeItemData;
 import tree.UpdateTree;
 import congcrete.Department;
@@ -19,6 +21,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TreeItem;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 
 public class RoomDocumentController implements Initializable{
@@ -39,9 +42,12 @@ public class RoomDocumentController implements Initializable{
 		
 		if(validator.hasError()){
 			validator.showError();
+			ImageView image = new ImageView(new NodeUtils.ImageGetter("error.png").getImage()) ;
+			NotificationPane noti = (NotificationPane)FXMLDocumentController.getInstance().getTabpane().getSelectionModel().getSelectedItem().getContent() ;
+			noti.show("An error occured during validation" , image);
 			return ;
 		}else{
-			Validation.hideError();
+			validator.hideError();
 		}
 		
 		//get the primary
@@ -50,6 +56,10 @@ public class RoomDocumentController implements Initializable{
 		int dept = index.get(department.getSelectionModel().getSelectedIndex()).getDept_id() ;
 		Connect.emptyQUERY("INSERT INTO `rooms` VALUES(" + nextPrimary + " , " + dept + " , '" + roomName.getText().trim() + "' , '" + 
 							roomCode.getText().trim() + "')");
+		
+		ImageView image = new ImageView(new NodeUtils.ImageGetter("check.png").getImage()) ;
+		NotificationPane noti = (NotificationPane)FXMLDocumentController.getInstance().getTabpane().getSelectionModel().getSelectedItem().getContent() ;
+		noti.show("Success" , image);
 		
 		FXMLDocumentController.updateTree();
 		
@@ -62,11 +72,6 @@ public class RoomDocumentController implements Initializable{
 		department.getSelectionModel().clearSelection();
 		
 		initialize(null , null) ;
-	}
-	
-	@FXML public void removeRoom(MouseEvent e){
-		FXMLDocumentController.getInstance().getWorkplacePane().setCenter(null);
-		Validation.hideError();
 	}
 	
 	@Override
