@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.text.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="342.0" prefWidth="225.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.properties.CoursePropertiesController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="369.0" prefWidth="225.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.properties.CoursePropertiesController">
    <children>
       <Label alignment="CENTER_RIGHT" contentDisplay="TOP" layoutY="20.0" prefHeight="27.0" prefWidth="225.0" style="-fx-background-color: #dee7ee;" text="Course Details" textAlignment="JUSTIFY" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
          <padding>
@@ -32,7 +33,12 @@
       </Label>
       <Label layoutX="15.0" layoutY="303.0" text="Number of Years" />
       <TextField fx:id="year" editable="false" layoutX="175.0" layoutY="302.0" minHeight="-Infinity" prefHeight="20.0" prefWidth="35.0" AnchorPane.leftAnchor="175.0" AnchorPane.rightAnchor="13.0" />
-      <ChoiceBox fx:id="cboDepartment" layoutX="119.0" layoutY="156.0" prefHeight="25.0" prefWidth="92.0" AnchorPane.leftAnchor="119.0" AnchorPane.rightAnchor="14.0" />
+      <ChoiceBox fx:id="cboDepartment" disable="true" layoutX="119.0" layoutY="156.0" prefHeight="25.0" prefWidth="92.0" AnchorPane.leftAnchor="119.0" AnchorPane.rightAnchor="14.0" />
       <Label layoutX="16.0" layoutY="160.0" text="Department" />
+      <Button fx:id="btnSave" layoutX="155.0" layoutY="332.0" mnemonicParsing="false" onAction="#handleSave" prefHeight="17.0" prefWidth="56.0" style="-fx-base: #222222;" text="Save" visible="false" AnchorPane.rightAnchor="14.0">
+         <font>
+            <Font size="10.0" />
+         </font>
+      </Button>
    </children>
 </AnchorPane>

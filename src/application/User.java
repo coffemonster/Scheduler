@@ -65,6 +65,10 @@ public class User {
 					return "Account is currently disabled";
 				}
 				
+				if(result.getBoolean("isActive")){
+					return "Account already Logged in" ;
+				}
+				
 				User.account_id = result.getInt("account_id") ;
 				User.username = result.getString("username") ;
 				User.password = result.getString("password") ;

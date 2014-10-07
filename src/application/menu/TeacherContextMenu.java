@@ -11,7 +11,10 @@ import congcrete.Section;
 import congcrete.Teacher;
 import database.Connect;
 import tree.TreeItemData;
+import application.User;
 import application.main.FXMLDocumentController;
+import application.properties.SubjectMainPropertiesController;
+import application.properties.TeacherPropertiesController;
 import application.scheduler.Scheduler;
 import NodeUtils.BounceInTransition;
 import NodeUtils.ImageGetter;
@@ -29,6 +32,7 @@ public class TeacherContextMenu extends ContextMenu{
 	
 	private MenuItem setPriorities ;
 	private MenuItem viewSchedule ;
+	private MenuItem update ;
 	private MenuItem delete ;
 	
 	public TeacherContextMenu(){
@@ -121,8 +125,31 @@ public class TeacherContextMenu extends ContextMenu{
 			}
 		});
 		
-		getItems().add(delete) ;
+		ImageView updateImage = new ImageView(new ImageGetter("synchronize1.png").getImage()) ;
+		update = new MenuItem("Update" , updateImage) ;
+		
+		update.setOnAction(new EventHandler<ActionEvent>(){
+			@Override
+			public void handle(ActionEvent arg0) {
+				TeacherPropertiesController.getInstance().getBtnSave().setVisible(true);
+				TeacherPropertiesController.getInstance().getFirstName().setEditable(true);
+				TeacherPropertiesController.getInstance().getLastName().setEditable(true);
+				TeacherPropertiesController.getInstance().getMiddleInitial().setEditable(true);
+				TeacherPropertiesController.getInstance().getCboDepartment().setDisable(false);
+			}
+		});
+		
+		if(User.isAdmin() || User.getPrivilege().contains(new Integer(2))){
+			getItems().add(update) ;
+		}
+		
+		if(User.isAdmin() || User.getPrivilege().contains(new Integer(3))){
+			getItems().add(delete) ;
+		}
+		
+		if(User.isAdmin() || User.getPrivilege().contains(new Integer(0))){
+			getItems().add(viewSchedule) ;
+		}
 		getItems().add(setPriorities);
-		getItems().add(viewSchedule) ;
 	}
 }

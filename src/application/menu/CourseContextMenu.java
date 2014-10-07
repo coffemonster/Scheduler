@@ -1,7 +1,9 @@
 package application.menu;
 
 import tree.TreeItemData;
+import application.User;
 import application.main.FXMLDocumentController;
+import application.properties.CoursePropertiesController;
 import congcrete.Course;
 import congcrete.Department;
 import congcrete.Section;
@@ -16,6 +18,7 @@ import javafx.scene.image.ImageView;
 public class CourseContextMenu extends ContextMenu{
 	
 	private MenuItem delete ;
+	private MenuItem update ;
 	
 	public CourseContextMenu(){
 		super();
@@ -35,7 +38,26 @@ public class CourseContextMenu extends ContextMenu{
 			}
 		});
 		
-		getItems().add(delete) ;
+		ImageView updateImage = new ImageView(new NodeUtils.ImageGetter("synchronize1.png").getImage()) ;
+		update = new MenuItem("Update" , updateImage) ;
+		
+		update.setOnAction(new EventHandler<ActionEvent>(){
+			@Override
+			public void handle(ActionEvent arg0) {
+				CoursePropertiesController.getInstance().getBtnSave().setVisible(true);
+				CoursePropertiesController.getInstance().getCourse().setEditable(true);
+				CoursePropertiesController.getInstance().getCourseCode().setEditable(true);
+				CoursePropertiesController.getInstance().getCboDepartment().setDisable(false);
+			}
+		});
+		
+		if(User.isAdmin() || User.getPrivilege().contains(new Integer(2))){
+			getItems().add(update) ;
+		}
+		
+		if(User.isAdmin() || User.getPrivilege().contains(new Integer(3))){
+			getItems().add(delete) ;
+		}
 		
 	}
 }

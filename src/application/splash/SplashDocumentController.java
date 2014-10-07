@@ -9,6 +9,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import database.Connect;
+import database.ConnectDocumentController;
 import NodeUtils.ImageGetter;
 import application.User;
 import application.main.FXMLDocumentController;
@@ -37,9 +38,12 @@ public class SplashDocumentController implements Initializable{
 	@FXML private Label splashStatus ;
 	@FXML private ProgressBar splashProgressBar ;
 	public static Stage copyStartupStage = null ;
+	public static Thread connectionChecker = null ;
+	public static boolean isAlive = true ;
 	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
+		
 		Timer time = new Timer();
 		splashStatus.setText("Connecting to localhost ...");
 		double val = 0 ;
@@ -48,25 +52,14 @@ public class SplashDocumentController implements Initializable{
 		if(Connect.getConnection() == null){
 			return ;
 		}else{
-			Thread connectionChecker = null ;
-			
+			/*
 			connectionChecker = new Thread(new Runnable(){
 				@Override
 				public void run() {
-					while(true){
+					while(isAlive){
 						System.out.println(Connect.QUERY("SELECT 1 FROM accounts"));
 						if(Connect.QUERY("SELECT 1 FROM accounts") == null){
-							boolean reconect = false ;
-							Platform.runLater(new Runnable(){
-								@Override
-								public void run() {
-									Dialogs.create()
-									.title("Error")
-									.message("Can't connect to the server")
-									.showError() ;
-								}
-							});
-							break ;
+							
 						}
 						try {
 							connectionChecker.sleep(1000);
@@ -78,6 +71,7 @@ public class SplashDocumentController implements Initializable{
 				
 			}) ;
 			connectionChecker.start();
+			*/
 		}
 		
 		
@@ -120,7 +114,9 @@ public class SplashDocumentController implements Initializable{
 											if(error != null){
 												throw new RuntimeException(error);
 											}else{
-												Main.getMainStage().show();
+												
+												Main.getInstance().showMain() ;
+												//primaryStage.show();
 												
 												Platform.runLater(new Runnable(){
 
@@ -141,7 +137,7 @@ public class SplashDocumentController implements Initializable{
 												});
 												
 												//Insert Admin tab
-												if(User.isAdmin()){
+												if(User.isAdmin() || User.getPrivilege().contains(new Integer(8)) || User.getPrivilege().contains(new Integer(9)) || User.getPrivilege().contains(new Integer(10)) || User.getPrivilege().contains(new Integer(11))){
 													Tab adminTab = new Tab(" ACCOUNTS ") ;
 													try {
 														AnchorPane adminContent = FXMLLoader.load(getClass().getResource("/application/user/adminusertab.fxml")) ;

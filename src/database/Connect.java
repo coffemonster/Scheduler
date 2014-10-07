@@ -6,6 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import org.controlsfx.dialog.Dialogs;
+
 public class Connect {
 	
 	private static Connection connection = null ;
@@ -18,6 +20,11 @@ public class Connect {
 																concat(port).concat("/").concat(dbName) , user , pass) ;
 			return connection ;
 		}catch(Exception e){
+			Dialogs.create()
+			.title("Error")
+			.message("Error Connecting")
+			.showError() ;
+			
 			e.printStackTrace();
 			connection = null ;
 			return null ;

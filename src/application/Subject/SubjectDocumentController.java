@@ -24,6 +24,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TreeItem;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 
@@ -65,7 +66,7 @@ public class SubjectDocumentController implements Initializable{
 		
 		int nextPrimary = Connect.getNextIntegerPrimary("subjects", "subject_id") ;
 		int year_id = yearIndex.get(year.getSelectionModel().getSelectedIndex()).getYear_id() ;
-		Connect.emptyQUERY("INSERT INTO subjects(subject_id,year_id,subject_name,subject_code,subject_uni) VALUES("+ nextPrimary +","+ year_id +",'"+subject.getText().trim()+"','"+subjectCode.getText().trim()+"',"+
+		Connect.emptyQUERY("INSERT INTO subjects(subject_id,year_id,subject_name,subject_code,subject_unit) VALUES("+ nextPrimary +","+ year_id +",'"+subject.getText().trim()+"','"+subjectCode.getText().trim()+"',"+
 							units.getText().trim() +")");
 		
 		ImageView image = new ImageView(new NodeUtils.ImageGetter("check.png").getImage()) ;
@@ -73,8 +74,8 @@ public class SubjectDocumentController implements Initializable{
 		noti.show("Success" , image);
 		
 		FXMLDocumentController.updateTree();
-		
-		FXMLDocumentController.getInstance().getTree().getSelectionModel().select(Year.getItem(year_id));
+		TreeItem<String> year = Year.getItem(year_id) ;
+		FXMLDocumentController.getInstance().getTree().getSelectionModel().select(year.getChildren().get(0));
 		
 		subject.setText("");
 		subjectCode.setText("");

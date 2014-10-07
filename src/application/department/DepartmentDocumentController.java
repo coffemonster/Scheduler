@@ -39,6 +39,7 @@ public class DepartmentDocumentController implements Initializable{
 	@FXML private TextField inputDeptCode ;
 	@FXML private AnchorPane rootPane ;
 	@FXML private Button finish ;
+	private static DepartmentDocumentController instance ;
 	
 	Scheduler sc ;
 	
@@ -89,8 +90,42 @@ public class DepartmentDocumentController implements Initializable{
 	}
 	
 	public void initialize(URL url , ResourceBundle res){
+		instance = this ;
 		//sc = new Scheduler(1) ;
 		new SimpleScheduler(1).start();
 		System.out.println(TimeSlot.getTotalMinutes(Time.valueOf("7:00:00"), Time.valueOf("7:00:00"))) ;
 	}
+
+	public TextField getInputDeptName() {
+		return inputDeptName;
+	}
+
+	public void setInputDeptName(TextField inputDeptName) {
+		this.inputDeptName = inputDeptName;
+	}
+
+	public TextField getInputDeptCode() {
+		return inputDeptCode;
+	}
+
+	public void setInputDeptCode(TextField inputDeptCode) {
+		this.inputDeptCode = inputDeptCode;
+	}
+
+	public Button getFinish() {
+		return finish;
+	}
+
+	public void setFinish(Button finish) {
+		this.finish = finish;
+	}
+
+	public static DepartmentDocumentController getInstance() {
+		return instance;
+	}
+
+	public static void setInstance(DepartmentDocumentController instance) {
+		DepartmentDocumentController.instance = instance;
+	}
+	
 }

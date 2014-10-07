@@ -8,7 +8,7 @@
 
 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="108.0" prefWidth="266.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.user.adminUserTabController">
    <children>
-      <ImageView fx:id="subjectImageView111" fitHeight="42.0" fitWidth="45.0" layoutX="12.0" layoutY="12.0" onMouseClicked="#handleAddUser" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="addImageView" fitHeight="42.0" fitWidth="45.0" layoutX="12.0" layoutY="12.0" onMouseClicked="#handleAddUser" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="/images/add99.png" />
          </image>
@@ -18,7 +18,7 @@
             <Font size="11.0" />
          </font>
       </Label>
-      <ImageView fx:id="subjectImageView1111" fitHeight="42.0" fitWidth="45.0" layoutX="78.0" layoutY="12.0" onMouseClicked="#handleDisableUser" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="disableImageView" fitHeight="42.0" fitWidth="45.0" layoutX="78.0" layoutY="12.0" onMouseClicked="#handleDisableUser" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="/images/remove5.png" />
          </image>
@@ -33,7 +33,7 @@
             <Font size="11.0" />
          </font>
       </Label>
-      <ImageView fx:id="subjectImageView11111" fitHeight="42.0" fitWidth="45.0" layoutX="142.0" layoutY="12.0" onMouseClicked="#handleEditUser" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="editImageView" fitHeight="42.0" fitWidth="45.0" layoutX="142.0" layoutY="12.0" onMouseClicked="#handleEditUser" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="/images/three115.png" />
          </image>
@@ -48,7 +48,7 @@
             <Font size="11.0" />
          </font>
       </Label>
-      <ImageView fx:id="subjectImageView111111" fitHeight="42.0" fitWidth="45.0" layoutX="206.0" layoutY="12.0" onMouseClicked="#handleChangePrivilege" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="privilegeImageView" fitHeight="42.0" fitWidth="45.0" layoutX="206.0" layoutY="12.0" onMouseClicked="#handleChangePrivilege" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="/images/right3.png" />
          </image>

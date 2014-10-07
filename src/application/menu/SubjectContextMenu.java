@@ -1,12 +1,15 @@
 package application.menu;
 
-import congcrete.Department;
 import tree.TreeItemData;
+import NodeUtils.ImageGetter;
 import application.User;
-import application.department.DepartmentDocumentController;
 import application.main.FXMLDocumentController;
 import application.properties.CoursePropertiesController;
-import application.properties.DepartmentPropertiesController;
+import application.properties.SubjectMainPropertiesController;
+import application.properties.SubjectPropertiesController;
+import congcrete.Department;
+import congcrete.Subject;
+import congcrete.Teacher;
 import database.Connect;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -15,34 +18,39 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.TreeItem;
 import javafx.scene.image.ImageView;
 
-public class DepartmentContextMenu extends ContextMenu{
+public class SubjectContextMenu extends ContextMenu{
+	
 	private MenuItem delete ;
 	private MenuItem update ;
-	public DepartmentContextMenu(){
+	
+	public SubjectContextMenu(){
 		super() ;
-		ImageView image = new ImageView(new NodeUtils.ImageGetter("delete23.png").getImage()) ;
-		delete = new MenuItem("Delete" , image) ;
+
+		ImageView imageT = new ImageView(new ImageGetter("delete23.png").getImage()) ;
+		delete = new MenuItem("Delete" , imageT) ;
 		
 		delete.setOnAction(new EventHandler<ActionEvent>(){
 			@Override
 			public void handle(ActionEvent arg0) {
 				TreeItem<String> treeItem = (TreeItem<String>) FXMLDocumentController.getInstance().getTree().getSelectionModel().getSelectedItem() ;
-				Department deptData = TreeItemData.getItemData(treeItem) ;
-				Connect.emptyQUERY("DELETE FROM departments WHERE dept_id = " + deptData.getDept_id());
+				Subject subjectData = TreeItemData.getItemData(treeItem) ;
+				Connect.emptyQUERY("DELETE FROM subjects WHERE subject_id = " + subjectData.getSubject_id());
+				TreeItem<String> temp = treeItem.getParent() ;
 				FXMLDocumentController.updateTree();
-				
+				FXMLDocumentController.getInstance().getTree().getSelectionModel().select(temp) ;
 			}
 		});
-
+		
 		ImageView updateImage = new ImageView(new NodeUtils.ImageGetter("synchronize1.png").getImage()) ;
 		update = new MenuItem("Update" , updateImage) ;
 		
 		update.setOnAction(new EventHandler<ActionEvent>(){
 			@Override
 			public void handle(ActionEvent arg0) {
-				DepartmentPropertiesController.getInstance().getBtnSave().setVisible(true);
-				DepartmentPropertiesController.getInstance().getDeptCode().setEditable(true);
-				DepartmentPropertiesController.getInstance().getDeptName().setEditable(true);
+				SubjectMainPropertiesController.getInstance().getBtnSave().setVisible(true);
+				SubjectMainPropertiesController.getInstance().getSubject().setEditable(true);
+				SubjectMainPropertiesController.getInstance().getSubjectCode().setEditable(true);
+				SubjectMainPropertiesController.getInstance().getSubjectUnits().setEditable(true);
 			}
 		});
 		
@@ -53,6 +61,5 @@ public class DepartmentContextMenu extends ContextMenu{
 		if(User.isAdmin() || User.getPrivilege().contains(new Integer(3))){
 			getItems().add(delete) ;
 		}
-	
 	}
 }

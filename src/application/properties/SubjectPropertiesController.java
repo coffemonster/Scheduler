@@ -14,8 +14,10 @@ import tree.TreeItemData;
 import application.main.FXMLDocumentController;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TreeItem;
@@ -28,6 +30,7 @@ public class SubjectPropertiesController implements Initializable{
 	@FXML private TextField year ;
 	@FXML private TextField section ;
 	@FXML private ChoiceBox teacher ;
+
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
@@ -88,6 +91,5 @@ public class SubjectPropertiesController implements Initializable{
 			}
 			
 		});	
-	}
-
+	}	
 }

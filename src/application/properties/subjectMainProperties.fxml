@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.text.*?>
+<?import java.lang.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
-<?import java.lang.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="406.0" prefWidth="225.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.properties.SubjectPropertiesController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="268.0" prefWidth="225.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.properties.SubjectMainPropertiesController">
    <children>
       <Label alignment="CENTER_RIGHT" contentDisplay="TOP" layoutY="29.0" prefHeight="27.0" prefWidth="225.0" style="-fx-background-color: #dee7ee;" text="Subject Details" textAlignment="JUSTIFY" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="20.0">
          <padding>
@@ -19,19 +19,6 @@
       <TextField fx:id="subjectCode" editable="false" layoutX="119.0" layoutY="84.0" minHeight="-Infinity" prefHeight="20.0" prefWidth="92.0" AnchorPane.leftAnchor="119.0" AnchorPane.rightAnchor="14.0" />
       <Label layoutX="15.0" layoutY="113.0" text="Subject Units" />
       <TextField fx:id="subjectUnits" editable="false" layoutX="119.0" layoutY="111.0" minHeight="-Infinity" prefHeight="20.0" prefWidth="92.0" AnchorPane.leftAnchor="119.0" AnchorPane.rightAnchor="14.0" />
-      <Label alignment="CENTER_RIGHT" contentDisplay="TOP" layoutY="233.0" prefHeight="27.0" prefWidth="225.0" style="-fx-background-color: #dee7ee;" text="Section" textAlignment="JUSTIFY" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
-         <padding>
-            <Insets bottom="5.0" right="15.0" top="5.0" />
-         </padding>
-      </Label>
-      <Label layoutX="15.0" layoutY="277.0" text="Section" />
-      <TextField fx:id="section" editable="false" layoutX="176.0" layoutY="275.0" minHeight="-Infinity" prefHeight="20.0" prefWidth="35.0" AnchorPane.leftAnchor="176.0" AnchorPane.rightAnchor="14.0" />
-      <Label alignment="CENTER_RIGHT" contentDisplay="TOP" layoutY="311.0" prefHeight="27.0" prefWidth="225.0" style="-fx-background-color: #dee7ee;" text="Teacher" textAlignment="JUSTIFY" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
-         <padding>
-            <Insets bottom="5.0" right="15.0" top="5.0" />
-         </padding>
-      </Label>
-      <ChoiceBox fx:id="teacher" layoutX="18.0" layoutY="354.0" prefHeight="25.0" prefWidth="193.0" AnchorPane.leftAnchor="18.0" AnchorPane.rightAnchor="14.0" />
       <Label alignment="CENTER_RIGHT" contentDisplay="TOP" layoutY="144.0" prefHeight="27.0" prefWidth="225.0" style="-fx-background-color: #dee7ee;" text="Year" textAlignment="JUSTIFY" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
          <padding>
             <Insets bottom="5.0" right="15.0" top="5.0" />
@@ -39,5 +26,10 @@
       </Label>
       <TextField fx:id="year" editable="false" layoutX="176.0" layoutY="192.0" minHeight="-Infinity" prefHeight="20.0" prefWidth="35.0" AnchorPane.leftAnchor="176.0" AnchorPane.rightAnchor="14.0" />
       <Label layoutX="17.0" layoutY="193.0" text="Year" />
+      <Button fx:id="btnSave" layoutX="155.0" layoutY="226.0" mnemonicParsing="false" onAction="#handleSave" prefHeight="17.0" prefWidth="56.0" style="-fx-base: #222222;" text="Save" visible="false" AnchorPane.rightAnchor="14.0">
+         <font>
+            <Font size="10.0" />
+         </font>
+      </Button>
    </children>
 </AnchorPane>

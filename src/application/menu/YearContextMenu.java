@@ -4,6 +4,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import tree.TreeItemData;
+import application.User;
 import application.main.FXMLDocumentController;
 import congcrete.Course;
 import congcrete.Section;
@@ -44,6 +45,8 @@ public class YearContextMenu extends ContextMenu{
 			}
 		});
 		
-		getItems().add(delete) ;
+		if(User.isAdmin() || User.getPrivilege().contains(new Integer(3))){
+			getItems().add(delete) ;
+		}
 	}
 }

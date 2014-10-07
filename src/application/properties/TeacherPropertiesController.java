@@ -14,6 +14,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
+import congcrete.Course;
 import congcrete.Department;
 import congcrete.Room;
 import congcrete.Teacher;
@@ -22,14 +23,18 @@ import tree.TreeItemData;
 import NodeUtils.ImageGetter;
 import application.main.FXMLDocumentController;
 import application.main.Main;
+import application.validation.Validation;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.embed.swing.SwingFXUtils;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TreeItem;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
@@ -38,6 +43,10 @@ import java.io.ByteArrayOutputStream;
 import java.io.ByteArrayOutputStream;
 
 import javax.imageio.ImageIO;
+
+import org.controlsfx.control.NotificationPane;
+import org.controlsfx.control.action.Action;
+import org.controlsfx.dialog.Dialogs;
 public class TeacherPropertiesController implements Initializable{
 
 	@FXML private ImageView teacherPicture ;
@@ -49,9 +58,13 @@ public class TeacherPropertiesController implements Initializable{
 	@FXML private TextField txtNumberOfSubject ;
 	@FXML private TextField txtTotalUnits ;
 	@FXML ChoiceBox cboDepartment ;
+	@FXML private Button btnSave ;
+	private static TeacherPropertiesController instance ;
 	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
+		instance = this ;
+		
 		TreeItemData data = (TreeItemData)FXMLDocumentController.getInstance().getTree().getSelectionModel().getSelectedItem() ;
 		Teacher teacher = (Teacher)data.getData() ;
 		//setting the picture		
@@ -132,5 +145,145 @@ public class TeacherPropertiesController implements Initializable{
 		}
 
 	}
+	
+	@FXML public void handleSave(ActionEvent e){
+		Validation validator = new Validation() ;
+		validator.validateEmpty("Firstname", firstName.getText(), firstName);
+		validator.validateTextOnly("Firstname", firstName.getText(), firstName);
+		validator.validateEmpty("Lastname", lastName.getText(), lastName);
+		validator.validateTextOnly("Lastname", lastName.getText(), lastName);
+		validator.validateEmpty("Middle initial", middleInitial.getText(), middleInitial);
+		validator.validateTextOnly("Middle Initial", middleInitial.getText(), middleInitial);
+		validator.validateMiddleInitial("Middle Initial", middleInitial.getText(), middleInitial);
+		
+		if(validator.hasError()){
+			String error = "" ;
+			
+			for(int x = 0 ; x < validator.getErrorList().size() ; x++){
+				error += validator.getErrorList().get(x) + "\n" ;
+			}
+			
+			Dialogs.create()
+			.title("Error")
+			.message(error)
+			.showError() ;
+			return ;
+		}
+		
+		Action decision = Dialogs.create()
+				.title("Warning")
+				.message("Data will be saved permanently")
+				.showConfirm() ;
+		if(decision.toString().equalsIgnoreCase("YES")){
+			TreeItem<String> item = (TreeItem<String>) FXMLDocumentController.getInstance().getTree().getSelectionModel().getSelectedItem() ;
+			Teacher teacherData = TreeItemData.getItemData(item) ;
+			
+			Connect.emptyQUERY("UPDATE teachers SET first_name = '"+ firstName.getText() +"' , last_name = '"+ lastName.getText() +"' , middle_initial = '"+ middleInitial.getText() +"' WHERE teacher_id = " + teacherData.getTeacher_id() ) ;
+						
+			FXMLDocumentController.updateTree();
+			
+			TreeItem<String> select = Teacher.getItem(teacherData.getD().getDept_id(), teacherData.getTeacher_id()) ;
+			
+			FXMLDocumentController.getInstance().getTree().getSelectionModel().select(select);
+			
+			btnSave.setVisible(false);
+			firstName.setEditable(false);
+			lastName.setEditable(false);
+			middleInitial.setEditable(false);
+			cboDepartment.setDisable(true);
+		}else{
+			return ;
+		}
+		
+	}
+
+	public ImageView getTeacherPicture() {
+		return teacherPicture;
+	}
+
+	public void setTeacherPicture(ImageView teacherPicture) {
+		this.teacherPicture = teacherPicture;
+	}
+
+	public TextField getFirstName() {
+		return firstName;
+	}
+
+	public void setFirstName(TextField firstName) {
+		this.firstName = firstName;
+	}
+
+	public TextField getLastName() {
+		return lastName;
+	}
+
+	public void setLastName(TextField lastName) {
+		this.lastName = lastName;
+	}
+
+	public TextField getMiddleInitial() {
+		return middleInitial;
+	}
+
+	public void setMiddleInitial(TextField middleInitial) {
+		this.middleInitial = middleInitial;
+	}
+
+	public TextField getDeptName() {
+		return deptName;
+	}
+
+	public void setDeptName(TextField deptName) {
+		this.deptName = deptName;
+	}
+
+	public TextField getDeptCode() {
+		return deptCode;
+	}
+
+	public void setDeptCode(TextField deptCode) {
+		this.deptCode = deptCode;
+	}
+
+	public TextField getTxtNumberOfSubject() {
+		return txtNumberOfSubject;
+	}
+
+	public void setTxtNumberOfSubject(TextField txtNumberOfSubject) {
+		this.txtNumberOfSubject = txtNumberOfSubject;
+	}
+
+	public TextField getTxtTotalUnits() {
+		return txtTotalUnits;
+	}
+
+	public void setTxtTotalUnits(TextField txtTotalUnits) {
+		this.txtTotalUnits = txtTotalUnits;
+	}
+
+	public ChoiceBox getCboDepartment() {
+		return cboDepartment;
+	}
+
+	public void setCboDepartment(ChoiceBox cboDepartment) {
+		this.cboDepartment = cboDepartment;
+	}
+
+	public Button getBtnSave() {
+		return btnSave;
+	}
+
+	public void setBtnSave(Button btnSave) {
+		this.btnSave = btnSave;
+	}
+
+	public static TeacherPropertiesController getInstance() {
+		return instance;
+	}
+
+	public void setInstance(TeacherPropertiesController instance) {
+		this.instance = instance;
+	}
+	
 	
 }

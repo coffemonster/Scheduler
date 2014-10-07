@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<BorderPane fx:id="root" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.main.FXMLDocumentController">
+<BorderPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.main.FXMLDocumentController">
    <top>
       <VBox fx:id="topPart" prefHeight="162.0" prefWidth="800.0" BorderPane.alignment="CENTER">
          <children>
@@ -116,7 +116,7 @@
                                     <Font size="11.0" />
                                  </font>
                               </Label>
-                              <ImageView fx:id="subjectImageView1" fitHeight="42.0" fitWidth="45.0" layoutX="557.0" layoutY="12.0" onMouseClicked="#handleRTS" onMouseEntered="#menuHover" onMouseExited="#menuRestore" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fx:id="rtsScheduling" fitHeight="42.0" fitWidth="45.0" layoutX="557.0" layoutY="12.0" onMouseClicked="#handleRTS" onMouseEntered="#menuHover" onMouseExited="#menuRestore" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="/images/list85.png" />
                                  </image>
@@ -127,7 +127,7 @@
                                  </font>
                               </Label>
                               <Label alignment="CENTER" layoutX="542.0" layoutY="86.0" prefHeight="17.0" prefWidth="138.0" text="Scheduling Algorithm" />
-                              <ImageView fx:id="subjectImageView11" fitHeight="42.0" fitWidth="45.0" layoutX="623.0" layoutY="12.0" onMouseClicked="#handleSRTS" onMouseEntered="#menuHover" onMouseExited="#menuRestore" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fx:id="srtsScheduling" fitHeight="42.0" fitWidth="45.0" layoutX="623.0" layoutY="12.0" onMouseClicked="#handleSRTS" onMouseEntered="#menuHover" onMouseExited="#menuRestore" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="/images/schedule.png" />
                                  </image>
@@ -137,6 +137,29 @@
                                     <Font size="11.0" />
                                  </font>
                               </Label>
+                              <Separator layoutX="685.0" layoutY="4.0" orientation="VERTICAL" prefHeight="97.0" prefWidth="5.0" />
+                              <Label alignment="CENTER" layoutX="702.0" layoutY="86.0" prefHeight="17.0" prefWidth="138.0" text="Printing" />
+                              <ImageView fx:id="logsImageView" fitHeight="42.0" fitWidth="45.0" layoutX="712.0" layoutY="12.0" onMouseClicked="#handlePrintLogs" onMouseEntered="#menuHover" onMouseExited="#menuRestore" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="/images/printer60.png" />
+                                 </image>
+                              </ImageView>
+                              <Label layoutX="717.0" layoutY="54.0" text="Logs">
+                                 <font>
+                                    <Font size="11.0" />
+                                 </font>
+                              </Label>
+                              <ImageView fx:id="scheduleImageView" fitHeight="42.0" fitWidth="45.0" layoutX="771.0" layoutY="12.0" onMouseClicked="#handlePrintSchedule" onMouseEntered="#menuHover" onMouseExited="#menuRestore" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="/images/printer67.png" />
+                                 </image>
+                              </ImageView>
+                              <Label layoutX="766.0" layoutY="54.0" text="Schedule">
+                                 <font>
+                                    <Font size="11.0" />
+                                 </font>
+                              </Label>
+                              <Separator layoutX="832.0" layoutY="4.0" orientation="VERTICAL" prefHeight="97.0" prefWidth="5.0" />
                            </children></AnchorPane>
                   </content>
                 </Tab>
@@ -146,10 +169,13 @@
       </VBox>
    </top>
    <bottom>
-      <FlowPane fx:id="bottomPart" alignment="CENTER_LEFT" prefHeight="24.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+      <AnchorPane>
          <children>
-            <Label text=" Status : " />
-         </children></FlowPane>
+            <Label text=" Status : " AnchorPane.leftAnchor="0.0" />
+            <Label fx:id="connectionStatus" layoutX="51.0" text="Label" />
+            <Label fx:id="lblUpdate" layoutX="763.0" text="No update available" AnchorPane.rightAnchor="9.0" />
+         </children>
+      </AnchorPane>
    </bottom>
    <center>
       <SplitPane fx:id="middlePart" dividerPositions="0.5, 0.5" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
@@ -168,17 +194,7 @@
                               <ListView fx:id="accountsList" prefHeight="200.0" prefWidth="200.0" />
                            </content>
                         </TitledPane>
-                        <TitledPane alignment="CENTER_RIGHT" text="Recent Logs">
-                           <content>
-                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-                           </content>
-                        </TitledPane>
-                        <TitledPane alignment="CENTER_RIGHT" animated="false" text="Rooms">
-                           <content>
-                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-                           </content>
-                        </TitledPane>
-                        <TitledPane alignment="CENTER_RIGHT" animated="false" text="Course">
+                        <TitledPane fx:id="recentLogs" alignment="CENTER_RIGHT" text="Recent Logs">
                            <content>
                               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
                            </content>
@@ -200,15 +216,7 @@
                               <ScrollPane fx:id="detailsScrollPane" prefHeight="200.0" prefWidth="225.0" />
                            </content>
                       </TitledPane>
-                      <TitledPane alignment="CENTER_RIGHT" text="Subjects">
-                           <content>
-                              <ScrollPane prefHeight="200.0" prefWidth="200.0">
-                                 <content>
-                                    <VBox fx:id="subjectBox" prefHeight="335.0" prefWidth="388.0" />
-                                 </content>
-                              </ScrollPane>
-                           </content>
-                      </TitledPane>
+                      <TitledPane fx:id="tpSubjects" alignment="CENTER_RIGHT" text="Subjects" />
                       <TitledPane alignment="CENTER_RIGHT" text="Priority">
                         <content>
                           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />

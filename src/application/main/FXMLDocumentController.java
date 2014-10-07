@@ -7,9 +7,15 @@ import javafx.beans.value.ObservableValue;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.* ;
+import javafx.print.PageLayout;
+import javafx.print.PageOrientation;
+import javafx.print.Paper;
+import javafx.print.Printer;
+import javafx.print.PrinterJob;
 import javafx.scene.Node;
 import javafx.scene.control.Accordion;
 import javafx.scene.control.ContextMenu;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.MenuItem;
@@ -17,6 +23,7 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.SplitPane;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
 import javafx.scene.control.TreeCell;
@@ -36,6 +43,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.shape.Circle;
 import javafx.util.Callback;
 import javafx.util.Duration;
 import NodeUtils.* ;
@@ -76,6 +84,7 @@ import org.controlsfx.dialog.Dialogs.UserInfo;
 import java.util.Vector;
 
 import org.controlsfx.control.Notifications;
+import org.controlsfx.dialog.Dialogs;
 
 import congcrete.Account;
 import congcrete.Course;
@@ -92,6 +101,7 @@ import application.list.SubjectList;
 import application.menu.CourseContextMenu;
 import application.menu.RoomContextMenu;
 import application.menu.SectionContextMenu;
+import application.menu.SubjectContextMenu;
 import application.menu.TeacherContextMenu;
 import application.menu.YearContextMenu;
 import application.priority.PriorityTime;
@@ -109,6 +119,7 @@ public class FXMLDocumentController implements Initializable{
 	@FXML private ImageView courseImageView ;
 	@FXML private ImageView yearImageView ;
 	@FXML private ImageView sectionImageView ;
+	@FXML private ImageView subjectImageView ;
 	@FXML private BorderPane workplacePane ;
 	@FXML private TreeView<String> treeView ;
 	@FXML private BorderPane treeBorderPane ;
@@ -122,6 +133,14 @@ public class FXMLDocumentController implements Initializable{
 	@FXML private ListView accountsList ;
 	@FXML private TabPane tabPaneWorlplace ;
 	@FXML private TabPane topTabPane ;
+	@FXML private Label connectionStatus ;
+	@FXML private Label lblUpdate ;
+	@FXML private TitledPane tpSubjects;
+	@FXML private TitledPane recentLogs;
+	@FXML private ImageView rtsScheduling ;
+	@FXML private ImageView srtsScheduling ;
+	@FXML private ImageView logsImageView ;
+	@FXML private ImageView scheduleImageView ;
 	private ScaleAnimationProperty scaleProperty ;
 	private NodeAnimation animation ;
 	private static FXMLDocumentController staticInstance ;
@@ -131,6 +150,7 @@ public class FXMLDocumentController implements Initializable{
 	private application.menu.DepartmentContextMenu departmentMenu ;
 	private CourseContextMenu courseMenu ;
 	private YearContextMenu yearMenu ;
+	private SubjectContextMenu subjectMenu ;
 	
 	/*
 	 * MENU CONTROLS HANDLER
@@ -254,53 +274,88 @@ public class FXMLDocumentController implements Initializable{
 	}
 
 	@Override public void initialize(URL url , ResourceBundle rs){
-			
-		//new HybridScheduling(1).start(); 
 		
-		//Set the property listener for account list
-		accountsList.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Object>(){
+		//PRIVILEDGE
+		if(!User.isAdmin() && !User.getPrivilege().contains(new Integer(1))){
+			departmentImageView.setDisable(true);
+			teacherImageView.setDisable(true);
+			courseImageView.setDisable(true);
+			roomImageView.setDisable(true);
+			yearImageView.setDisable(true);
+			sectionImageView.setDisable(true);
+			subjectImageView.setDisable(true);
+			System.out.print(!User.getPrivilege().contains(new Integer(1)));
+		}
+		if(!User.isAdmin() && !User.getPrivilege().contains(new Integer(0))){
+			leftAccordion.getPanes().remove(hierarchyPane) ;
+		}
+		if(!User.isAdmin() && !User.getPrivilege().contains(new Integer(4))){
+			leftAccordion.getPanes().remove(recentLogs) ;
+		}
+		if(!User.isAdmin() && !User.isAdmin()){
+			rtsScheduling.setDisable(true);
+			srtsScheduling.setDisable(true);
+		}
+		if(!User.isAdmin() && !User.getPrivilege().contains(new Integer(6))){
+			scheduleImageView.setDisable(true);
+		}
+		if(!User.isAdmin() && !User.getPrivilege().contains(new Integer(7))){
+			logsImageView.setDisable(true);
+		}
+		
+		//Initilize connection status
+		ImageView statusImage = new ImageView(new ImageGetter("check.png").getImage()) ;
+		statusImage.setFitHeight(16);
+		statusImage.setFitWidth(16);
+		connectionStatus.setGraphic(statusImage);
+		connectionStatus.setText("Connected");
+		
+		if(User.isAdmin()){
+			//Set the property listener for account list
+			accountsList.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Object>(){
 
-			@Override
-			public void changed(ObservableValue<? extends Object> arg0,
-					Object arg1, Object arg2) {
-				if(FXMLDocumentController.getInstance().getAccountsList().getSelectionModel().getSelectedItem() == null){
-					return ;
+				@Override
+				public void changed(ObservableValue<? extends Object> arg0,
+						Object arg1, Object arg2) {
+					if(FXMLDocumentController.getInstance().getAccountsList().getSelectionModel().getSelectedItem() == null){
+						return ;
+					}
+					
+					FXMLLoader loader = new FXMLLoader() ;
+					loader.setLocation(getClass().getResource("/application/properties/userProperties.fxml"));
+					loader.setResources(new ResourceBundle(){
+
+						@Override
+						public Enumeration<String> getKeys() {
+							Vector<String> key = new Vector<String>() ;
+							key.add("account") ;
+							return (Enumeration<String>) key;
+						}
+
+						@Override
+						protected Object handleGetObject(String arg0) {
+							Account account = Account.getAccount(FXMLDocumentController.getInstance().getAccountsList().getSelectionModel().getSelectedItem().toString()) ;
+							return account ;
+						}
+						
+					});
+					
+					try {
+						AnchorPane details = loader.load() ;
+						ScrollPane sp = (ScrollPane) FXMLDocumentController.getInstance().getDetailsTitledPane().getContent() ;
+						details.setPrefWidth(sp.getWidth() - 5);
+						sp.setContent(details);
+						
+						
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+					
+					FXMLDocumentController.getInstance().getRightAccordion().setExpandedPane(FXMLDocumentController.getInstance().getDetailsTitledPane()) ;
 				}
 				
-				FXMLLoader loader = new FXMLLoader() ;
-				loader.setLocation(getClass().getResource("/application/properties/userProperties.fxml"));
-				loader.setResources(new ResourceBundle(){
-
-					@Override
-					public Enumeration<String> getKeys() {
-						Vector<String> key = new Vector<String>() ;
-						key.add("account") ;
-						return (Enumeration<String>) key;
-					}
-
-					@Override
-					protected Object handleGetObject(String arg0) {
-						Account account = Account.getAccount(FXMLDocumentController.getInstance().getAccountsList().getSelectionModel().getSelectedItem().toString()) ;
-						return account ;
-					}
-					
-				});
-				
-				try {
-					AnchorPane details = loader.load() ;
-					ScrollPane sp = (ScrollPane) FXMLDocumentController.getInstance().getDetailsTitledPane().getContent() ;
-					details.setPrefWidth(sp.getWidth() - 5);
-					sp.setContent(details);
-					
-					
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-				
-				FXMLDocumentController.getInstance().getRightAccordion().setExpandedPane(FXMLDocumentController.getInstance().getDetailsTitledPane()) ;
-			}
-			
-		});
+			});
+		}
 		
 		//show the accounts list
 		updateAccounts() ;
@@ -312,12 +367,14 @@ public class FXMLDocumentController implements Initializable{
 		departmentMenu = new application.menu.DepartmentContextMenu() ;
 		courseMenu = new CourseContextMenu(); 
 		yearMenu = new YearContextMenu() ;
+		subjectMenu = new SubjectContextMenu() ;
 		sectionMenu.setAutoHide(true);
 		roomMenu.setAutoHide(true);
 		teacherMenu.setAutoHide(true);
 		departmentMenu.setAutoHide(true);
 		courseMenu.setAutoHide(true);
 		yearMenu.setAutoHide(true);
+		subjectMenu.setAutoHide(true);
 		
 		
 		treeView.setOnMouseClicked(new EventHandler<MouseEvent>(){
@@ -330,6 +387,7 @@ public class FXMLDocumentController implements Initializable{
 				departmentMenu.hide();
 				courseMenu.hide();
 				yearMenu.hide();
+				subjectMenu.hide(); 
 				
 				//teacherItemData is for the whole
 				if(e.getButton() == MouseButton.SECONDARY){
@@ -348,6 +406,12 @@ public class FXMLDocumentController implements Initializable{
 							courseMenu.show(treeView , e.getScreenX() , e.getScreenY());
 						}else if(teacherItemData.getData() instanceof Year){
 							yearMenu.show(treeView , e.getScreenX() , e.getScreenY());
+						}else if(teacherItemData.getData() instanceof Subject){
+							if(teacherItem.getParent().getValue().equalsIgnoreCase("Subjects")){
+								if(!(teacherItem.getParent() instanceof TreeItemData)){
+									subjectMenu.show(treeView , e.getScreenX() , e.getScreenY());
+								}
+							}
 						}
 					}else{
 						e.consume();
@@ -462,7 +526,7 @@ public class FXMLDocumentController implements Initializable{
 					try {
 						AnchorPane pane = FXMLLoader.load(getClass().getResource("/application/properties/yearProperties.fxml")) ;
 						pane.setPrefWidth(detailsScrollPane.getWidth() - 5);
-						detailsScrollPane.setContent(pane);
+						detailsScrollPane.setContent(pane) ;
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
@@ -476,6 +540,15 @@ public class FXMLDocumentController implements Initializable{
 					}
 				}else if(itemObject instanceof Subject){
 					try {
+						TreeItem<String> temp = treeView.getSelectionModel().getSelectedItem() ;
+						if(temp.getParent().getValue().equalsIgnoreCase("Subjects")){
+							if(!(temp.getParent() instanceof TreeItemData)){
+								AnchorPane pane = FXMLLoader.load(getClass().getResource("/application/properties/subjectMainProperties.fxml")) ;
+								pane.setPrefWidth(detailsScrollPane.getWidth() - 5);
+								detailsScrollPane.setContent(pane);
+								return ;
+							}
+						}
 						AnchorPane pane = FXMLLoader.load(getClass().getResource("/application/properties/subjectProperties.fxml")) ;
 						pane.setPrefWidth(detailsScrollPane.getWidth() - 5);
 						detailsScrollPane.setContent(pane);
@@ -671,6 +744,11 @@ public class FXMLDocumentController implements Initializable{
 						//Adding data to TreeItemData
 						TreeItemData yearItem = new TreeItemData(Year.getYearText(year.getYear()) , yearImg , year) ;
 						
+						ImageView subjectImage = new ImageView(new ImageGetter("text87.png").getImage()) ;
+						TreeItem<String> Subjects = new TreeItem<String>("Subjects" , subjectImage) ;
+						
+						yearItem.getChildren().add(Subjects) ;
+						
 						TreeItem<String> root = tree.getRoot() ;
 												
 						for(int x = 0 ; x < root.getChildren().size() ; x++){
@@ -806,7 +884,54 @@ public class FXMLDocumentController implements Initializable{
 			});
 	}
 	
+	@FXML public void handlePrintLogs(MouseEvent e){
+		PrinterJob job = PrinterJob.createPrinterJob();
+		 if (job != null) {
+			 job.showPrintDialog(Main.getMainStage()) ;
+			
+		    boolean success = job.printPage(FXMLDocumentController.getInstance().getAccountsList());
+		    if (success) {
+		        job.endJob();
+		    }
+		 }
+	}
 	
+	@FXML public void handlePrintSchedule(MouseEvent e){
+		if(FXMLDocumentController.getInstance().getTree().getSelectionModel().getSelectedIndex() == -1 || !(FXMLDocumentController.getInstance().getTree().getSelectionModel().getSelectedItem() instanceof TreeItemData)){
+			Dialogs.create()
+			.title("Error")
+			.message("Please select a Teacher/Room/Section")
+			.showError() ;
+			return ;
+		}
+		
+		TreeItem<String> item = (TreeItem<String>) FXMLDocumentController.getInstance().getTree().getSelectionModel().getSelectedItem() ;
+		Object obj = TreeItemData.getItemData(item) ;
+		
+		if(!(obj instanceof Teacher) && !(obj instanceof Section) && !(obj instanceof Room)){
+			Dialogs.create()
+			.title("Error")
+			.message("Please select a Teacher/Room/Section")
+			.showError() ;
+			return ;
+		}
+		
+		TableView table = Scheduler.viewTeacherSchedule((Teacher)obj) ;
+		
+		//Printer printer = Printer.getDefaultPrinter();
+		//PageLayout pageLayout = printer.createPageLayout(Paper.NA_LETTER, PageOrientation.PORTRAIT, Printer.MarginType.DEFAULT);
+
+		PrinterJob job = PrinterJob.createPrinterJob();
+		 if (job != null) {
+			 job.showPrintDialog(Main.getMainStage()) ;
+			
+		    boolean success = job.printPage(table);
+		    if (success) {
+		        job.endJob();
+		    }
+		 }
+		
+	}
 	
 	public ListView getAccountsList() {
 		return accountsList;

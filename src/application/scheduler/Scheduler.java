@@ -609,7 +609,7 @@ public class Scheduler {
 		}
 	}
 	
-	public static boolean viewTeacherSchedule(Teacher teacher){
+	public static TableView viewTeacherSchedule(Teacher teacher){
 		//TODO add validation if not yet Schedule
 		
 		ArrayList<Day> schedule = new ArrayList<Day>() ;
@@ -634,12 +634,11 @@ public class Scheduler {
 		
 		for(int x = 0 ; x < teachersList.size() ; x++){
 			if(teachersList.get(x).getTeacher_id() == teacher.getTeacher_id()){
-				setSchedule(teachersList.get(x).getDays() , teacher) ;
-				break ;
+				return setSchedule(teachersList.get(x).getDays() , teacher) ;
 			}
 		}
 		
-		return true ;
+		return null ;
 	}
 	
 	public static TableView setSchedule(ArrayList<Day> days , Object obj){
@@ -1067,7 +1066,7 @@ public class Scheduler {
 		
 		//FXMLDocumentController.getInstance().getWorkplacePane().getCenter().setDisable(true);		
 		
-		return null ;
+		return table ;
 	}
 	
 	private static String getColor(ArrayList<ColorInator> colors , int index , String day){

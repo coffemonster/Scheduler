@@ -19,14 +19,32 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 
 public class adminUserTabController implements Initializable{
-
+	
+	@FXML private ImageView addImageView ;
+	@FXML private ImageView disableImageView ;
+	@FXML private ImageView editImageView ;
+	@FXML private ImageView privilegeImageView ;
+	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		
+		if(!User.isAdmin() && !User.getPrivilege().contains(new Integer(8))){
+			addImageView.setDisable(true);
+		}
+		if(!User.isAdmin() && !User.getPrivilege().contains(new Integer(9))){
+			disableImageView.setDisable(true);
+		}
+		if(!User.isAdmin() && !User.getPrivilege().contains(new Integer(10))){
+			editImageView.setDisable(true);
+		}
+		if(!User.isAdmin() && !User.getPrivilege().contains(new Integer(11))){
+			privilegeImageView.setDisable(true);
+		}
 		
 	}
 	

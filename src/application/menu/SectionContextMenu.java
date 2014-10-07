@@ -4,6 +4,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import tree.TreeItemData;
+import application.User;
 import application.main.FXMLDocumentController;
 import application.scheduler.Scheduler;
 import congcrete.Department;
@@ -65,7 +66,13 @@ public class SectionContextMenu extends ContextMenu{
 			}
 		});
 		
-		getItems().add(delete) ;
-		getItems().add(viewSchedule) ;
+		if(User.isAdmin() || User.getPrivilege().contains(new Integer(3))){
+			getItems().add(delete) ;
+		}
+		
+		if(User.isAdmin() || User.getPrivilege().contains(new Integer(0))){
+			getItems().add(viewSchedule) ;
+		}
+
 	}
 }

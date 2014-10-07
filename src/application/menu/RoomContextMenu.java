@@ -1,7 +1,10 @@
 package application.menu;
 
 import tree.TreeItemData;
+import application.User;
 import application.main.FXMLDocumentController;
+import application.properties.RoomPropertiesController;
+import application.properties.TeacherPropertiesController;
 import application.scheduler.Scheduler;
 import congcrete.Department;
 import congcrete.Room;
@@ -19,6 +22,7 @@ public class RoomContextMenu extends ContextMenu{
 	
 	private MenuItem viewSchedule ;
 	private MenuItem delete ;
+	private MenuItem update ;
 	
 	public RoomContextMenu(){
 		super() ;
@@ -52,7 +56,28 @@ public class RoomContextMenu extends ContextMenu{
 			}
 		});
 		
-		getItems().add(delete);
-		getItems().add(viewSchedule) ;
+		ImageView updateImage = new ImageView(new NodeUtils.ImageGetter("synchronize1.png").getImage()) ;
+		update = new MenuItem("Update" , updateImage) ;
+		
+		update.setOnAction(new EventHandler<ActionEvent>(){
+			@Override
+			public void handle(ActionEvent arg0) {
+				RoomPropertiesController.getInstance().getBtnSave().setVisible(true);
+				RoomPropertiesController.getInstance().getRoomCode().setEditable(true);
+				RoomPropertiesController.getInstance().getRoomName().setEditable(true);
+			}
+		});
+		
+		if(User.isAdmin() || User.getPrivilege().contains(new Integer(2))){
+			getItems().add(update) ;
+		}
+		
+		if(User.isAdmin() || User.getPrivilege().contains(new Integer(3))){
+			getItems().add(delete) ;
+		}
+		
+		if(User.isAdmin() || User.getPrivilege().contains(new Integer(0))){
+			getItems().add(viewSchedule) ;
+		}
 	}
 }

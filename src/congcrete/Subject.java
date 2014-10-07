@@ -246,4 +246,37 @@ public class Subject {
 		return subjects ;
 	}
 	
+	/*
+	public static ArrayList<Subject> getSubjectList(int year_id){
+		ArrayList<Subject> subjects = new ArrayList<Subject>() ;
+		String subjectQuery = "SELECT * FROM classes C " +
+							  "JOIN subjects S ON S.subject_id = C.subject_id " +
+							  "JOIN years Y ON Y.year_id = S.year_ID " + 
+							  "JOIN teachers T ON T.teacher_id = C.teacher_id WHERE Y.year_id = " + year_id;
+		ResultSet result = Connect.QUERY(subjectQuery) ;
+		
+		try {
+			while(result.next()){
+				Subject subject = new Subject() ;
+				Section section = Section.getSection(result.getInt(Section.SECTION_ID)) ;
+				subject.setSection(section);
+				subject.setSubject_code(result.getString("subject_code"));
+				subject.setSubject_id(result.getInt("subject_id"));
+				subject.setSubject_name(result.getString("subject_name"));
+				subject.setSubject_unit(result.getInt("subject_unit"));
+				Teacher teacher = Teacher.getTeacher(result.getInt("teacher_id")) ;
+				subject.setTeacher(teacher);
+				Year year = Year.getYear(result.getInt("year_id")) ;
+				subject.setYear(year);
+				
+				subjects.add(subject) ;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return subjects ;
+	}
+	*/
+	
 }
